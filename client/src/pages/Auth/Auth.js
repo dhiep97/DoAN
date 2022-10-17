@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import './Auth.scss';
+import { handleLogin, handleRegister } from '../../services/authService';
+import * as actions from "../../store/actions";
+import { connect } from 'react-redux';
+import { push } from "connected-react-router";
 
 class Auth extends Component {
     constructor(props) {
@@ -7,21 +11,52 @@ class Auth extends Component {
         this.state = {
             username: '',
             password: '',
+            confirmPass: '',
+            firstName: '',
+            lastName: '',
             isShowPassword: false,
             isSignUp: false,
+            errMessage: '',
         }
     }
 
     handleOnChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         })
     }
 
-    handleLogin = () => {
+    handleSignIn = () => {
         this.setState({
             isSignUp: !this.state.isSignUp
         })
+    }
+
+    handleLogin = async () => {
+        this.setState({
+            errMessage: ''
+        })
+        try {
+            let data = await handleLogin(this.state.username, this.state.password);
+            if (data && data.errCode !== 0) {
+                this.setState({
+                    errMessage: data.message,
+                })
+            }
+            if (data && data.errCode === 0) {
+                this.props.userLoginSuccess(data.user)
+                console.log('login success')
+            }
+
+        } catch (error) {
+            if (error.response) {
+                if (error.response.data) {
+                    this.setState({
+                        errMessage: error.response.data.message,
+                    })
+                }
+            }
+        }
     }
 
     handleShowPassword = () => {
@@ -29,8 +64,14 @@ class Auth extends Component {
             isShowPassword: !this.state.isShowPassword
         })
     }
+
+    resetFrom = () => {
+        
+    }
+
     render() {
         return (
+
             <div className="background">
                 <div className="login-container">
                     <div className="login-content">
@@ -97,13 +138,14 @@ class Auth extends Component {
                             </div>
                         </>
                         }
+                        <div className="err-message">
+                            {this.state.errMessage}
+                        </div>
                         <div className="span-button">
-                            <span className="span-text">
+                            <span className="span-text" onClick={() => this.handleSignIn()}>
                                 {this.state.isSignUp ? 'Already have an account. Login!' : `Don't have an account Sign up`}
                             </span>
-                            <button className="button-login"
-                                onClick={() => this.handleLogin()}
-                            >
+                            <button className="button-login" onClick={() =>{this.handleLogin()}}>
                                 {this.state.isSignUp ? "Sign Up" : "Log In"}
                             </button>
                         </div>
@@ -114,4 +156,19 @@ class Auth extends Component {
     }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+    return {
+        language: state.app.language
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        navigate: (path) => dispatch(push(path)),
+        //userLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
+        userRegisterSuccess: (userInfo) => dispatch(actions.userRegisterSuccess(userInfo)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

@@ -48,6 +48,11 @@
                 }
 			}
 
+			.err-message{
+				text-align: center;
+				font-style: 12px;
+				color: red;
+			}
 			.span-button{
 				display: flex;
 				flex-direction: column;
