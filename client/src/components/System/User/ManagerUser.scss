@@ -1,0 +1,36 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+.user-container {
+    .title {
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 15px;
+        color: #0071ba;
+    }
+
+    .preview-image-container{
+
+        .label-upload{
+            padding: 5px;
+            border-radius: 3px;
+            background: #ddd;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+            i{
+                margin-left: 4px;
+            }
+        }
+        .preview-image{
+            height: 70px;
+            width: 100%;
+            border: 1px solid #ddd;
+            background: center center no-repeat;
+            background-size: contain;
+            cursor: pointer;
+        }
+    }    
+    
+}

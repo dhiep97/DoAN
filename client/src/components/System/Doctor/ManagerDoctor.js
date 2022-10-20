@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-class Home extends Component {
+class ManagerDoctor extends Component {
 
     render() {
-        const { isLoggedIn } = this.props;
-        let linkToRedirect = isLoggedIn ? '/system' : '/home';
+        
 
         return (
-            <Redirect to={linkToRedirect} />
+            <div>Doctor</div>
         );
     }
 
@@ -26,4 +24,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagerDoctor);

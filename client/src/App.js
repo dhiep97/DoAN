@@ -5,8 +5,29 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Auth from './pages/Auth/Auth';
 import { history } from './redux'
 import Home from './pages/Home/Home';
-import System from './pages/System/System'
+import System from './pages/System/System';
+import DetailDoctor from './components/DetailDoctor/DetailDoctor';
+import HomePage from './components/HomePage/HomePage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class App extends Component {
+    handlePersistorState = () => {
+        const { persistor } = this.props;
+        let { bootstrapped } = persistor.getState();
+        if (bootstrapped) {
+            if (this.props.onBeforeLift) {
+                Promise.resolve(this.props.onBeforeLift())
+                    .then(() => this.setState({ bootstrapped: true }))
+                    .catch(() => this.setState({ bootstrapped: true }));
+            } else {
+                this.setState({ bootstrapped: true });
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.handlePersistorState();
+    }
 
     render() {
         return (
@@ -15,11 +36,26 @@ class App extends Component {
                     <div className="content-container">
                         <Switch>
                             <Route path='/' exact component={(Home)} />
+                            <Route path='/home' exact component={(HomePage)} />
                             <Route path='/login' component={userIsNotAuthenticated(Auth)} />
                             <Route path='/system' component={userIsAuthenticated(System)} />
+                            <Route path='/detail-doctor' component={(DetailDoctor)} />
                         </Switch>
                     </div>
+                    <ToastContainer
+                        position="bottom-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme='dark'
+                    />
                 </div>
+
             </Router>
         )
     }

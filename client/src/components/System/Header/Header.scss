@@ -1,0 +1,62 @@
+.header-container {
+    background-color: rgb(22, 221, 82);
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    .navigation{
+        a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+            &.active{
+                background-color: #04AA6D;
+                color: white;
+            }
+            &:hover{
+                background-color: rgb(35, 234, 128);
+                color: black;
+            }
+        }
+    }
+    .languages{
+        display: flex;
+        align-items: center;
+        .welcome{
+            margin-right: 15px;
+        }
+
+        .language-en{
+            margin-right: 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.8;
+            &.active{      
+                opacity: 1;       
+                color: #1440f1; 
+            }
+        }
+
+        .language-vi{
+            cursor: pointer;
+            opacity: 0.8;
+            &.active{
+                opacity: 1; 
+                color: orange;
+            }
+        }
+        .btn-logout {
+            line-height: 40px;
+            padding: 0 10px;
+            i{
+                color: black;
+            }
+        }
+    }
+}
+
