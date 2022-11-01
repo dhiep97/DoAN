@@ -10,7 +10,7 @@ import About from './About';
 import HomeFooter from './HomeFooter';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import Information from './Information';
 class HomePage extends Component {
     render() {
         let settings = {
@@ -22,15 +22,14 @@ class HomePage extends Component {
         };
         return (
             <>
-                <div>
-                    <HomeHeader />
-                    <Specialty settings={settings}/>
-                    <MedicalFacility settings={settings}/>
-                    <OutstandingDoctor settings={settings}/>
-                    <HandBook settings={settings}/>
-                    <About />
-                    <HomeFooter />
-                </div>
+                <HomeHeader isShowBanner={true} />
+                <Specialty settings={settings}/>
+                <MedicalFacility settings={settings}/>
+                <OutstandingDoctor settings={settings}/>
+                <HandBook settings={settings}/>
+                <About />
+                <Information />
+                <HomeFooter />
             </>
         )
     }

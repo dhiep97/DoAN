@@ -8,31 +8,51 @@ import ManagerClinic from '../../components/System/Clinic/ManagerClinic';
 import ManagerDoctor from '../../components/System/Doctor/ManagerDoctor';
 import ManagerHandbook from '../../components/System/HandBook/ManagerHandbook';
 import ManagerSpecialty from '../../components/System/Specialty/ManagerSpecialty';
-
-
+import HomePage from '../../components/HomePage/HomePage';
+import ManagerSchedule from '../../components/System/Schedule/ManagerSchedule';
+import _ from 'lodash';
 class System extends Component {
-    render() {
+
+    componentDidMount() {
         
+    }
+
+    render() {
+        const { userInfo, isLoggedIn } = this.props;
     
         return (
-            <Router>
-                <Header />
-                <Switch>
-                    <Route path='/system/user-manage' component={(ManagerUser)} />
-                    <Route path='/system/doctor-manage' component={(ManagerDoctor)} />
-                    <Route path='/system/clinic-manage' component={(ManagerClinic)} />
-                    <Route path='/system/handbook-manage' component={(ManagerHandbook)} />
-                    <Route path='/system/specialty-manage' component={(ManagerSpecialty)} />
-                </Switch>
-            </Router>
+            <>
+                <Router>
+                    {isLoggedIn && <Header />}
+                    <Switch>
+                        {this.props.userInfo.roleId === 'R1' ?
+                            <>
+                                <Route path='/home' component={props => <HomePage {...props} />} />
+                                <Route path='/system/user-manage' component={(ManagerUser)} />
+                                <Route path='/system/doctor-manage' component={(ManagerDoctor)} />
+                                <Route path='/system/clinic-manage' component={(ManagerClinic)} />
+                                <Route path='/system/handbook-manage' component={(ManagerHandbook)} />
+                                <Route path='/system/specialty-manage' component={(ManagerSpecialty)} />
+                                <Route path='/doctor/schedule-manege' component={(ManagerSchedule)} />
+                            </>
+                            : ''
+                                || this.props.userInfo.roleId === 'R2' ?
+                            <>
+                                <Route path='/home' component={props => <HomePage {...props} />} />
+                                <Route path='/doctor/schedule-manege' component={(ManagerSchedule)} />
+                            </> : ''
+                        }
+                    </Switch>
+                </Router>
+            </>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        systemMenuPath: state.app.systemMenuPath,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo
     };
 };
 

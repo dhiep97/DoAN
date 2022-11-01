@@ -11,6 +11,7 @@ import dental from '../../assets/Header/dental.png';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils';
 import { changeLanguageApp } from '../../store/actions';
+import {Link} from 'react-router-dom'
 class HomeHeader extends Component {
 
     changeLanguage = (language) => {
@@ -27,7 +28,9 @@ class HomeHeader extends Component {
                     <div className="home-header-content">
                         <div className="left-content">
                             <i className="fas fa-bars"></i>
-                            <img className="header-logo" src={logo} alt=""/>
+                            <Link to="/home">
+                                <img className="header-logo" src={logo} alt="" />
+                            </Link>
                         </div>
                         <div className="center-content">
                             <div className="child-content">
@@ -43,10 +46,10 @@ class HomeHeader extends Component {
                                 <div className="subs-title"><FormattedMessage id="home-header.select-room" /></div>
                             </div>
                             <div className="child-content">
-                                <div>
-                                    <b><FormattedMessage id="home-header.doctor" /></b>
-                                </div>
-                                <div className="subs-title"><FormattedMessage id="home-header.select-doctor" /></div>
+                                    <div>
+                                        <b><FormattedMessage id="home-header.doctor" /></b>
+                                    </div>
+                                    <div className="subs-title"><FormattedMessage id="home-header.select-doctor" /></div>
                             </div>
                             <div className="child-content">
                                 <div>
@@ -69,7 +72,7 @@ class HomeHeader extends Component {
                         </div>
                     </div>                
                 </div>
-                
+                {this.props.isShowBanner === true &&
                     <div className="home-header-banner">
                         <div className="content-up">
                             <div className="title1"><FormattedMessage id="banner.title1" /></div>
@@ -108,7 +111,7 @@ class HomeHeader extends Component {
                             </div>
                         </div>
                     </div>
-                
+                }
             </React.Fragment>
         );
     }

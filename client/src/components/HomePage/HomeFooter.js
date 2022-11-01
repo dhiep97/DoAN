@@ -7,11 +7,12 @@ class Footer extends Component {
     render() {
         return (
             <div className="home-footer">
-                <p>&copy; 2022 Nguyễn Đình Hiệp
+                <div className="footer-container">
+                    &copy; 2022 Nguyễn Đình Hiệp & Bùi Đức Duy
                     <a target="blank" href="https://www.facebook.com/nguyendinh.hiep.1485">
                         &#8594; Click here &#8592;
                     </a>
-                </p>
+                </div>
             </div>
         )
     }
@@ -19,7 +20,7 @@ class Footer extends Component {
 
 const mapStateToProps = state => { //redux
     return {
-        language: state.app.language,
+        
     };
 };
 

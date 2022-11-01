@@ -105,11 +105,15 @@
 }
 
 .home-footer{
-    text-align: center;
-    padding-top: 10px;
-    a{
-        text-decoration: unset;
+    background: #09ed3e;
+    height: 50px;
+    .footer-container{
+        text-align: center;
+        a{
+            text-decoration: unset;
+        }
     }
+    
 }
 
 .section-about{
@@ -138,6 +142,65 @@
         }
     }
 }
+
+.section-information{
+    margin: 0 100px;
+    display: flex;
+    .info-left{
+        width: 40%;
+        padding-top: 30px;
+        .info-company{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .address{
+            i{
+                padding-right: 3px;
+            }
+        }
+
+        .check{
+            i{
+                padding-right: 3px;
+            }
+        }
+        .img{
+            display: flex;
+            align-items: center;
+            img{
+                width: 100px;
+                height: 40px;
+            }
+        }
+    }
+
+    .info-center{
+        width: 30%;
+        padding-top: 30px;
+        p{
+            cursor: pointer;
+            color:#6bb4f9
+        }
+    }
+
+    .info-right{
+        width: 30%;
+        padding-top: 30px;
+        .headquarters{
+            p{
+                font-weight: bold;
+            }
+        }
+
+        .support{
+            padding-top: 40px;
+            p{
+                font-weight: bold;
+            }
+        }
+    }
+}
+
 //reset slick slider css
 .slick-prev{
     left: -10px !important;

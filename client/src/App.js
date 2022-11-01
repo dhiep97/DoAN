@@ -10,6 +10,9 @@ import DetailDoctor from './components/DetailDoctor/DetailDoctor';
 import HomePage from './components/HomePage/HomePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Doctor from './pages/Doctor/Doctor';
+import DetailSpecialty from './components/DetailSpecialty/DetailSpecialty';
+import DetailMedicalFacility from './components/DetailMedicalFacility/DetailMedicalFacility';
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props;
@@ -39,7 +42,10 @@ class App extends Component {
                             <Route path='/home' exact component={(HomePage)} />
                             <Route path='/login' component={userIsNotAuthenticated(Auth)} />
                             <Route path='/system' component={userIsAuthenticated(System)} />
-                            <Route path='/detail-doctor' component={(DetailDoctor)} />
+                            <Route path='/doctor' component={userIsAuthenticated(Doctor)} />
+                            <Route path='/detail-doctor/:id' component={(DetailDoctor)} />
+                            <Route path='/detail-specialty' component={(DetailSpecialty)} />
+                            <Route path='/detail-medical-facility' component={(DetailMedicalFacility)} />
                         </Switch>
                     </div>
                     <ToastContainer

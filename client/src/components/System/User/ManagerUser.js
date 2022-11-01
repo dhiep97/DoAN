@@ -6,7 +6,7 @@ import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import TableManage from '../TableManageUser/TableManage';
-
+import { toast } from "react-toastify";
 
 class ManagerUser extends Component {
     constructor(props) {
@@ -58,7 +58,7 @@ class ManagerUser extends Component {
             let arrGenders = this.props.genderRedux;
             this.setState({
                 genderArr: arrGenders,
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : ''
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : ''
             })
         }
 
@@ -66,7 +66,7 @@ class ManagerUser extends Component {
             let arrRoles = this.props.roleRedux;
             this.setState({
                 roleArr: arrRoles,
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : ''
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
             })
         }
 
@@ -74,7 +74,7 @@ class ManagerUser extends Component {
             let arrPositions = this.props.positionRedux;
             this.setState({
                 positionArr: arrPositions,
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : ''
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             })
         }
 
@@ -90,9 +90,9 @@ class ManagerUser extends Component {
                 lastName: '',
                 phoneNumber: '',
                 address: '',
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].key : '',
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].key : '',
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].key : '',
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL:''
@@ -166,7 +166,7 @@ class ManagerUser extends Component {
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
-                alert('This input is required: ' + arrCheck[i]);
+                toast.error("Điền thêm thông tin: " + arrCheck[i]);
                 break;
             }
         }
@@ -274,7 +274,7 @@ class ManagerUser extends Component {
                                     {genders && genders.length > 0 &&
                                         genders.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{item.valueVi}</option>
+                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
                                         )
                                     })}
                                 </select>
@@ -289,7 +289,7 @@ class ManagerUser extends Component {
                                     {roles && roles.length > 0 &&
                                         roles.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{item.valueVi}</option>
+                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
                                         )
                                     })}
                                 </select>
@@ -304,7 +304,7 @@ class ManagerUser extends Component {
                                     {positions && positions.length > 0 &&
                                         positions.map((item, index) => {
                                             return (
-                                                <option key={index} value={item.key}>{item.valueVi}</option>
+                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
                                         )
                                     })}
                                 </select>

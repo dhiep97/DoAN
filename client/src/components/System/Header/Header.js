@@ -2,10 +2,15 @@ import { Component } from 'react';
 import './Header.scss';
 import { connect } from 'react-redux';
 import * as actions from "../../../store/actions";
-import { NavLink } from 'react-router-dom';
-
-
+import { Link , NavLink } from 'react-router-dom';
 class Header extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+    }
     handleChangeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language);
     }
@@ -13,16 +18,23 @@ class Header extends Component {
     render() {
         const { processLogout, userInfo } = this.props;
         return (
+            
             <div className="header-container">
                 {/* navigation */}
+                
                 <div className="navigation">
+                    <NavLink activeClassName="active" to="/home" exact >
+                        <i className="fas fa-home"></i>
+                    </NavLink>
                     <NavLink activeClassName="active" to="/system" exact>Quản trị</NavLink>
                     <NavLink activeClassName="active" to="/system/user-manage">Quản lý người dùng</NavLink>
                     <NavLink activeClassName="active" to="/system/doctor-manage">Quản lý bác sĩ</NavLink>
-                    <NavLink activeClassName="active" to="/system/specialty-manage">Quản lý chuyên khoa</NavLink>
-                    <NavLink activeClassName="active" to="/system/clinic-manage">Quản lý phòng khám</NavLink>
-                    <NavLink activeClassName="active" to="/system/handbook-manage">Quản lý bài viết</NavLink>
+                    <NavLink activeClassName="active" to="/doctor/schedule-manege">Kế hoạch khám bệnh</NavLink>
+                    <NavLink activeClassName="active" to="/system/specialty-manage">Chuyên khoa</NavLink>
+                    <NavLink activeClassName="active" to="/system/clinic-manage">Phòng khám</NavLink>
+                    <NavLink activeClassName="active" to="/system/handbook-manage">Cẩm nang</NavLink>
                 </div>
+                
                 {/* language && logout */}
                 <div className="languages">
                     <span className="welcome">
