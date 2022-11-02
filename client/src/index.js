@@ -6,6 +6,7 @@ import IntlProviderWrapper from "./components/IntlProviderWrapper/IntlProviderWr
 import { Provider } from 'react-redux';
 import reduxStore, { persistor } from './redux';
 /////////////////////test
+/////test
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={reduxStore}>
