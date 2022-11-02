@@ -5,10 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import IntlProviderWrapper from "./components/IntlProviderWrapper/IntlProviderWrapper";
 import { Provider } from 'react-redux';
 import reduxStore, { persistor } from './redux';
-/////////////////////test
-/////test
-//////test
-// teeet
+////duydev
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={reduxStore}>
