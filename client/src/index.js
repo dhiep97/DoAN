@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import reduxStore, { persistor } from './redux';
 /////////////////////test
 /////test
+//////test
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={reduxStore}>
