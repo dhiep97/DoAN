@@ -8,6 +8,7 @@ import reduxStore, { persistor } from './redux';
 /////////////////////test
 /////test
 //////test
+// teeet
 const renderApp = () => {
     ReactDOM.render(
         <Provider store={reduxStore}>
