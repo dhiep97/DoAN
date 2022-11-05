@@ -1,7 +1,9 @@
 import actionTypes from './actionTypes';
 import { getAllCodeService,createNewUserService, getAllUsers, deleteUserService,
     editUserService, getTopDoctorHomeService, getAllDoctorService,
-    saveDetailDoctorService, } from '../../services/userService'
+    saveDetailDoctorService, saveBulkScheduleDoctor,
+
+    } from '../../services/userService'
 import { toast } from "react-toastify";
 
 // export const fetchGenderStart = () => ({
@@ -261,6 +263,54 @@ export const createDetailDoctors = (data) => {
             console.log(e)
             dispatch({
                 type: actionTypes.CREATE_DETAIL_DOCTORS_FAILED
+            })
+        }
+    }
+}
+
+//AllCode Time Schedule
+export const fetchAllScheduleTime = () => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await getAllCodeService("TIME")
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_SUCCESS,
+                    dataTime: res.data
+                })
+                
+            } else {
+                dispatch({
+                    type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED
+                })
+            }
+        } catch (e) {
+            console.log(e)
+            dispatch({
+                type: actionTypes.FETCH_ALLCODE_SCHEDULE_TIME_FAILED
+            })
+        }
+    }
+}
+
+//Save-schedule-doctor
+export const saveScheduleDoctor = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await saveBulkScheduleDoctor(data)
+            if (res && res.errCode === 0) {
+                dispatch({
+                    type: actionTypes.SAVE_SCHEDULE_DOCTORS_SUCCESS
+                })
+                
+            } else {
+                dispatch({
+                    type: actionTypes.SAVE_SCHEDULE_DOCTORS_FAILED
+                })
+            }
+        } catch (e) {
+            dispatch({
+                type: actionTypes.SAVE_SCHEDULE_DOCTORS_FAILED
             })
         }
     }

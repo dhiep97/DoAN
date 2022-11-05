@@ -2,7 +2,7 @@ import { Component } from 'react';
 import './Header.scss';
 import { connect } from 'react-redux';
 import * as actions from "../../../store/actions";
-import { Link , NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 class Header extends Component {
 
     constructor(props) {
@@ -29,7 +29,7 @@ class Header extends Component {
                     <NavLink activeClassName="active" to="/system" exact>Quản trị</NavLink>
                     <NavLink activeClassName="active" to="/system/user-manage">Quản lý người dùng</NavLink>
                     <NavLink activeClassName="active" to="/system/doctor-manage">Quản lý bác sĩ</NavLink>
-                    <NavLink activeClassName="active" to="/doctor/schedule-manege">Kế hoạch khám bệnh</NavLink>
+                    <NavLink activeClassName="active" to="/doctor/schedule-manage">Kế hoạch khám bệnh</NavLink>
                     <NavLink activeClassName="active" to="/system/specialty-manage">Chuyên khoa</NavLink>
                     <NavLink activeClassName="active" to="/system/clinic-manage">Phòng khám</NavLink>
                     <NavLink activeClassName="active" to="/system/handbook-manage">Cẩm nang</NavLink>

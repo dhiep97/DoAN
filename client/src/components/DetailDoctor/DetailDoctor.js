@@ -5,6 +5,7 @@ import HomeHeader from '../HomePage/HomeHeader';
 import { getDetailInfoDoctor } from '../../services/userService';
 import HomeFooter from '../HomePage/HomeFooter';
 import Information from '../HomePage/Information';
+import DoctorSchedule from './DoctorSchedule';
 class DetailDoctor extends Component {
 
     constructor(props) {
@@ -31,7 +32,6 @@ class DetailDoctor extends Component {
     }
 
     render() {
-        console.log(this.state)
         let { detailDoctor } = this.state;
         let nameVi = '';
         if (detailDoctor && detailDoctor.positionData) {
@@ -62,7 +62,14 @@ class DetailDoctor extends Component {
                         </div>
                     </div>
                     <div className="schedule-doctor">
+                        <div className="content-left">
+                            <DoctorSchedule 
+                                doctorIdFromParent = {detailDoctor && detailDoctor.id ? detailDoctor.id : -1}
+                            />
+                        </div>
+                        <div className="content-right">
 
+                        </div>
                     </div>
                     <div className="detail-doctor">
                         {detailDoctor && detailDoctor.Markdown && detailDoctor.Markdown.contentHTML
@@ -84,7 +91,7 @@ class DetailDoctor extends Component {
 
 const mapStateToProps = state => { //redux
     return {
-        language: state.app.language,
+        
     };
 };
 

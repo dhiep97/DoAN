@@ -33,6 +33,23 @@
 
         
     }
+
+    .schedule-doctor{
+        margin: 0 150px;
+        display: flex;
+        height: 200px;
+        border: 1px solid red;
+        margin-bottom: 20px;
+
+        .content-left{
+            width: 60%;
+        }
+
+        .content-right{
+            width: 40%;
+        }
+    }
+
     .detail-doctor{
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;

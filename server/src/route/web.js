@@ -41,6 +41,11 @@ let initRoutes = (app) => {
     //lay thong tin chi tiet bac si theo id
     router.get('/api/get-detail-doctor-by-id', doctorController.getDetailDoctorById);
 
+    //tao thoi gian kham benh
+    router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+
+    //lay thoi gian kham benh 
+    router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate);
 
 
     return app.use("/", router);

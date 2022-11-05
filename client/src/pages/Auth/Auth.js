@@ -65,6 +65,11 @@ class Auth extends Component {
         })
     }
 
+    handleOnKeyDown = (e) => {
+        if (e.key === 'Enter'|| e.keyCode === 13) {
+            this.handleLogin();
+        }
+    }
     resetFrom = () => {
         
     }
@@ -94,6 +99,7 @@ class Auth extends Component {
                                     placeholder="Password"
                                     name="password"
                                     onChange={(e) => this.handleOnChange(e)}
+                                    onKeyDown={(e) => this.handleOnKeyDown(e)}
                                 />
                                 <span onClick={()=>{this.handleShowPassword()}}>
                                     <i className={this.state.isShowPassword ? "fas fa-eye" : "fas fa-eye-slash"}></i>

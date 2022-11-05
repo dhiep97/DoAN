@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Header from '../../components/System/Header/Header';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ManagerSchedule from '../../components/System/Schedule/ManagerSchedule';
+import ManageSchedule from '../../components/System/Schedule/ManageSchedule';
 
 class Doctor extends Component {
 
@@ -18,7 +18,7 @@ class Doctor extends Component {
                 <Router>
                     <Header />
                     <Switch>
-                        <Route path='/doctor/schedule-manege' component={(ManagerSchedule)} />
+                        <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
                     </Switch>
                 </Router>
             </>

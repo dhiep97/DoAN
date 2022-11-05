@@ -9,7 +9,7 @@ import ManagerDoctor from '../../components/System/Doctor/ManagerDoctor';
 import ManagerHandbook from '../../components/System/HandBook/ManagerHandbook';
 import ManagerSpecialty from '../../components/System/Specialty/ManagerSpecialty';
 import HomePage from '../../components/HomePage/HomePage';
-import ManagerSchedule from '../../components/System/Schedule/ManagerSchedule';
+import ManageSchedule from '../../components/System/Schedule/ManageSchedule';
 import _ from 'lodash';
 class System extends Component {
 
@@ -33,13 +33,13 @@ class System extends Component {
                                 <Route path='/system/clinic-manage' component={(ManagerClinic)} />
                                 <Route path='/system/handbook-manage' component={(ManagerHandbook)} />
                                 <Route path='/system/specialty-manage' component={(ManagerSpecialty)} />
-                                <Route path='/doctor/schedule-manege' component={(ManagerSchedule)} />
+                                <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
                             </>
-                            : ''
+                            : <Route path='/home' component={props => <HomePage {...props} />} />
                                 || this.props.userInfo.roleId === 'R2' ?
                             <>
                                 <Route path='/home' component={props => <HomePage {...props} />} />
-                                <Route path='/doctor/schedule-manege' component={(ManagerSchedule)} />
+                                <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
                             </> : ''
                         }
                     </Switch>
