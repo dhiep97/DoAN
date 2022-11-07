@@ -99,7 +99,7 @@ class ManageSchedule extends Component {
             toast.error("Vui lòng chọn bác sĩ")
             return;
         }
-        let formattedDate = new Date(currentDate).getTime();
+        let formattedDate = moment(new Date(currentDate)).format('YYYY-MM-DD');
         if (rangeTime && rangeTime.length > 0) {
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
@@ -118,12 +118,16 @@ class ManageSchedule extends Component {
             }
         }
         // let res = await saveBulkScheduleDoctor({
-        await this.props.saveScheduleDoctor({
+        let res = await this.props.saveScheduleDoctor({
             arrSchedule: result,
             doctorId: selectedDoctor.value,
             formattedDate: formattedDate
         })
-        toast.success("Lưu kế hoạch khám bệnh thành công");
+        if (res && res.errCode === 0) {
+            toast.success("Lưu lịch khám bệnh thành công");
+        } else {
+            toast.error("Lỗi lưu lịch khám bệnh")
+        }
     }
 
     render() {

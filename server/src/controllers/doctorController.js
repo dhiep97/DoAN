@@ -65,9 +65,7 @@ let getDetailDoctorById = async (req, res) => {
 let bulkCreateSchedule = async (req, res) => {
     try {
         let info = await doctorService.bulkCreateSchedule(req.body);
-        return res.status(200).json({
-            info
-        })
+        return res.status(200).json(info)
     } catch (error) {
         console.log(e);
         return res.status(200).json({
@@ -80,9 +78,7 @@ let bulkCreateSchedule = async (req, res) => {
 let getScheduleByDate = async (req, res) => {
     try {
         let info = await doctorService.getScheduleByDate(req.query.doctorId, req.query.date);
-        return res.status(200).json({
-            info
-        })
+        return res.status(200).json(info)
     } catch (error) {
         console.log(e);
         return res.status(200).json({
