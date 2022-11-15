@@ -293,28 +293,6 @@ export const fetchAllScheduleTime = () => {
     }
 }
 
-//Save-schedule-doctor
-export const saveScheduleDoctor = (data) => {
-    return async (dispatch, getState) => {
-        try {
-            let res = await saveBulkScheduleDoctor(data)
-            if (res && res.errCode === 0) {
-                dispatch({
-                    type: actionTypes.SAVE_SCHEDULE_DOCTORS_SUCCESS
-                })
-                
-            } else {
-                dispatch({
-                    type: actionTypes.SAVE_SCHEDULE_DOCTORS_FAILED
-                })
-            }
-        } catch (e) {
-            dispatch({
-                type: actionTypes.SAVE_SCHEDULE_DOCTORS_FAILED
-            })
-        }
-    }
-}
 
 export const getRequiredDoctorInfo = () => {
     return async (dispatch, getState) => {

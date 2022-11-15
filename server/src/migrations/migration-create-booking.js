@@ -17,10 +17,19 @@ module.exports = {
       patientId: {
         type: Sequelize.INTEGER
       },
-      date: {
-        type: Sequelize.DATE
+      dateBooking: {
+        type: Sequelize.STRING
+      },
+      birthday: {
+        type: Sequelize.STRING
+      },
+      reason: {
+        type: Sequelize.STRING
       },
       timeType: {
+        type: Sequelize.STRING
+      },
+      token: {
         type: Sequelize.STRING
       },
       createdAt: {

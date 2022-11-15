@@ -209,11 +209,11 @@ class ManagerUser extends Component {
         let positions = this.state.positionArr;
         let {email, password, firstName, lastName, phoneNumber, address, gender, position, role, avatar} = this.state;
         return (
-            <div className="user-container">
-                <div className="title">
-                    Thêm người dùng mới
-                </div>
+            <>
                 <div className="user-body">
+                    <div className="user-title">
+                        Thêm người dùng mới
+                    </div>
                     <div className="container">
                         <div className="row">
                             
@@ -351,7 +351,7 @@ class ManagerUser extends Component {
                     />
                 }
                 
-            </div>
+            </>
         );
     }
 

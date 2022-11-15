@@ -117,8 +117,8 @@ class ManageSchedule extends Component {
                 return;
             }
         }
-        // let res = await saveBulkScheduleDoctor({
-        let res = await this.props.saveScheduleDoctor({
+        let res = await saveBulkScheduleDoctor({
+        // await this.props.saveScheduleDoctor({
             arrSchedule: result,
             doctorId: selectedDoctor.value,
             formattedDate: formattedDate
@@ -128,6 +128,7 @@ class ManageSchedule extends Component {
         } else {
             toast.error("Lỗi lưu lịch khám bệnh")
         }
+        
     }
 
     render() {
@@ -154,6 +155,7 @@ class ManageSchedule extends Component {
                                 className="form-control"
                                 selected={this.state.currentDate}
                                 minDate={new Date()}
+                                dateFormat="dd/MM/yyyy"
                             />
                         </div>
                         <div className="col-12 pick-hour-container">
@@ -194,7 +196,6 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchAllDoctorsRedux: () => dispatch(actions.fetchAllDoctors()),
         fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime()),
-        saveScheduleDoctor: (data) => dispatch(actions.saveScheduleDoctor(data)),
     };
 };
 

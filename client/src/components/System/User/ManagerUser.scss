@@ -1,12 +1,12 @@
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
-.user-container {
-    .title {
+.user-body {
+    .user-title {
         text-align: center;
         text-transform: uppercase;
-        font-weight: bold;
-        font-size: 20px;
-        margin-top: 15px;
-        color: #0071ba;
+        font-weight: 600;
+        font-size: 30px;
+        margin: 30px;
+        color: blue;
     }
 
     .preview-image-container{

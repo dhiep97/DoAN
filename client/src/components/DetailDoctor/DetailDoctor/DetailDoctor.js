@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './DetailDoctor.scss';
-import HomeHeader from '../HomePage/HomeHeader';
-import { getDetailInfoDoctor } from '../../services/userService';
-import HomeFooter from '../HomePage/HomeFooter';
-import Information from '../HomePage/Information';
-import DoctorSchedule from './DoctorSchedule';
+import HomeHeader from '../../HomePage/HomeHeader';
+import { getDetailInfoDoctor } from '../../../services/userService';
+import HomeFooter from '../../HomePage/HomeFooter';
+import Information from '../../HomePage/Information';
+import DoctorSchedule from '../DoctorSchedule/DoctorSchedule';
+import DoctorInfo from '../DoctorInfo/DoctorInfo';
+
 class DetailDoctor extends Component {
 
     constructor(props) {
@@ -72,7 +74,9 @@ class DetailDoctor extends Component {
                             />
                         </div>
                         <div className="content-right">
-
+                            <DoctorInfo 
+                                doctorIdFromParent = {this.state.currentDoctorId}
+                            />
                         </div>
                     </div>
                     <div className="detail-doctor">

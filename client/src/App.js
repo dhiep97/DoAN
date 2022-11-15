@@ -6,7 +6,7 @@ import Auth from './pages/Auth/Auth';
 import { history } from './redux'
 import Home from './pages/Home/Home';
 import System from './pages/System/System';
-import DetailDoctor from './components/DetailDoctor/DetailDoctor';
+import DetailDoctor from './components/DetailDoctor/DetailDoctor/DetailDoctor';
 import HomePage from './components/HomePage/HomePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

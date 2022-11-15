@@ -2,7 +2,7 @@ import express from "express";
 import homeController from "../controllers/homeController"
 import userController from "../controllers/userController"
 import doctorController from "../controllers/doctorController"
-
+import patientController from "../controllers/patientController"
 
 let router = express.Router();
 let initRoutes = (app) => {
@@ -47,6 +47,14 @@ let initRoutes = (app) => {
     //lay thoi gian kham benh 
     router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate);
 
+    //lay thong tin o bang doctor info
+    router.get('/api/get-doctor-info-by-id', doctorController.getDoctorInfoById);
+
+    //lay thong tin cho profile dat lich
+    router.get('/api/get-profile-doctor-info-by-id', doctorController.getProfileDoctorInfoById);
+
+    //benh nhan dat lich hen
+    router.post('/api/patient-booking-appointment', patientController.postPatientBookingAppointment);
 
     return app.use("/", router);
 }

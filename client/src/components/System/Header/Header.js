@@ -26,7 +26,7 @@ class Header extends Component {
                     <NavLink activeClassName="active" to="/home" exact >
                         <i className="fas fa-home"></i>
                     </NavLink>
-                    <NavLink activeClassName="active" to="/system" exact>Quản trị</NavLink>
+                    <NavLink activeClassName="active" to="/system/dashboard" exact>Quản trị</NavLink>
                     <NavLink activeClassName="active" to="/system/user-manage">Quản lý người dùng</NavLink>
                     <NavLink activeClassName="active" to="/system/doctor-manage">Quản lý bác sĩ</NavLink>
                     <NavLink activeClassName="active" to="/doctor/schedule-manage">Kế hoạch khám bệnh</NavLink>
@@ -34,15 +34,15 @@ class Header extends Component {
                     <NavLink activeClassName="active" to="/system/clinic-manage">Phòng khám</NavLink>
                     <NavLink activeClassName="active" to="/system/handbook-manage">Cẩm nang</NavLink>
                 </div>
-                
+            
                 {/* language && logout */}
                 <div className="languages">
                     <span className="welcome">
                         Xin chào,
                         {userInfo && userInfo.firstName && userInfo.lastName ? userInfo.firstName + ' ' + userInfo.lastName :''} !
                     </span>
-                    <span className="language-vi">VN</span>
-                    <span className="language-en">EN</span>
+                    {/* <span className="language-vi">VN</span>
+                    <span className="language-en">EN</span> */}
                     
                     <div className="btn-logout" onClick={processLogout} title="Log out">
                         <i className="fa fa-sign-out-alt"></i>

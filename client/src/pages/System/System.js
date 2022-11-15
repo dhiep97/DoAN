@@ -10,7 +10,7 @@ import ManagerHandbook from '../../components/System/HandBook/ManagerHandbook';
 import ManagerSpecialty from '../../components/System/Specialty/ManagerSpecialty';
 import HomePage from '../../components/HomePage/HomePage';
 import ManageSchedule from '../../components/System/Schedule/ManageSchedule';
-import _ from 'lodash';
+import Dashboard from '../../components/System/System/System'
 class System extends Component {
 
     componentDidMount() {
@@ -22,12 +22,14 @@ class System extends Component {
     
         return (
             <>
+                
                 <Router>
-                    {isLoggedIn && <Header />}
+                <Header/>
                     <Switch>
                         {this.props.userInfo.roleId === 'R1' ?
                             <>
                                 <Route path='/home' component={props => <HomePage {...props} />} />
+                                <Route path='/system/dashboard' component={(Dashboard)} />
                                 <Route path='/system/user-manage' component={(ManagerUser)} />
                                 <Route path='/system/doctor-manage' component={(ManagerDoctor)} />
                                 <Route path='/system/clinic-manage' component={(ManagerClinic)} />
@@ -42,7 +44,7 @@ class System extends Component {
                                 <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
                             </> : ''
                         }
-                    </Switch>
+                    </Switch> 
                 </Router>
             </>
         )

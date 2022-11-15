@@ -1,0 +1,52 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.add-user-modal-container{
+    .add-user-modal-content{
+        height: 600px;
+        display: flex;
+        flex-direction: column;
+
+        .add-user-modal-header{
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+
+            .left{
+                font-size: 20px;
+                font-weight: 600;
+
+            }
+            .right{
+                float: right;
+                cursor: pointer;
+            }
+        }
+
+        .add-user-modal-body{
+            padding: 15px;
+            height: 100%;
+        }
+    
+        .add-user-modal-footer{
+            border-top: 1px solid #ccc;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            
+            button{
+                border: none;
+                outline: none;
+                padding: 5px 8px;
+                border-radius: 5px;
+            }
+
+            .btn-add-user-confirm{
+                background-color: aqua;
+            }
+
+            .btn-add-user-cancel{
+                background-color: lightsalmon;
+            }
+        }
+    }
+}
