@@ -56,6 +56,10 @@ let initRoutes = (app) => {
     //benh nhan dat lich hen
     router.post('/api/patient-booking-appointment', patientController.postPatientBookingAppointment);
 
+    //xac nhan dat lich
+    router.post('/api/verify-booking-appointment', patientController.postVerifyBookingAppointment);
+
+    
     return app.use("/", router);
 }
 

@@ -113,7 +113,7 @@ class BookingModal extends Component {
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
-                toast.error("Quý khách vui lòng điền thêm thông tin: " + arrCheck[i]);
+                toast.error("Vui lòng điền thêm thông tin: " + arrCheck[i]);
                 break;
             }
         }
@@ -143,8 +143,7 @@ class BookingModal extends Component {
         })
         
         if (res && res.errCode === 0) {
-            toast.success('Đặt lịch thành công!')
-            toast.success('Vui lòng check e-mail để hoàn tất đặt lịch khám bệnh')
+            toast.success('Đặt lịch thành công! Vui lòng check e-mail để hoàn tất đặt lịch khám bệnh')
             this.props.closeBooingModal()
         } else {
             toast.error('Đặt lịch không thành công!')

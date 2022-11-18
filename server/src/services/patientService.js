@@ -1,6 +1,11 @@
 import db from "../models/index";
 import emailService from './emailService'
+import { v4 as uuidv4 } from 'uuid';
 
+let buildUrlEmail = (doctorId, token) => {
+    let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`;
+    return result;
+}
 let postPatientBookingAppointment = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -10,13 +15,15 @@ let postPatientBookingAppointment = (data) => {
                     errMessage: 'Missing parameter'
                 })
             } else {
+
+                let token = uuidv4();
                 
                 await emailService.sendSimpleEmail({
                     receiverEmail: data.email,
                     patientName: data.fullName,
                     time: data.timeString,
                     doctorName: data.doctorName,
-                    redirectLink: 'https://www.facebook.com'
+                    redirectLink: buildUrlEmail(data.doctorId, token)
                 })
                 let user = await db.User.findOrCreate({
                     where: { email: data.email },
@@ -36,7 +43,8 @@ let postPatientBookingAppointment = (data) => {
                             dateBooking: data.date,
                             birthday: data.birthday,
                             timeType: data.timeType,
-                            reason: data.reason
+                            reason: data.reason,
+                            token: token,
                         }
                     })
                 }
@@ -52,6 +60,43 @@ let postPatientBookingAppointment = (data) => {
     })
 }
 
+let postVerifyBookingAppointment = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.doctorId || !data.token) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else { 
+                let appointment = await db.Booking.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        token: data.token,
+                        statusId: 'S1'
+                    },
+                    raw: false
+                })
+                if (appointment) {
+                    appointment.statusId = 'S2';
+                    await appointment.save()
+                    resolve({
+                        errCode: 0,
+                        errMessage: 'Update the appointment successfully'
+                    })
+                } else {
+                    resolve({
+                        errCode: 2,
+                        errMessage: 'Appointment has been activated or does not exist'
+                    })
+                }
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 module.exports = {
-    postPatientBookingAppointment: postPatientBookingAppointment
+    postPatientBookingAppointment: postPatientBookingAppointment,
+    postVerifyBookingAppointment: postVerifyBookingAppointment
 }
