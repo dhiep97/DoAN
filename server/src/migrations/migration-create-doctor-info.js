@@ -7,10 +7,18 @@ module.exports = {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
-        },
+            },
         doctorId: {
             type: Sequelize.INTEGER,
             allowNull: false,
+        },
+        specialtyId: {
+            type: Sequelize.INTEGER,
+            //allowNull: false,
+        },
+        clinicId: {
+            type: Sequelize.INTEGER,
+            //allowNull: false,
         },
         priceId: {
             type: Sequelize.STRING,

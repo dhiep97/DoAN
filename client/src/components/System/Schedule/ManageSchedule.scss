@@ -17,7 +17,7 @@
 
         button{
             padding: 5px 15px;
-            border: 1px solid gray;
+            border: none;
             background: #eeeeee;
         }
     }
@@ -29,8 +29,16 @@
     }
 
     .btn-save-schedule{
-        margin-top: 20px;
-
-
+        border: none;
+        background: blue;
+        min-width: 150px;
+        border-radius: 3px;
+        margin: 15px 0;
+        color: #fff;
+        padding: 5px;
+        cursor: pointer;
+        &:hover{
+            opacity: 0.8;
+        }
     }
 }

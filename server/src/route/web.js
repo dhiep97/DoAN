@@ -3,6 +3,8 @@ import homeController from "../controllers/homeController"
 import userController from "../controllers/userController"
 import doctorController from "../controllers/doctorController"
 import patientController from "../controllers/patientController"
+import specialtyController from "../controllers/specialtyController"
+import clinicController from "../controllers/clinicController"
 
 let router = express.Router();
 let initRoutes = (app) => {
@@ -58,6 +60,24 @@ let initRoutes = (app) => {
 
     //xac nhan dat lich
     router.post('/api/verify-booking-appointment', patientController.postVerifyBookingAppointment);
+
+    //tao chuyen khoa
+    router.post('/api/create-new-specialty', specialtyController.createSpecialty);
+
+    //lấy thong tin chuyen khoa ra homepage
+    router.get('/api/get-all-specialty', specialtyController.getAllSpecialty);
+
+     //lấy thong tin chi tiet chuyen khoa 
+    router.get(`/api/get-detail-specialty-by-id`, specialtyController.getDetailSpecialtyById);
+
+     //tao phong kham
+    router.post('/api/create-new-clinic', clinicController.createClinic);
+
+    //lấy thong tin phong kham ra homepage
+    router.get('/api/get-all-clinic', clinicController.getAllClinic);
+
+     //lấy thong tin chi tiet phong kham 
+    router.get(`/api/get-detail-clinic-by-id`, clinicController.getDetailClinicById);
 
     
     return app.use("/", router);

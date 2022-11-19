@@ -12,7 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Doctor from './pages/Doctor/Doctor';
 import DetailSpecialty from './components/DetailSpecialty/DetailSpecialty';
-import DetailMedicalFacility from './components/DetailMedicalFacility/DetailMedicalFacility';
+import DetailClinic from './components/DetailClinic/DetailClinic';
 import VerifyEmail from './components/DetailDoctor/VerifyEmail/VerifyEmail';
 class App extends Component {
     handlePersistorState = () => {
@@ -45,8 +45,8 @@ class App extends Component {
                             <Route path='/system' component={userIsAuthenticated(System)} />
                             <Route path='/doctor' component={userIsAuthenticated(Doctor)} />
                             <Route path='/detail-doctor/:id' component={(DetailDoctor)} />
-                            <Route path='/detail-specialty' component={(DetailSpecialty)} />
-                            <Route path='/detail-medical-facility' component={(DetailMedicalFacility)} />
+                            <Route path='/detail-specialty/:id' component={(DetailSpecialty)} />
+                            <Route path='/detail-medical-facility/:id' component={(DetailClinic)} />
                             <Route path='/verify-booking' component={(VerifyEmail)} />
                         </Switch>
                     </div>

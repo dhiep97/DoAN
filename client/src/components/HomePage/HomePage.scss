@@ -14,6 +14,7 @@
     }
     .section-body{
         .section-customize{
+            cursor: pointer;
             .bg-image{
                 height: 150px;
                 width: 278px;
@@ -23,15 +24,21 @@
                 background-color: #eee;
 
                 &.section-specialty{
-                    background-image: url('../../assets/specialty/co-xuong-khop.jpg');
+                    //background-image: url('../../assets/specialty/co-xuong-khop.jpg');
+                    width: 310px;
+                    height: 150px;
+                    padding: 10px;
                 }
 
                 &.section-medical-facility{
-                    background-image: url('../../assets/medical-facility/benh-vien-thu-cuc.jpg');
+                    width: 310px;
+                    height: 150px;
+                    padding: 10px;
+                    //background-image: url('../../assets/medical-facility/benh-vien-thu-cuc.jpg');
                 }
 
                 &.section-outstanding-doctor{
-                    background-image: url('../../assets/outstanding-doctor/gorou.png');
+                    //background-image: url('../../assets/outstanding-doctor/gorou.png');
                     height: 120px;
                     width: 120px;
                     border-radius: 50%;
@@ -39,6 +46,13 @@
 
                 &.section-handbook{
                     background-image: url('../../assets/handbook/benh-vien-kham-than-kinh-tphcm.png');
+                }
+            }
+
+            .section-title{
+                padding: 10px 0;
+                &:hover{
+                    color: #00b3ff
                 }
             }
         }

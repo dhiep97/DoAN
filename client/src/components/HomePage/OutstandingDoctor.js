@@ -26,7 +26,9 @@ class OutstandingDoctor extends Component {
     }
 
     handleViewDetailDoctor = (doctor) => {
-        this.props.history.push(`/detail-doctor/${doctor.id}`);
+        if (this.props.history) {
+            this.props.history.push(`/detail-doctor/${doctor.id}`);
+        }
     }
 
     render() {
@@ -48,7 +50,7 @@ class OutstandingDoctor extends Component {
                                 arrDoctors.map((item, index) => {
                                     let imageBase64 = '';
                                     if (item.image) {
-                                        imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                                        imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
                                     }
                                     let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName} `;
                                     
@@ -63,8 +65,7 @@ class OutstandingDoctor extends Component {
                                                     />
                                                 </div>
                                                 <div className="position text-center">
-                                                    <div>{nameVi}</div>
-                                                    <div>Cơ xương khớp</div>
+                                                    <div className="section-title">{nameVi}</div>
                                                 </div>
                                             </div> 
                                         </div> 

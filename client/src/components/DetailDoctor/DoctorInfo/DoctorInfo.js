@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './DoctorInfo.scss';
 import { getDoctorInfoById } from '../../../services/userService';
 import { NumericFormat } from 'react-number-format';
+import { isBuffer } from 'lodash';
 
 class DoctorInfo extends Component {
     constructor(props) {
@@ -10,6 +11,17 @@ class DoctorInfo extends Component {
         this.state = {
             isShow: false,
             info: {}
+        }
+    }
+
+    async componentDidMount() {
+        if (this.props.doctorIdFromParent) {
+            let res = await getDoctorInfoById(this.props.doctorIdFromParent)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    info: res.data,
+                })
+            }
         }
     }
 

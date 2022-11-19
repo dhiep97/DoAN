@@ -1,7 +1,7 @@
 .profile-doctor-container{
     .info-doctor{
         display: flex;
-        border-bottom: 1px solid #ccc;
+        // border-bottom: 1px solid #ccc;
         padding-bottom: 5px;
     
         .content-left{
@@ -20,10 +20,12 @@
             padding-left: 10px;
             .up{
                 font-weight: 500;
+                padding: 5px;
             }
     
             .down{
                 text-align: left;
+                padding: 5px;
             }
         }       
     }
@@ -32,6 +34,6 @@
         font-size: 15px;
         font-weight: 500;
         color: rgb(19, 191, 248);
-        padding: 5px;
+        padding: 5px 0;
     }
 }

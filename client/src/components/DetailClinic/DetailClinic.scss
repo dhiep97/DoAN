@@ -1,0 +1,98 @@
+.detail-clinic-container{
+
+    .clinic-description-header{
+        padding: 0 100px;
+        .clinic-image{
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            background-clip: border-box;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .clinic-description-name{
+            font-size: 25px;
+            font-weight: 600;
+            padding: 10px 0;
+        }
+        .clinic-description-address{
+            font-size: 17px;
+            font-weight: 400;
+            padding: 10px 0;
+            i{
+                padding-right: 4px;
+            }
+        }
+        .detail-clinic-note{
+            background-color: #5bb3f6;
+            padding: 5px 10px;
+            margin-bottom: 15px;
+            border-radius: 5px; 
+        }
+    
+        .detail-clinic-note1{
+            background-color: #71f582;
+            padding: 5px 10px;
+            border-radius: 5px; 
+        }
+    }
+    
+    .clinic-description{
+        padding: 10px 100px;
+        background-color: #eee;
+        h3{
+            font-size: 22px;
+            color: #5bb3f6
+        }
+        .clinic-description-title{
+            font-size: 25px;
+            font-weight: 600;
+            padding: 10px 0;
+        }
+    }
+
+    .detail-clinic-body{
+        padding: 10px 100px;
+
+        .each-doctor{
+            display: flex;
+            width: 100%;
+            min-height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 15px 0;
+            background-color: #fff;
+            border-radius: 8px;
+
+            .clinic-content-left{
+                width: 50%;
+                padding: 0 10px;
+                border-right: 1px solid #ccc;
+
+                .profile-doctor{
+                    .profile-doctor-container{
+                        border-bottom: unset !important;
+                    }
+                }
+            }
+
+            .clinic-content-right{
+                width: 50%;
+                padding: 0 10px;
+                .doctor-schedule{
+                    .doctor-schedule-container{
+                        border-right: unset !important;
+                    }
+                }
+
+                .doctor-info{
+                    padding-top: 10px;
+                    border-top: 1px solid #ddd;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}

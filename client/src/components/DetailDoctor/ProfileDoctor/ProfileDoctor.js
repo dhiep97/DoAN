@@ -5,6 +5,7 @@ import { getProfileDoctorInfoById } from '../../../services/userService';
 import { NumericFormat } from 'react-number-format';
 import _ from 'lodash';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class ProfileDoctor extends Component {
 
@@ -59,7 +60,7 @@ class ProfileDoctor extends Component {
     }
     render() {
         let { dataProfile } = this.state;
-        let { isShowDescription, dataTime } = this.props;
+        let { isShowDescription, dataTime, isShowLinkDetails, doctorId } = this.props;
         let nameVi = '';
         if (dataProfile && dataProfile.positionData) {
             nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.lastName} ${dataProfile.firstName} `;
@@ -98,14 +99,23 @@ class ProfileDoctor extends Component {
                                             {dataProfile.Doctor_Info.addressClinic}
                                         </span>
                                     }</div>
+                                    <div className="price">
+                                        Giá khám: <NumericFormat displayType="text" thousandSeparator="," value={dataProfile && dataProfile.Doctor_Info ? dataProfile.Doctor_Info.priceData.valueVi : ''}/>đ
+                                    </div>
                                 </>
                             }
                         </div>
                     </div>
                 </div>
-                <div className="price">
+                {isShowLinkDetails === true &&
+                    <div className="view-detail-doctor">
+                        <Link to={`/detail-doctor/${doctorId}`}>Xem thêm</Link>
+                    </div>
+                }
+
+                {/* <div className="price">
                     Giá khám: <NumericFormat displayType="text" thousandSeparator="," value={dataProfile && dataProfile.Doctor_Info ? dataProfile.Doctor_Info.priceData.valueVi : ''}/>đ
-                </div>
+                </div> */}
             </div>
 
         )
