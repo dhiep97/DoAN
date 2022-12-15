@@ -4,6 +4,7 @@ import './HomePage.scss';
 import Slider from 'react-slick';
 import { withRouter } from 'react-router';
 import { getAllSpecialty } from '../../services/userService';
+import { Link } from 'react-router-dom';
 class Specialty extends Component {
     constructor(props) {
         super(props);
@@ -33,7 +34,9 @@ class Specialty extends Component {
                 <div className="section-container">
                     <div className="section-header">
                         <span className="title-section">Chuyên khoa phổ biến</span>
-                        <button className="btn-section">Xem thêm</button>
+                        <button className="btn-section">
+                            <Link to="/more-specialty">Xem thêm</Link>
+                        </button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>

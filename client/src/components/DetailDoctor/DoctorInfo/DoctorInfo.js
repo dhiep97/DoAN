@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './DoctorInfo.scss';
 import { getDoctorInfoById } from '../../../services/userService';
 import { NumericFormat } from 'react-number-format';
-import { isBuffer } from 'lodash';
 
 class DoctorInfo extends Component {
     constructor(props) {
@@ -78,7 +77,6 @@ class DoctorInfo extends Component {
                             </div>
                         </>
                     }
-                    
                 </div>
             </div>
 

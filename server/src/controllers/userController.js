@@ -42,11 +42,6 @@ let handleGetAllUser = async (req, res) => {
     })
 }
 
-let handleRegister = async (req, res) => {
-    let message = await userService.handleUserRegister(req.body);
-    return res.status(200).json(message);
-}
-
 let handleCreateNewUser = async (req, res) => {
     let message = await userService.createNewUser(req.body);
     return res.status(200).json(message);
@@ -80,9 +75,9 @@ let getAllCode = async (req, res) => {
         })
     }
 }
+
 module.exports = {
     handleLogin: handleLogin,
-    handleRegister: handleRegister,
     handleGetAllUser: handleGetAllUser,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,

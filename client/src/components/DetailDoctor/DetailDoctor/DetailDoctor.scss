@@ -2,7 +2,7 @@
     padding-top: 10px;
     .info-doctor{
         display: flex;
-        margin: 0 100px;
+        margin: 0 200px;
 
         .content-left{
             background: center center no-repeat;
@@ -33,7 +33,7 @@
     }
 
     .schedule-doctor{
-        margin: 0 100px;
+        margin: 0 200px;
         display: flex;
         margin-bottom: 20px;
         margin-top: 10px;
@@ -53,7 +53,7 @@
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         background-color: #f9f9f9;
-        padding: 15px 100px;
+        padding: 15px 200px;
         h3{
             font-size: 20px;
         }
@@ -73,4 +73,3 @@
         height: 50px;
     }
 }
-

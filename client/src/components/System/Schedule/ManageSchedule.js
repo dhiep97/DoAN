@@ -8,7 +8,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { saveBulkScheduleDoctor } from '../../../services/userService';
+import { saveBulkScheduleDoctor, getScheduleDoctorByDate } from '../../../services/userService';
+import ReactTable from "react-table-6";  
+import "react-table-6/react-table.css" ;
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -17,20 +19,22 @@ class ManageSchedule extends Component {
             listDoctors: [],
             selectedDoctor: {},
             currentDate: new Date(),
-            rangeTime: []
+            rangeTime: [],
+            dataScheduleDoctor: [],
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.fetchAllDoctorsRedux();
         this.props.fetchAllScheduleTime();
+        // this.listScheduleDoctor();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    async componentDidUpdate(prevProps, prevState) {
         if (prevProps.allDoctors !== this.props.allDoctors) {
             let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
             this.setState({
-                listDoctors : dataSelect
+                listDoctors: dataSelect,
             });
         }
 
@@ -52,6 +56,21 @@ class ManageSchedule extends Component {
         }
     }
 
+    // listScheduleDoctor = async () => {
+    //     let { selectedDoctor, currentDate } = this.state;
+    //     console.log(selectedDoctor)
+    //     let formattedDate = moment(new Date(currentDate)).format('YYYY-MM-DD');
+    //     let res = await getScheduleDoctorByDate({
+    //         doctorId: selectedDoctor,
+    //         date: formattedDate
+    //     });
+    //     if (res && res.errCode === 0) {
+    //         this.setState({
+    //             dataScheduleDoctor: res.data
+    //         })
+    //     }
+    // }
+
     buildDataInputSelect = (inputData) => {
         let result = []; 
         if (inputData && inputData.length > 0) {
@@ -68,11 +87,12 @@ class ManageSchedule extends Component {
     }
 
     handleChangeSelect = async (selectedOption) => {
-        this.setState({ selectedDoctor: selectedOption });
-        
+        this.setState({
+            selectedDoctor: selectedOption
+        });
     }
 
-    handleOnChangeDatePicker = (date) => {
+    handleOnChangeDatePicker = async (date) => {
         this.setState({
             currentDate: date
         })
@@ -128,17 +148,40 @@ class ManageSchedule extends Component {
         } else {
             toast.error("Lỗi lưu lịch khám bệnh")
         }
-        
     }
 
     render() {
-        let { rangeTime } = this.state;
+        let { rangeTime, dataScheduleDoctor } = this.state;
+        // console.log(dataScheduleDoctor);
+        // const columns = [
+        //     { Header: 'Thời gian', accessor: 'timeType', minWidth: 120 },
+        //     { Header: 'Email', accessor: 'patientData.email', minWidth: 220 },
+        //     { Header: 'Họ', accessor: 'patientData.lastName', minWidth: 120 },
+        //     { Header: 'Tên', accessor: 'patientData.firstName', minWidth: 70 },
+        //     { Header: 'Điạ chỉ', accessor: 'patientData.address', minWidth: 100 },
+        //     { Header: 'Số điện thoại', accessor: 'patientData.phoneNumber', minWidth: 100 },
+        //     { Header: 'Lý do khám bệnh', accessor: 'reason', minWidth: 200 },
+        //     {
+        //         Header: 'Thao tác', accessor: 'action', minWidth: 250,
+        //         Cell: (item) => {
+        //             return(
+        //             <div className="action">
+        //                 <button className="btn-confirm"
+        //                     onClick={()=> this.handleConfirm1(item)}
+        //                 >Đã khám xong</button>
+        //                 <button className="btn-cancel"
+        //                     onClick={()=> this.handleCancel1(item)}
+        //                 >Hủy lịch khám</button>
+        //             </div>
+        //         )}
+        //     },
+        // ]
         return (
             <div className="manage-schedule-container">
                 <div className="manage-schedule-title">
                     Quản lý kế hoạch khám bệnh của bác sĩ
                 </div>
-                <div className="container">
+                <div className="manage-schedule-container">
                     <div className="row">
                         <div className="col-4 form-group">
                             <label>Chọn bác sĩ</label>
@@ -176,7 +219,13 @@ class ManageSchedule extends Component {
                                 onClick={() => this.handleSaveSchedule()}
                             >Lưu thông tin</button>
                         </div>
-                        
+                        {/* <div className="col-12">
+                            <ReactTable
+                                // data={}
+                                columns={columns}
+                                defaultPageSize={5}
+                            />
+                        </div> */}
                     </div>
                 </div>
             </div>

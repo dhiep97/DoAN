@@ -28,7 +28,33 @@ let getAllSpecialty = async (req, res) => {
 
 let getDetailSpecialtyById = async (req, res) => {
     try {
-        let info = await specialtyService.getDetailSpecialtyById(req.query.id, req.query.location);
+        let info = await specialtyService.getDetailSpecialtyById(req.query.id);
+        return res.status(200).json(info)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+
+let deleteSpecialty = async (req, res) => {
+    try {
+        let info = await specialtyService.deleteSpecialty(req.body.id);
+        return res.status(200).json(info)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+
+let editSpecialty = async (req, res) => {
+    try {
+        let info = await specialtyService.editSpecialty(req.body);
         return res.status(200).json(info)
     } catch (e) {
         console.log(e);
@@ -42,5 +68,7 @@ let getDetailSpecialtyById = async (req, res) => {
 module.exports = {
     createSpecialty: createSpecialty,
     getAllSpecialty: getAllSpecialty,
-    getDetailSpecialtyById: getDetailSpecialtyById
+    getDetailSpecialtyById: getDetailSpecialtyById,
+    deleteSpecialty: deleteSpecialty,
+    editSpecialty: editSpecialty
 }

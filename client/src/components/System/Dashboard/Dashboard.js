@@ -1,46 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import MUIDataTable from "mui-datatables";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
 import * as actions from '../../../store/actions';
-import './System.scss';
+import './Dashboard.scss';
 import { UilAccessibleIconAlt, UilNewspaper, UilHospital, UilUserMd } from '@iconscout/react-unicons';
+import ReactTable from "react-table-6";  
+import "react-table-6/react-table.css" ;
 
-const muiCache = createCache({
-    key: "mui-datatables",
-    prepend: true
-});
-
-const columns = [
-    { name: "EMAIL", options: { filterOptions: { fullWidth: true } } },
-    "HỌ TÊN",
-    "ĐỊA CHỈ",
-    "SỐ ĐIỆN THOẠI",
-];
-
-
-class System extends Component {
+class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             usersRedux: [],
-            options: {
-                responsive: 'vertical',
-                tableBodyHeight: '400px',
-                tableBodyMaxHeight: '',
-                searchBtn: true,
-                downloadBtn: true,
-                printBtn: true,
-                viewColumnBtn: true,
-                filterBtn: true,
-                onTableChange: (action, state) => {
-                    console.log(action);
-                    console.dir(state);
-                }
-            }
         }
     }
 
@@ -58,8 +28,18 @@ class System extends Component {
     }
 
     render() {  
-        let options = this.state.options;
         let arrUser = this.state.usersRedux;
+        const columns = [
+            {
+                Header: 'STT', accessor: 'STT', minWidth: 150,
+            },
+            { Header: 'email', accessor: 'email', minWidth: 150 },
+            { Header: 'Tên', accessor: 'firstName', minWidth: 100 },
+            { Header: 'Họ', accessor: 'lastName', minWidth: 100 },
+            { Header: 'Địa chỉ', accessor: 'address', minWidth: 100 },
+            { Header: 'Số điện thoại', accessor: 'phoneNumber', minWidth: 100 },
+        ]
+        console.log(arrUser)
         return (
             <div className="system-dashboard-container">
                 <div className="count">
@@ -93,20 +73,11 @@ class System extends Component {
                     </div>
                 </div>
                 <div className="table">
-                    <CacheProvider value={muiCache}>
-                        <ThemeProvider theme={createTheme()}>
-                            <MUIDataTable
-                            title={"DANH SÁCH NGƯỜI DÙNG"}
-                            data={
-                                arrUser.map((user) => (
-                                    [user.email, user.lastName +' ' + user.firstName, user.address, user.phoneNumber]
-                                ))
-                            }
-                            columns={columns}
-                            options={options}
-                            />
-                        </ThemeProvider>
-                    </CacheProvider>
+                    <ReactTable
+                        data={arrUser}
+                        columns={columns}
+                        defaultPageSize={10}
+                    />
                 </div> 
             </div>    
         );
@@ -126,4 +97,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(System);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

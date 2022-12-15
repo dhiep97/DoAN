@@ -1,5 +1,6 @@
-@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+// @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 .user-body {
+    padding: 0 10px;
     .user-title {
         text-align: center;
         text-transform: uppercase;
@@ -32,5 +33,4 @@
             cursor: pointer;
         }
     }    
-    
 }

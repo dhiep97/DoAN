@@ -15,7 +15,6 @@ class Auth extends Component {
             firstName: '',
             lastName: '',
             isShowPassword: false,
-            isSignUp: false,
             errMessage: '',
         }
     }
@@ -23,12 +22,6 @@ class Auth extends Component {
     handleOnChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
-        })
-    }
-
-    handleSignIn = () => {
-        this.setState({
-            isSignUp: !this.state.isSignUp
         })
     }
 
@@ -70,17 +63,13 @@ class Auth extends Component {
             this.handleLogin();
         }
     }
-    resetFrom = () => {
-        
-    }
-
     render() {
         return (
 
             <div className="background">
                 <div className="login-container">
                     <div className="login-content">
-                        <div className="text-login">{this.state.isSignUp ? 'Sign Up': 'Log In'}</div>
+                        <div className="text-login">Đăng nhập</div>
                         <div className="input-login">
                             <input
                                 className="info-input"
@@ -106,53 +95,12 @@ class Auth extends Component {
                                 </span> 
                             </div>
                         </div>
-                        {this.state.isSignUp && 
-                        <>
-                            <div className="input-login">
-                                <div className="custom-input">
-                                    <input
-                                        className="info-input"
-                                        type={this.state.isShowPassword ? 'text' : 'password'}
-                                        placeholder="Confirm Password"
-                                        name="confirmPassword"
-                                        onChange={(e) => this.handleOnChange(e)}
-                                    />
-                                    <span onClick={()=>{this.handleShowPassword()}}>
-                                        <i className={this.state.isShowPassword ? "fas fa-eye" : "fas fa-eye-slash"}></i>
-                                    </span> 
-                                </div>
-                            </div>
-                            
-                            <div className="input-login">
-                                <input
-                                    className="info-input"
-                                    type="text"
-                                    placeholder="First Name"
-                                    name="firstName"
-                                    onChange={(e) => this.handleOnChange(e)}
-                                />
-                            </div>
-                            
-                            <div className="input-login">
-                                <input
-                                    className="info-input"
-                                    type="text"
-                                    placeholder="Last Name"
-                                    name="lastName"
-                                    onChange={(e) => this.handleOnChange(e)}
-                                />
-                            </div>
-                        </>
-                        }
                         <div className="err-message">
                             {this.state.errMessage}
                         </div>
                         <div className="span-button">
-                            <span className="span-text" onClick={() => this.handleSignIn()}>
-                                {this.state.isSignUp ? 'Already have an account. Login!' : `Don't have an account Sign up`}
-                            </span>
                             <button className="button-login" onClick={() =>{this.handleLogin()}}>
-                                {this.state.isSignUp ? "Sign Up" : "Log In"}
+                                Đăng nhập
                             </button>
                         </div>
                     </div>

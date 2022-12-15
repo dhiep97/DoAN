@@ -1,0 +1,212 @@
+.manager-handbook-container{
+    padding: 0 10px;
+
+    .manage-handbook-title{
+        text-transform: uppercase;
+        margin: 30px;
+        font-weight: 600;
+        font-size: 30px;
+        text-align: center;
+        color: blue;
+    }
+
+    .add-new-handbook{
+        .btn-save-handbook{
+            border: none;
+            background: blue;
+            min-width: 150px;
+            border-radius: 3px;
+            margin: 15px 0;
+            color: #fff;
+            padding: 5px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+
+        .btn-cancel-handbook{
+            border: none;
+            background: crimson;
+            min-width: 150px;
+            border-radius: 3px;
+            margin: 15px 0;
+            color: #fff;
+            padding: 5px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+
+        .handbook-title{
+            width: 100%;
+            font-size: 20px;
+            color: green;
+            padding: 10px 10px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .btn-add{
+                text-decoration: none;
+                color: green;
+                font-size: 20px;
+                font-weight: 400;
+                border: 1px solid green;
+                border-radius: 5px;
+                padding: 3px;
+                cursor: pointer;
+
+                svg{
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        .action{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            .btn-edit-handbook{
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: green;
+            }
+    
+            .btn-delete-handbook {
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: red;
+            }
+        }
+    }
+}
+
+.add-modal-container{
+    .add-modal-content {
+        display: flex;
+        flex-direction: column;
+        .add-modal-header{
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+
+            .left{
+                font-size: 20px;
+                font-weight: 600;
+                color: green;
+            }
+            .right{
+                float: right;
+                cursor: pointer;
+            }
+        }
+    }
+    .add-modal-body{
+        padding: 10px;
+        .label-upload{
+            padding: 3px;
+            border-radius: 3px;
+            background: #eee;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+            .icon{
+                margin-left: 4px;
+                font-size: 18px;
+                color: green;
+            }
+        }
+
+        .preview-image{
+            height: 85px;
+            width: 100%;
+            border: 1px solid #ddd;
+            background: center center no-repeat;
+            background-size: contain;
+            cursor: pointer;
+        }
+    }
+
+    .add-modal-footer{
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+
+        button{
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            min-width: 100px;
+            margin: 0 20px;
+        }
+
+        .btn-add-confirm{
+            background: blue;
+        }
+
+        .btn-add-cancel{
+            background: red;
+        }
+
+        .btn-edit-confirm{
+            background: green;
+        }
+    }
+}
+
+.delete-modal-container{
+    display: flex;
+    flex-direction: column;
+    .delete-modal-header{
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+
+        .left{
+            font-size: 20px;
+            font-weight: 600;
+
+        }
+        .right{
+            float: right;
+            cursor: pointer;
+        }
+    }
+
+    .delete-modal-body{
+        font-weight: 600;
+        font-size: 20px;
+        padding: 30px 10px;
+    }
+
+    .delete-modal-footer{
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+
+        button{
+            border: none;
+            outline: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+        .btn-delete-confirm{
+            background-color: aqua;
+        }
+
+        .btn-delete-cancel{
+            background-color: lightsalmon;
+        }
+    }
+}

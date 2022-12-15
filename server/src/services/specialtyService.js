@@ -47,71 +47,69 @@ let getAllSpecialty = async (req, res) => {
     })
 }
 
-let getDetailSpecialtyById = (inputId, location) => {
+let getDetailSpecialtyById = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputId || !location) {
+            if (!inputId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing parameter'
                 })
             } else {
-                let data = {};
-                if (location === 'ALL') {
-                    data = await db.Specialty.findOne({
+                let data = await db.Specialty.findOne({
+                    where: { id: inputId },
+                    attributes: ['descriptionMarkdown', 'descriptionHTML', 'name', 'image'],
+                    include: [
+                        {
+                            model: db.Doctor_Info,
+                            where: {specialtyId: inputId},
+                            attributes: ['doctorId'],
+                        }
+                    ],
+                })
+                if (!data) {
+                        data = await db.Specialty.findOne({
                         where: { id: inputId },
-                        attributes: ['descriptionMarkdown', 'descriptionHTML', 'name'],
-                        include: [
-                            {
-                                model: db.Doctor_Info,
-                                where: { specialtyId: inputId },
-                                attributes: ['doctorId', 'provinceId']
-                            },
-                        ],
-                        raw: false,
-                        nest: true
-                    })
-                } else {
-                    data = await db.Specialty.findOne({
-                        where: { id: inputId },
-                        attributes: ['descriptionMarkdown', 'descriptionHTML', 'name'],
-                        include: [
-                            {
-                                model: db.Doctor_Info,
-                                where: { specialtyId: inputId, provinceId: location },
-                                attributes: ['doctorId', 'provinceId']
-                            },
-                        ],
-                        raw: false,
-                        nest: true
+                        attributes: ['descriptionMarkdown', 'descriptionHTML', 'name', 'image'],
                     })
                 }
-                // data = await db.Specialty.findOne({
-                //     where: { id: inputId },
-                //     attributes: ['descriptionMarkdown', 'descriptionHTML', 'name'],
-                // })
-                // if (data) {
-                //     let doctorSpecialty = [];
-                //     if (location === 'ALL') {
-                //         doctorSpecialty = await db.Doctor_Info.findAll({
-                //             where: { specialtyId: inputId },
-                //             attributes: ['doctorId', 'provinceId']
-                //         })
-                //     } else {
-                //         doctorSpecialty = await db.Doctor_Info.findAll({
-                //             where: {
-                //                 specialtyId: inputId,
-                //                 provinceId: location
-                //             },
-                //             attributes: ['doctorId', 'provinceId']
-                //         })
-                //     }
-                //     data.doctorSpecialty = doctorSpecialty;
-                // } else data = {};
                 resolve({
                     errCode: 0,
                     errMessage: 'Ok',
-                    data
+                    data,
+                })
+                
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let deleteSpecialty = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else {
+                let specialtyId = await db.Specialty.findOne({
+                    where: { id: inputId}
+                })
+                if(!specialtyId) {
+                    resolve({
+                        errCode: 2,
+                        errMessage: `handbook isn't exist`
+                    })
+                }
+                await db.Specialty.destroy({
+                    where: { id: inputId}
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: `handbook is delete`,
                 })
             }
         } catch (error) {
@@ -120,8 +118,47 @@ let getDetailSpecialtyById = (inputId, location) => {
     })
 }
 
+let editSpecialty = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.id || !data.name) {
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Missing required parameter!'
+                })
+            }
+            let specialty = await db.Specialty.findOne({
+                where: { id: data.id },
+                raw: false
+            })
+            if (specialty) {
+                specialty.name = data.name;
+                specialty.descriptionHTML = data.descriptionHTML;
+                specialty.descriptionMarkdown = data.descriptionMarkdown;
+                if (data.imageBase64) {
+                    specialty.image = data.imageBase64;
+                }
+                await specialty.save();
+                resolve({
+                    errCode: 0,
+                    errMessage: "Sua thanh cong",
+                });
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage:"Khong tim thay chuyen khoa",
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     createSpecialty: createSpecialty,
     getAllSpecialty: getAllSpecialty,
-    getDetailSpecialtyById: getDetailSpecialtyById
+    getDetailSpecialtyById: getDetailSpecialtyById,
+    deleteSpecialty: deleteSpecialty,
+    editSpecialty: editSpecialty
 }

@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomeHeader.scss';
-import logo from '../../assets/Logo/logo.png';
+import logo from '../../assets/Logo/logo.svg';
 import hospital from '../../assets/Header/hospital.png';
 import mobile from '../../assets/Header/mobile.png';
 import examination from '../../assets/Header/examination.png';
 import test from '../../assets/Header/test.png';
 import mentalHealth from '../../assets/Header/mental-health.png';
 import dental from '../../assets/Header/dental.png';
-import { FormattedMessage } from 'react-intl';
-import { LANGUAGES } from '../../utils';
-import { changeLanguageApp } from '../../store/actions';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
 class HomeHeader extends Component {
-
-    changeLanguage = (language) => {
-        //actions
-        this.props.changeLanguageAppRedux(language);
-    }
-
     render() {
-        let language = this.props.language;
-
         return (
-            <React.Fragment>
+            <>
                 <div className="home-header-container">
                     <div className="home-header-content">
                         <div className="left-content">
@@ -34,85 +24,89 @@ class HomeHeader extends Component {
                         </div>
                         <div className="center-content">
                             <div className="child-content">
-                                <div>
-                                    <b><FormattedMessage id="home-header.specialty" /></b>
-                                </div>
-                                <div className="subs-title"><FormattedMessage id="home-header.search-doctor" /></div>
-                            </div>
-                            <div className="child-content">
-                                <div>
-                                    <b><FormattedMessage id="home-header.health-facility" /></b>
-                                </div>
-                                <div className="subs-title"><FormattedMessage id="home-header.select-room" /></div>
-                            </div>
-                            <div className="child-content">
+                                <Link to="/more-specialty">
                                     <div>
-                                        <b><FormattedMessage id="home-header.doctor" /></b>
+                                        <b>Chuyên khoa</b>
                                     </div>
-                                    <div className="subs-title"><FormattedMessage id="home-header.select-doctor" /></div>
+                                    <div className="subs-title">Tìm bác sĩ chuyên khoa</div>
+                                </Link>
                             </div>
                             <div className="child-content">
-                                <div>
-                                    <b><FormattedMessage id="home-header.fee" /></b>
-                                </div>
-                                <div className="subs-title"><FormattedMessage id="home-header.check-health" /></div>
+                                <Link to="/more-clinic">
+                                    <div>
+                                        <b>Cơ sở y tế</b>
+                                    </div>
+                                    <div className="subs-title">Chọn phòng khám</div>
+                                </Link>
+                            </div>
+                            <div className="child-content">
+                                <Link to="/more-doctor">
+                                    <div>
+                                        <b>Bác sĩ</b>
+                                    </div>
+                                    <div className="subs-title">Chọn bác sĩ</div>
+                                </Link>
+                            </div>
+                            <div className="child-content">
+                                <Link to="/more-handbook">
+                                    <div>
+                                        <b>Cẩm nang</b>
+                                    </div>
+                                    <div className="subs-title">Chọn xem cẩm nang</div>
+                                </Link>
                             </div>
                         </div>
                         <div className="right-content">
-                            <div className="support">
-                                <i className="fas fa-question-circle"></i>
-                                <FormattedMessage id="home-header.support" />
-                            </div>
-                            <div className={language === LANGUAGES.VI ? "language-vi active" : "language-vi"}>
-                                <span onClick= {() =>this.changeLanguage(LANGUAGES.VI)}>VN</span>
-                            </div>
-                            <div className={language === LANGUAGES.EN ? "language-en active" : "language-en"}>
-                                <span onClick= {() =>this.changeLanguage(LANGUAGES.EN)}>EN</span>
-                            </div>
+                            <Link to="/support">
+                                <div className="support">
+                                    <i className="fas fa-question-circle"></i>
+                                    Hỗ trợ
+                                </div>
+                            </Link>
                         </div>
                     </div>                
                 </div>
                 {this.props.isShowBanner === true &&
                     <div className="home-header-banner">
                         <div className="content-up">
-                            <div className="title1"><FormattedMessage id="banner.title1" /></div>
-                            <div className="title2"><FormattedMessage id="banner.title2" /></div>
+                            <div className="title1">Nền tảng y tế</div>
+                            <div className="title2">Chăm sóc sức khỏe toàn diện</div>
                             <div className="search">
                                 <i className="fas fa-search"></i>
-                                <input type="text" placeholder="Tìm chuyên khoa khám bệnh" />
+                                <input type="text" placeholder="Tìm kiếm" />
                             </div>
                         </div>
                         <div className="content-down">
                             <div className="options">
                                 <div className="option-child">
                                     <div className="icon-child"><img src={hospital} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.specialized-examination" /></div>
+                                    <div className="text-child">Khám chuyên khoa</div>
                                 </div>
                                 <div className="option-child">
                                     <div className="icon-child"><img src={mobile} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.remote-examination" /></div>
+                                    <div className="text-child">Khám từ xa</div>
                                 </div>
                                 <div className="option-child">
                                     <div className="icon-child"><img src={examination} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.general-examination" /></div>
+                                    <div className="text-child">Khám tổng quát</div>
                                 </div>
                                 <div className="option-child">
                                     <div className="icon-child"><img src={test} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.medical-test" /></div>
+                                    <div className="text-child">Xét nghiệm y học</div>
                                 </div>
                                 <div className="option-child">
                                     <div className="icon-child"><img src={mentalHealth} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.mental-health" /></div>
+                                    <div className="text-child">Sức khỏe tinh thần</div>
                                 </div>
                                 <div className="option-child">
                                     <div className="icon-child"><img src={dental} alt="" /></div>
-                                    <div className="text-child"><FormattedMessage id="banner.dental-examination" /></div>
+                                    <div className="text-child">Khám nha khoa</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-            </React.Fragment>
+            </>
         );
     }
 
@@ -122,14 +116,12 @@ class HomeHeader extends Component {
 const mapStateToProps = state => { //redux
     return {
         isLoggedIn: state.user.isLoggedIn,
-        language: state.app.language
     };
 };
 
 
 const mapDispatchToProps = dispatch => {
     return {
-        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
     }
 };
 

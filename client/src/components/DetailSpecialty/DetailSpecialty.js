@@ -9,6 +9,7 @@ import DoctorInfo from '../DetailDoctor/DoctorInfo/DoctorInfo';
 import ProfileDoctor from '../DetailDoctor/ProfileDoctor/ProfileDoctor';
 import { getDetailSpecialtyById, getAllCodeService } from '../../services/userService';
 import _ from 'lodash';
+
 class DetailSpecialty extends Component {
 
     constructor(props) {
@@ -16,7 +17,6 @@ class DetailSpecialty extends Component {
         this.state = {
             arrDoctorId: [],
             dataDetailSpecialty: {},
-            listProvince: []
         }
     }
 
@@ -25,11 +25,9 @@ class DetailSpecialty extends Component {
             let id = this.props.match.params.id;
             let res = await getDetailSpecialtyById({
                 id: id,
-                location: 'ALL'
             });
-            let resProvince = await getAllCodeService('PROVINCE');
 
-            if (res && res.errCode === 0 && resProvince && resProvince.errCode === 0) {
+            if (res && res.errCode === 0) {
                 let data = res.data;
                 let arrDoctorId = []
                 if (data && !_.isEmpty(res.data)) {
@@ -40,19 +38,9 @@ class DetailSpecialty extends Component {
                         })
                     }
                 }
-                let dataProvince = resProvince.data;
-                if (dataProvince && dataProvince.length > 0) {
-                    dataProvince.unshift({
-                        createdAt: null,
-                        keyMap: 'ALL',
-                        type: 'PROVINCE',
-                        valueVi: 'Toàn Quốc'
-                    })
-                }
                 this.setState({
                     dataDetailSpecialty: res.data,
                     arrDoctorId: arrDoctorId,
-                    listProvince: dataProvince ? dataProvince : []
                 });
             } 
         }
@@ -87,32 +75,25 @@ class DetailSpecialty extends Component {
         }
     }
     render() {
-        let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
+        let { arrDoctorId, dataDetailSpecialty } = this.state;
+        let imageBase64 = '';
+        if (dataDetailSpecialty.image) {
+            imageBase64 = new Buffer.from(dataDetailSpecialty.image, 'base64').toString('binary');
+        }
+        console.log(dataDetailSpecialty)
         return (
             <div className="detail-specialty-container">
                 <HomeHeader isShowBanner={false} />
-                <div className="specialty-description">
+                <div className="specialty-description" style={{ backgroundImage: `url(${imageBase64})` }}>
                     {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) &&
-                        <>
+                        <div className="specialty-description-img">
                             <div className="specialty-description-title">{dataDetailSpecialty.name}</div>
                             <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTML }}></div>
-                        </>
+                        </div>
                     }
                 </div>
                 
                 <div className="detail-specialty-body">
-                    <div className="search-province">
-                        <select onChange={(event)=>this.handleOnChangeSelect(event)} >
-                            {listProvince && listProvince.length > 0 &&
-                                listProvince.map((item, index) => {
-                                    return (
-                                        <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                    )
-                                })
-                                
-                            }
-                        </select>
-                    </div>
                     {arrDoctorId && arrDoctorId.length > 0 &&
                         arrDoctorId.map((item, index) => {
                             return (

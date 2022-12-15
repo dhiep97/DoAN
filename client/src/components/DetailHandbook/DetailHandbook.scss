@@ -1,0 +1,38 @@
+.detail-handbook-container{
+    padding: 0 200px;
+    .detail-handbook-title{
+        font-size: 28px;
+        font-weight: 500;
+        color: blue;
+        padding: 15px 0px;
+    }
+
+    .detail-handbook-info{
+        font-weight: 300;
+        padding: 10px 0px;
+    }
+
+    .detail-handbook-description{
+        background: #cdf3c1;
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+    .detail-handbook-image{
+        padding: 10px 0px;
+        height: 500px;;
+        width: 100%!important;
+        background-position: center center;
+        background-repeat: no-repeat !important;
+        background-size: cover;
+        background-color: #eee;
+    }
+
+    .detail-handbook-content{
+        padding: 10px 100px;
+        background: #faf7f7;
+        h1,h2,h3,h4,h5,h6{
+            font-size: 18px;
+        }
+    }
+}

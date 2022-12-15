@@ -23,7 +23,7 @@ let handleUserLogin = (email, password) => {
             if (isExist) {
                 //user ton tai
                 let user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password', 'firstName', 'lastName'],
+                    attributes: ['id', 'email', 'roleId', 'password', 'firstName', 'lastName'],
                     where: { email: email }, 
                     raw: true,
                     
@@ -103,34 +103,6 @@ let getAllUsers = (userId) => {
     })
 }
 
-let handleUserRegister = (data) => {
-    return new Promise( async (resolve, reject) => {
-        try {
-            //check email cos ton tai khong ???
-            let check = await checkUserEmail(data.email);
-            if (check === true) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'Email da duoc su dung. Vui long su dung email khac'
-                })
-            } else {
-                let hashPasswordFromBcrypt = await hashUserPassword(data.password);
-                await db.User.create({
-                    email: data.email,
-                    password: hashPasswordFromBcrypt,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                })
-                resolve({
-                    errCode: 0,
-                    errMessage:'OK'
-                });
-            }
-        } catch (e) {
-            reject(e);
-        }
-    })
-}
 
 let createNewUser = (data) => {
     return new Promise( async (resolve, reject) => {
@@ -258,12 +230,37 @@ let getAllCodeService = (typeInput) => {
         }
     })
 }
+
+let countDoctor = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter!'
+                })
+            } else {
+                let count = await db.User.count({
+                    where: {roleId: 'R2'}
+                })
+                console.log(count)
+                resolve({
+                    errCode: 0,
+                    count: count,
+                });
+            }           
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
-    handleUserRegister: handleUserRegister,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
     updateUserData: updateUserData,
     getAllCodeService: getAllCodeService,
+    countDoctor: countDoctor
 }

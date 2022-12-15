@@ -1,5 +1,6 @@
-@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+// @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 .manage-schedule-container{
+    padding: 0 10px;
     .manage-schedule-title{
         text-transform: uppercase;
         margin: 30px;
@@ -11,7 +12,7 @@
     .pick-hour-container{
         padding-top: 20px;
         padding-bottom: 20px;
-        gap: 16px;
+        gap: 25px;
         flex-wrap: wrap;
         display: flex;
 

@@ -1,13 +1,9 @@
-@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
-
-.add-user-modal-container{
-    .add-user-modal-content{
-        height: 600px;
+.prescription-modal-container{
+    .prescription-modal-content{
         display: flex;
         flex-direction: column;
-
-        .add-user-modal-header{
-            padding: 10px;
+        .prescription-modal-header{
+            padding: 5px;
             border-bottom: 1px solid #ccc;
 
             .left{
@@ -21,12 +17,12 @@
             }
         }
 
-        .add-user-modal-body{
-            padding: 15px;
+        .prescription-modal-body{
+            padding: 10px;
             height: 100%;
         }
-    
-        .add-user-modal-footer{
+
+        .prescription-modal-footer{
             border-top: 1px solid #ccc;
             padding: 20px;
             display: flex;
@@ -40,11 +36,11 @@
                 border-radius: 5px;
             }
 
-            .btn-add-user-confirm{
+            .btn-prescription-confirm{
                 background-color: aqua;
             }
 
-            .btn-add-user-cancel{
+            .btn-prescription-cancel{
                 background-color: lightsalmon;
             }
         }

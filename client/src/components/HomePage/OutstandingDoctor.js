@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import * as actions from '../../store/actions';
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom';
 
 class OutstandingDoctor extends Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class OutstandingDoctor extends Component {
     }
 
     render() {
-        let arrDoctors = this.state.arrDoctors;
+        let {arrDoctors} = this.state;
         return (
             <div className="section-share section-outstanding-doctor">
                 <div className="section-container">
@@ -41,7 +42,7 @@ class OutstandingDoctor extends Component {
                             Bác sĩ nổi bật tuần qua
                         </span>
                         <button className="btn-section">
-                            Xem thêm
+                            <Link to="/more-doctor">Tìm kiếm</Link>
                         </button>
                     </div>
                     <div className="section-body">

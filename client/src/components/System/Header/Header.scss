@@ -1,29 +1,30 @@
 .header-container {
-    background-color: #16dd52;
+    background-color: #91e89a;
     overflow: hidden;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
 
-    .navigation{
-        a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-            &.active{
-                background-color: #04AA6D;
-                color: white;
-            }
-            &:hover{
-                background-color: #23ea80;
-                color: black;
+    .header-search{
+        display: flex;
+        align-items: center;
+        border: 0.5px solid lightgray;
+        padding: 3px;
+
+        input {
+            border: none;
+            outline: none;
+            background: transparent;
+    
+            &::placeholder {
+                font-size: 12px;
             }
         }
     }
+
     .languages{
         display: flex;
         align-items: center;

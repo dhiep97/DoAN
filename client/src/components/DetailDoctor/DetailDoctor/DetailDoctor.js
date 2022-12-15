@@ -85,9 +85,6 @@ class DetailDoctor extends Component {
                             </div> 
                         }
                     </div>
-                    <div className="comment">
-
-                    </div>
                 </div>
                 <Information />
                 <HomeFooter />

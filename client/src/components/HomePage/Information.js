@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomePage.scss';
-import logo from '../../assets/Logo/logo.png';
+import logo from '../../assets/Logo/logo.svg';
 import logoCCDV from '../../assets/Logo/logoCCDV.png';
+import { Link } from 'react-router-dom';
 
 class Information extends Component {
 
@@ -28,10 +29,12 @@ class Information extends Component {
                 <div className="info-center">
                     <p>Liên hệ đối tác</p>
                     <p>Tuyển dụng</p>
-                    <p>Câu hỏi thường gặp</p>
-                    <p>Điểu khoản sử dụng</p>
-                    <p>Chính sách bảo mật</p>
-                    <p>Quy chế hoạt động</p>
+                    <Link to="/terms-of-use">
+                        <p>Điều khoản sử dụng</p>
+                    </Link>
+                    <Link to="/privacy-policy">
+                        <p>Chính sách bảo mật</p>
+                    </Link>
                 </div>
                 <div className="info-right">
                     <div className="headquarters">
@@ -40,7 +43,7 @@ class Information extends Component {
                     </div>
                     <div className="support">
                         <p>Hỗ trợ khách hàng</p>
-                        <span>support@nuce.edu.vn</span>
+                        <span>hiep45960@nuce.edu.vn</span>
                     </div>
                 </div>
             </div>

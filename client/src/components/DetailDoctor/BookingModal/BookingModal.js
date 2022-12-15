@@ -19,7 +19,8 @@ class BookingModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullName: '',
+            lastName: '',
+            firstName: '',
             phoneNumber: '',
             email: '',
             address: '',
@@ -37,7 +38,8 @@ class BookingModal extends Component {
     listenToEmitter() {
         emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
             this.setState({
-                fullName: '',
+                firstName: '',
+                lastName: '',
                 phoneNumber: '',
                 email: '',
                 address: '',
@@ -109,7 +111,7 @@ class BookingModal extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['email', 'fullName', 'phoneNumber', 'address', 'reason', 'birthday', 'selectedGender']
+        let arrCheck = ['email', 'firstName', 'lastName', 'phoneNumber', 'address', 'reason', 'birthday', 'selectedGender']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -128,7 +130,8 @@ class BookingModal extends Component {
         let doctorName = this.buildDoctorName(this.props.dataTime);
         
         let res = await postPatientBookingAppointment({
-            fullName: this.state.fullName,
+            lastName: this.state.lastName,
+            firstName: this.state.firstName,
             phoneNumber: this.state.phoneNumber,
             email: this.state.email,
             address: this.state.address,
@@ -205,10 +208,17 @@ class BookingModal extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-6 form-group">
-                                    <label>Họ và tên</label>
+                                    <label>Họ</label>
                                     <input className="form-control"
-                                        value={this.state.fullName}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'fullName')}
+                                        value={this.state.lastName}
+                                        onChange={(e) =>this.handleOnChangeInput(e, 'lastName')}
+                                    />
+                                </div>
+                                <div className="col-6 form-group">
+                                    <label>Tên</label>
+                                    <input className="form-control"
+                                        value={this.state.firstName}
+                                        onChange={(e) =>this.handleOnChangeInput(e, 'firstName')}
                                     />
                                 </div>
                                 <div className="col-6 form-group">
@@ -232,7 +242,7 @@ class BookingModal extends Component {
                                         onChange={(e) =>this.handleOnChangeInput(e, 'address')}
                                     />
                                 </div>
-                                <div className="col-12 form-group">
+                                <div className="col-6 form-group">
                                     <label>Lý do khám</label>
                                     <input className="form-control"
                                         value={this.state.reason}

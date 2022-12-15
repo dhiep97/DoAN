@@ -1,0 +1,11 @@
+.system-container{
+    display: flex;
+
+    .system-sidebar{
+        width: 15%;
+    }
+
+    .system-router{
+        width: 85%;
+    }
+}

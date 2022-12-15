@@ -99,9 +99,80 @@ let getDetailClinicById = (inputId) => {
     })
 }
 
+let deleteClinic = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else {
+                let clinicId = await db.Clinic.findOne({
+                    where: { id: inputId}
+                })
+                if(!clinicId) {
+                    resolve({
+                        errCode: 2,
+                        errMessage: `clinic isn't exist`
+                    })
+                }
+                await db.Clinic.destroy({
+                    where: { id: inputId}
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: `clinic is delete`,
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let editClinic = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.id || !data.name || !data.address) {
+                resolve({
+                    errCode: 2,
+                    errMessage: 'Missing required parameter!'
+                })
+            }
+            let clinic = await db.Clinic.findOne({
+                where: { id: data.id },
+                raw: false
+            })
+            if (clinic) {
+                clinic.name = data.name;
+                clinic.address = data.address;
+                clinic.descriptionHTML = data.descriptionHTML;
+                clinic.descriptionMarkdown = data.descriptionMarkdown;
+                if (data.imageBase64) {
+                    clinic.image = data.imageBase64;
+                }
+                await clinic.save();
+                resolve({
+                    errCode: 0,
+                    errMessage: "Sua thanh cong",
+                });
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage:"Khong tim thay phong khám",
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 
 module.exports = {
     createClinic: createClinic,
     getAllClinic: getAllClinic,
-    getDetailClinicById: getDetailClinicById
+    getDetailClinicById: getDetailClinicById,
+    deleteClinic: deleteClinic,
+    editClinic: editClinic
 }

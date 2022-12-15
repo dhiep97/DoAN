@@ -4,6 +4,8 @@ import './HomePage.scss';
 import Slider from 'react-slick';
 import { withRouter } from 'react-router';
 import { getAllClinic } from '../../services/userService';
+import { Link } from 'react-router-dom';
+
 class MedicalFacility extends Component {
 
     constructor(props) {
@@ -33,7 +35,9 @@ class MedicalFacility extends Component {
                 <div className="section-container">
                     <div className="section-header">
                         <span className="title-section">Cơ sở ý tế nổi bật</span>
-                        <button className="btn-section">Tìm kiếm</button>
+                        <button className="btn-section">
+                            <Link to="/more-clinic">Xem thêm</Link>
+                        </button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>

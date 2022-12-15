@@ -1,119 +1,197 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './ManagerClinic.scss';
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import { createNewClinic } from '../../../services/userService';
+import { createNewClinic, getAllClinic, deleteClinic, editClinic} from '../../../services/userService';
 import { toast } from "react-toastify";
+import ReactTable from "react-table-6";  
+import "react-table-6/react-table.css" ;
+import { UilPlus } from '@iconscout/react-unicons';
+import AddClinicModal from '../Clinic/AddClinicModal';
+import EditClinicModal from '../Clinic/EditClinicModal';
+import { emitter } from '../../../utils/emitter';
+import DeleteClinicModal from './DeleteClinicModal';
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 class ManagerClinic extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            address: '',
-            imageBase64: '',
-            descriptionHTML: '',
-            descriptionMarkdown: '',
+            dataClinic: [],
+            isShowAddModal: false,
+            isShowEditModal: false,
+            isShowDeleteModal: false,
+            clinicEditor: [],
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.getAllClinicReact()
+    }
 
+    getAllClinicReact = async () => {
+        let res = await getAllClinic()
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataClinic: res.data
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
 
     }
 
-    handleOnchangeInput = (event, id) => {
-        let stateCopy = { ...this.state };
-        stateCopy[id] = event.target.value;
+    handleAddNewClinic = () => {
         this.setState({
-            ...stateCopy
+            isShowAddModal: true
         })
     }
 
-    handleEditorChange = ({html, text}) => {
+    handleEdit = async (item) => {
         this.setState({
-            descriptionHTML: html,
-            descriptionMarkdown: text
+            isShowEditModal: true,
+            clinicEditor: item
         })
     }
 
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file);
-            this.setState({
-                imageBase64: base64
-            })
+    handleDelete = async (item) => {
+        this.setState({
+            isShowDeleteModal: true,
+            clinicEditor: item
+        })
+    }
+
+    closeAddNewClinic = () => {
+        this.setState({
+            isShowAddModal: false
+        })
+    }
+
+    closeEditModal = () => {
+        this.setState({
+            isShowEditModal: false,
+        })
+    }
+
+    closeDeleteModal = () => {
+        this.setState({
+            isShowDeleteModal: false,
+        })
+    }
+
+    createNewClinic = async (data) => {
+        try {
+            let res = await createNewClinic(data);
+            if (res && res.errCode === 0) {
+                await this.getAllClinicReact()
+                this.setState({
+                    isShowAddModal: false
+                })
+                toast.success('Tạo thông tin phòng khám thành công')
+                emitter.emit('EVENT_CLEAR_MODAL_DATA')
+            } else {
+                toast.error('Lỗi tạo thông tin phòng khám')
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 
-    handleSaveNewClinic = async () => {
-        let res = await createNewClinic(this.state);
-        if (res && res.errCode === 0) {
-            toast.success('Tạo thông tin phòng khám thành công')
-            this.setState({
-                name: '',
-                address: '',
-                imageBase64: '',
-                descriptionHTML: '',
-                descriptionMarkdown: '',
-            })
-        } else {
-            toast.error('Lỗi tạo thông tin phòng khám')
+    handleEditClinic = async (data) => {
+        try {
+            let res = await editClinic(data)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowEditModal: false
+                })
+                await this.getAllClinicReact()
+                toast.success('Sửa thông tin phòng khám thành công')
+            } else {
+                toast.error('Lỗi sửa thông tin phòng khám')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    handleDeleteClinic = async (data) => {
+        try {
+            let res = await deleteClinic(data)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowDeleteModal: false
+                })
+                toast.success('Xóa phòng khám thành công')
+                await this.getAllClinicReact()
+            } else {
+                toast.error('Lỗi không thể xóa phòng khám')
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
     render() {
-        
-
+        let {dataClinic, isShowAddModal, isShowEditModal, isShowDeleteModal} = this.state;
+        const columns = [
+            { Header: 'Tên phòng khám', accessor: 'name', minWidth: 180 },
+            { Header: 'Đia chỉ', accessor: 'address', minWidth: 250 },
+            { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 450 },
+            {
+                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Cell: (item) => {
+                    return(
+                    <div className="action">
+                        <button className="btn-edit-clinic"
+                            onClick={()=> this.handleEdit(item)}
+                        >Sửa phòng khám</button>
+                        <button className="btn-delete-clinic"
+                            onClick={()=> this.handleDelete(item)}
+                        >Xóa phòng khám</button>
+                    </div>
+                )}
+            },
+        ]
         return (
             <div className="manage-clinic-container">
                 <div className="manage-clinic-title">Quản lý phòng khám</div>
                 <div className="add-new-clinic row">
-                    <div className="col-4 form-group">
-                        <label>Tên phòng khám</label>
-                        <input className="form-control" type="text"
-                            value={this.state.name}
-                            onChange={(event) => this.handleOnchangeInput(event, 'name')}
+                    <AddClinicModal 
+                        isOpenModal={isShowAddModal}
+                        closeAdd={this.closeAddNewClinic}
+                        createNewClinic={this.createNewClinic}
+                    />
+                    {
+                        this.state.isShowEditModal &&
+                        <EditClinicModal
+                            isOpenEdit={isShowEditModal}
+                            closeEditModal={this.closeEditModal}
+                            currentClinic={this.state.clinicEditor}
+                            editClinic={this.handleEditClinic}
                         />
-                    </div>
-                    
-                    <div className=" col-4 form-group">
-                    <label>Địa chỉ phòng khám</label>
-                        <input className="form-control" type="text" 
-                            value={this.state.address}
-                            onChange={(event) => this.handleOnchangeInput(event, 'address')}
-                        />
-                    </div>
-
-                    <div className="col-4 form-group">
-                        <label>Ảnh phòng khám</label>
-                        <input className="form-control-file" type="file" 
-                            onChange={(event) => this.handleOnChangeImage(event)}
-                        />
-                    </div>
-                    
+                    }
+                    <DeleteClinicModal 
+                        isOpenDelete={isShowDeleteModal}
+                        closeDeleteModal={this.closeDeleteModal}
+                        currentClinic={this.state.clinicEditor}
+                        deleteClinic={this.handleDeleteClinic}
+                    />
                     <div className="col-12">
-                        <MdEditor
-                            style={{ height: '300px' }}
-                            renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange}
-                            value={this.state.descriptionMarkdown}
+                        <div className="clinic-title">
+                            <span>Danh sách phòng khám</span>
+                            <button className="btn-add"
+                                onClick={() => this.handleAddNewClinic()}
+                            >
+                                <UilPlus />
+                                Thêm phòng khám
+                            </button>
+                        </div>
+                        <ReactTable
+                            data={dataClinic}
+                            columns={columns}
+                            defaultPageSize={10}
                         />
-                    </div>
-                    <div className="col-12">
-                        <button className="btn-save-clinic"
-                            onClick={() => this.handleSaveNewClinic()}
-                        >Lưu thông tin</button>
                     </div>
                 </div>
             </div>
@@ -124,7 +202,7 @@ class ManagerClinic extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        
     };
 };
 

@@ -1,0 +1,37 @@
+.more-list-container{
+
+    .more-title{
+        font-weight: 600;
+        font-size: 25px;
+        padding: 10px 30px;
+        border-bottom: 1px solid green;
+        background: #ccc
+    }
+    .more-list{
+        display: flex;
+        padding: 10px 30px;
+        cursor: pointer;
+        .more-img{
+            height: 100px;
+            width: 210px;
+            background-position: center center;
+            background-repeat: no-repeat !important;
+            background-size: cover;
+            background-color: #eee;
+        }
+
+        .more-img-doctor{
+            background-position: center center;
+            background-repeat: no-repeat !important;
+            background-size: cover;
+            background-color: #eee;
+            height: 120px;
+            width: 120px;
+            border-radius: 50%;
+        }
+
+        .more-list-title{
+            padding: 0 5px;
+        }
+    }
+}

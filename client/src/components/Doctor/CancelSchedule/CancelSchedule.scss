@@ -1,0 +1,45 @@
+.cancel-schedule-modal-container{
+    display: flex;
+    flex-direction: column;
+    .cancel-schedule-modal-header{
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+
+        .left{
+            font-size: 20px;
+            font-weight: 600;
+
+        }
+        .right{
+            float: right;
+            cursor: pointer;
+        }
+    }
+
+    .cancel-schedule-modal-body{
+        font-weight: 600;
+        font-size: 20px;
+        padding: 30px 10px;
+    }
+
+    .cancel-schedule-modal-footer{
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+
+        button{
+            border: none;
+            outline: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+        .btn-cancel-schedule-confirm{
+            background-color: aqua;
+        }
+
+        .btn-cancel-schedule-cancel{
+            background-color: lightsalmon;
+        }
+    }
+}

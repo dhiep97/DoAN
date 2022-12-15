@@ -1,24 +1,25 @@
 .detail-specialty-container{
     .specialty-description{
-        padding: 0 100px;
-        .specialty-description-title{
-            font-size: 25px;
-            font-weight: 600;
-            padding: 10px 0;
+        background-position: center center;
+        background-repeat: no-repeat !important;
+        background-size: cover;
+        background-color: #eee;
+        .specialty-description-img{
+            background-image: linear-gradient(rgba(255, 255, 255, 0.8),rgba(255, 255, 255, 0.9),rgba(255, 255, 255, 1));
+            padding: 0 200px;
+            .specialty-description-title{
+                font-size: 25px;
+                font-weight: 600;
+                padding: 10px 0;
+            }
         }
+        
     }
 
     .detail-specialty-body{
         background-color: #eee;
-        padding: 10px 100px;
-
-        .search-province{
-            select{
-                outline: none;
-                padding: 5px;
-            }
-        }
-
+        padding: 10px 200px;
+        
         .each-doctor{
             display: flex;
             width: 100%;

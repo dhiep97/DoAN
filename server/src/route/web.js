@@ -5,22 +5,13 @@ import doctorController from "../controllers/doctorController"
 import patientController from "../controllers/patientController"
 import specialtyController from "../controllers/specialtyController"
 import clinicController from "../controllers/clinicController"
+import handbookController from "../controllers/handbookController"
 
 let router = express.Router();
 let initRoutes = (app) => {
-    
-    router.get("/", homeController.getHomePage)
-    router.get('/crud', homeController.getCRUD);
-    router.post('/post-crud', homeController.postCRUD);
-
-    router.get('/get-crud', homeController.displayGetCRUD);
-    router.get('/edit-crud', homeController.getEditCRUD);
-    router.post('/put-crud', homeController.putCRUD);
-    router.get('/delete-crud', homeController.deleteCRUD);
 
     //đăng kí, đăng nhập
     router.post('/api/login', userController.handleLogin);
-    router.post('/api/register', userController.handleRegister);
 
     //crud user
     router.get('/api/get-all-users', userController.handleGetAllUser);
@@ -30,7 +21,7 @@ let initRoutes = (app) => {
 
     //key code
     router.get('/api/all-code', userController.getAllCode);
-
+    
     //doctor
     router.get('/api/top-doctor-home', doctorController.getTopDoctorHome);
     
@@ -55,6 +46,16 @@ let initRoutes = (app) => {
     //lay thong tin cho profile dat lich
     router.get('/api/get-profile-doctor-info-by-id', doctorController.getProfileDoctorInfoById);
 
+    //lay ngay dat lich cua benh nhan
+    router.get('/api/get-list-patient-for-doctor', doctorController.getListPatientForDoctor);
+
+    //gui hoa don benh nhan
+    router.post('/api/send-prescription', doctorController.postSendPrescription);
+
+    //benh nhan huy lich kham, khong den kham
+    router.post('/api/cancel-schedule', doctorController.postCancelSchedule);
+
+
     //benh nhan dat lich hen
     router.post('/api/patient-booking-appointment', patientController.postPatientBookingAppointment);
 
@@ -67,19 +68,45 @@ let initRoutes = (app) => {
     //lấy thong tin chuyen khoa ra homepage
     router.get('/api/get-all-specialty', specialtyController.getAllSpecialty);
 
-     //lấy thong tin chi tiet chuyen khoa 
+    //lấy thong tin chi tiet chuyen khoa 
     router.get(`/api/get-detail-specialty-by-id`, specialtyController.getDetailSpecialtyById);
 
-     //tao phong kham
+    //xoa chuyen khoa
+    router.delete('/api/delete-specialty', specialtyController.deleteSpecialty);
+
+    //edit chuyen khoa
+    router.put('/api/edit-specialty', specialtyController.editSpecialty);
+
+    //tao phong kham
     router.post('/api/create-new-clinic', clinicController.createClinic);
 
     //lấy thong tin phong kham ra homepage
     router.get('/api/get-all-clinic', clinicController.getAllClinic);
 
-     //lấy thong tin chi tiet phong kham 
+    //lấy thong tin chi tiet phong kham 
     router.get(`/api/get-detail-clinic-by-id`, clinicController.getDetailClinicById);
 
+    //xoa phong kham
+    router.delete('/api/delete-clinic', clinicController.deleteClinic);
+
+    //edit phong khám
+    router.put('/api/edit-clinic', clinicController.editClinic);
+
+    //tao cam nang
+    router.post('/api/create-new-handbook', handbookController.createHandbook);
+
+    //lấy thong tin cam nang ra homepage
+    router.get('/api/get-all-handbook', handbookController.getAllHandbook);
     
+    //lấy thong tin chi tiet cam nang theo id 
+    router.get(`/api/get-detail-handbook-by-id`, handbookController.getDetailHandbookById);
+
+    //xoa bai viet
+    router.delete('/api/delete-handbook', handbookController.deleteHandbook);
+    
+    //edit bài viet
+    router.put('/api/edit-handbook', handbookController.editHandbook);
+
     return app.use("/", router);
 }
 

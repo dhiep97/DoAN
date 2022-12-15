@@ -1,0 +1,52 @@
+.add-user-container{
+
+    .add-user-title{
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 30px;
+        margin: 30px;
+        color: blue;
+    }
+
+    .add-user-content{
+        display: flex;
+        
+        .add-user-left{
+            width: 25%;
+            text-align: center;
+            margin-top: 30px;
+            img{
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                object-fit: cover;
+                background: center center no-repeat;
+                background-size: contain;
+                cursor: pointer;
+            }
+        }
+
+        .add-user-right{
+            width: 75%;
+            padding-right: 20px;
+
+            .preview-image{
+                .label-upload{
+                    padding: 5px;
+                    border-radius: 3px;
+                    background: #eee;
+                    cursor: pointer;
+                    &:hover{
+                        opacity: 0.8;
+                    }
+                    .icon{
+                        margin-left: 4px;
+                        font-size: 18px;
+                        color: green;
+                    }
+                }
+            }
+        }
+    }
+}

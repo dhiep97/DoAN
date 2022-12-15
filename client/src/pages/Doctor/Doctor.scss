@@ -1,0 +1,11 @@
+.doctor-container{
+    display: flex;
+
+    .doctor-sidebar{
+        width: 15%;
+    }
+
+    .doctor-router{
+        width: 85%;
+    }
+}

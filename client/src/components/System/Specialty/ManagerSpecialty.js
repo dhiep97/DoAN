@@ -1,32 +1,82 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './ManagerSpecialty.scss';
-import MarkdownIt from 'markdown-it';
-import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import { createNewSpecialty } from '../../../services/userService';
+import { createNewSpecialty, getAllSpecialty, deleteSpecialty, editSpecialty } from '../../../services/userService';
 import { toast } from "react-toastify";
+import ReactTable from "react-table-6";  
+import "react-table-6/react-table.css" ;
+import { UilPlus } from '@iconscout/react-unicons'
+import AddSpecialtyModal from './AddSpecialtyModal';
+import EditSpecialtyModal from './EditSpecialtyModal';
+import { emitter } from '../../../utils/emitter';
+import DeleteSpecialtyModal from './DeleteSpecialtyModal';
 
-const mdParser = new MarkdownIt(/* Markdown-it options */);
 class ManagerSpecialty extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            imageBase64: '',
-            descriptionHTML: '',
-            descriptionMarkdown: '',
+            dataSpecialty: [],
+            isShowAddModal: false,
+            isShowEditModal: false,
+            isShowDeleteModal: false,
+            specialtyEditor: [],
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        await this.getAllSpecialtyReact();
+    }
+
+    getAllSpecialtyReact = async () => {
+        let res = await getAllSpecialty()
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataSpecialty: res.data
+            })
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    handleAddNewSpecialty = () => {
+        this.setState({
+            isShowAddModal: true
+        })
+    }
 
+    handleEdit = async (item) => {
+        this.setState({
+            isShowEditModal: true,
+            specialtyEditor: item
+        })
+    }
+
+    handleDelete = async (item) => {
+        this.setState({
+            isShowDeleteModal: true,
+            specialtyEditor: item
+        })
+    }
+
+    closeAddNewSpecialty = () => {
+        this.setState({
+            isShowAddModal: false
+        })
+    }
+
+    closeEditModal = () => {
+        this.setState({
+            isShowEditModal: false,
+        })
+    }
+
+    closeDeleteModal = () => {
+        this.setState({
+            isShowDeleteModal: false,
+        })
     }
 
     handleOnchangeInput = (event, id) => {
@@ -37,72 +87,117 @@ class ManagerSpecialty extends Component {
         })
     }
 
-    handleEditorChange = ({html, text}) => {
-        this.setState({
-            descriptionHTML: html,
-            descriptionMarkdown: text
-        })
-    }
-
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file);
-            this.setState({
-                imageBase64: base64
-            })
+    createNewSpecialty = async (data) => {
+        try {
+            let res = await createNewSpecialty(data);
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowAddModal: false
+                })
+                await this.getAllSpecialtyReact();
+                toast.success('Tạo thông tin chuyên khoa thành công')
+                emitter.emit('EVENT_CLEAR_MODAL_DATA')
+            } else {
+                toast.error('Lỗi tạo thông tin chuyên khoa')
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
-    handleSaveNewSpecialty = async () => {
-        let res = await createNewSpecialty(this.state);
-        if (res && res.errCode === 0) {
-            toast.success('Tạo thông tin chuyên khoa thành công')
-            this.state({
-                name: '',
-                imageBase64: '',
-                descriptionMarkdown: '',
-                descriptionHTML:''
-            })
-        } else {
-            toast.error('Lỗi tạo thông tin chuyên khoa')
+    handleEditSpecialty = async (data) => {
+        try {
+            let res = await editSpecialty(data)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowEditModal: false
+                })
+                await this.getAllSpecialtyReact()
+                toast.success('Sửa thông tin chuyên khoa thành công')
+            } else {
+                toast.error('Lỗi sửa thông tin chuyên khoa')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    handleDeleteSpecialty = async (data) => {
+        try {
+            let res = await deleteSpecialty(data)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowDeleteModal: false
+                })
+                toast.success('Xóa chuyên khoa thành công')
+                await this.getAllSpecialtyReact()
+            } else {
+                toast.error('Lỗi không thể xóa chuyên khoa')
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 
     render() {
-        
-
+        let { dataSpecialty, isShowAddModal, isShowEditModal, isShowDeleteModal } = this.state;
+        const columns = [
+            { Header: 'Tên chuyên khoa', accessor: 'name', minWidth: 200 },
+            { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 600 },
+            {
+                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Cell: (item) => {
+                    return(
+                    <div className="action">
+                        <button className="btn-edit-specialty"
+                            onClick={()=> this.handleEdit(item)}
+                        >Sửa chuyên khoa</button>
+                        <button className="btn-delete-specialty"
+                            onClick={()=> this.handleDelete(item)}
+                        >Xóa chuyên khoa</button>
+                    </div>
+                )}
+            },
+        ]
         return (
             <div className="manage-specialty-container">
                 <div className="manage-specialty-title">Quản lý chuyên khoa</div>
                 <div className="add-new-specialty row">
-                    <div className="col-6 form-group">
-                        <label>Tên chuyên khoa</label>
-                        <input className="form-control" type="text"
-                            value={this.state.name}
-                            onChange={(event) => this.handleOnchangeInput(event, 'name')}
+                    <AddSpecialtyModal 
+                        isOpenModal={isShowAddModal}
+                        closeAdd={this.closeAddNewSpecialty}
+                        createNewSpecialty={this.createNewSpecialty}
+                    />
+                    {
+                        this.state.isShowEditModal &&
+                        <EditSpecialtyModal
+                            isOpenEdit={isShowEditModal}
+                            closeEditModal={this.closeEditModal}
+                            currentSpecialty={this.state.specialtyEditor}
+                            editSpecialty={this.handleEditSpecialty}
                         />
-                    </div>
-                    <div className="col-6 form-group">
-                        <label>Ảnh chuyên khoa</label>
-                        <input className="form-control-file" type="file" 
-                            onChange={(event) => this.handleOnChangeImage(event)}
-                        />
-                    </div>
+                    }
+                    <DeleteSpecialtyModal
+                        isOpenDelete={isShowDeleteModal}
+                        closeDeleteModal={this.closeDeleteModal}
+                        currentSpecialty={this.state.specialtyEditor}
+                        deleteSpecialty={this.handleDeleteSpecialty}
+                    />
                     <div className="col-12">
-                        <label>Thông tin chi tiết</label>
-                        <MdEditor
-                            style={{ height: '300px' }}
-                            renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange}
-                            value={this.state.descriptionMarkdown}
+                        <div className="specialty-title">
+                            <span>Danh sách chuyên khoa</span>
+                            <button className="btn-add" 
+                                onClick={() => this.handleAddNewSpecialty()}
+                            >
+                                <UilPlus/>
+                                Thêm chuyên khoa
+                            </button>
+                        </div>
+                        <ReactTable
+                            data={dataSpecialty}
+                            columns={columns}
+                            defaultPageSize={10}
                         />
-                    </div>
-                    <div className="col-12">
-                        <button className="btn-save-specialty"
-                            onClick={() => this.handleSaveNewSpecialty()}
-                        >Lưu thông tin</button>
                     </div>
                 </div>
             </div>

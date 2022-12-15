@@ -184,7 +184,7 @@ class ManagerUser extends Component {
     handleEditUserFromParent = (user) => {
         let imageBase64 = '';
         if (user.image) {
-            imageBase64 = new Buffer(user.image, 'base64').toString('binary');
+            imageBase64 = new Buffer.from(user.image, 'base64').toString('binary');
         }
         this.setState({
             email: user.email,
@@ -201,6 +201,7 @@ class ManagerUser extends Component {
             action: CRUD_ACTIONS.EDIT,
             userEditId: user.id
         })
+        console.log(this.state.previewImgURL)
     }
 
     render() {
@@ -209,149 +210,145 @@ class ManagerUser extends Component {
         let positions = this.state.positionArr;
         let {email, password, firstName, lastName, phoneNumber, address, gender, position, role, avatar} = this.state;
         return (
-            <>
-                <div className="user-body">
-                    <div className="user-title">
-                        Thêm người dùng mới
-                    </div>
-                    <div className="container">
-                        <div className="row">
-                            
-                            <div className="col-3">
-                                <label>Email</label>
-                                <input type="email" className="form-control"
-                                    value={email}
-                                    onChange={(event) => { this.onChangeInput(event, 'email') }}
-                                    disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
-                                />
-                            </div>
+            <div className="user-body">
+                <div className="user-title">
+                    Thêm người dùng mới
+                </div>
+                <div className="user-container">
+                    <div className="row">
+                        
+                        <div className="col-3">
+                            <label>Email</label>
+                            <input type="email" className="form-control"
+                                value={email}
+                                onChange={(event) => { this.onChangeInput(event, 'email') }}
+                                disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
+                            />
+                        </div>
 
-                            <div className="col-3">
-                                <label>Mật khẩu</label>
-                                <input type="password" className="form-control"
-                                    value={password}
-                                    onChange={(event) => { this.onChangeInput(event, 'password') }}
-                                    disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
-                                />
-                            </div>
-                            <div className="col-3">
-                                <label>Tên</label>
-                                <input type="text" className="form-control"
-                                    value={firstName}
-                                    onChange={(event) => { this.onChangeInput(event, 'firstName') }}
-                                />
-                            </div>
+                        <div className="col-3">
+                            <label>Mật khẩu</label>
+                            <input type="password" className="form-control"
+                                value={password}
+                                onChange={(event) => { this.onChangeInput(event, 'password') }}
+                                disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
+                            />
+                        </div>
+                        <div className="col-3">
+                            <label>Tên</label>
+                            <input type="text" className="form-control"
+                                value={firstName}
+                                onChange={(event) => { this.onChangeInput(event, 'firstName') }}
+                            />
+                        </div>
 
-                            <div className="col-3">
-                                <label>Họ</label>
-                                <input type="text" className="form-control"
-                                    value={lastName}
-                                    onChange={(event) => { this.onChangeInput(event, 'lastName') }}
+                        <div className="col-3">
+                            <label>Họ</label>
+                            <input type="text" className="form-control"
+                                value={lastName}
+                                onChange={(event) => { this.onChangeInput(event, 'lastName') }}
+                            />
+                        </div>
+
+                        <div className="col-3">
+                            <label>Số điện thoại</label>
+                            <input type="text" className="form-control"
+                                value={phoneNumber}
+                                onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
+                            />
+                        </div>
+                        <div className="col-9">
+                            <label>Địa chỉ</label>
+                            <input type="text" className="form-control"
+                                value={address}
+                                onChange={(event) => { this.onChangeInput(event, 'address') }}
+                            />
+                        </div>
+
+                        <div className="col-3">
+                            <label>Giới tính</label>
+                            <select className="form-control"
+                                onChange={(event) => { this.onChangeInput(event, 'gender') }}
+                                value={gender}
+                            >
+                                {genders && genders.length > 0 &&
+                                    genders.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+
+                        <div className="col-3">
+                            <label>Vai trò</label>
+                            <select className="form-control"
+                                onChange={(event) => { this.onChangeInput(event, 'role') }}
+                                value={role}
+                            >
+                                {roles && roles.length > 0 &&
+                                    roles.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+
+                        <div className="col-3">
+                            <label>Chức danh</label>
+                            <select className="form-control"
+                                onChange={(event) => { this.onChangeInput(event, 'position') }}
+                                value={position}
+                            >
+                                {positions && positions.length > 0 &&
+                                    positions.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+
+                        <div className="col-3">
+                            <label>Ảnh đại diện</label>
+                            <div className="preview-image-container">
+                                <input id="previewImg" type="file" hidden
+                                    onChange={(event) => this.handleOnChangeImage(event)}
                                 />
+                                <label className="label-upload" htmlFor="previewImg">
+                                    Tải ảnh
+                                    <i className="fas fa-upload"></i>
+                                </label>
+                                <div className="preview-image"
+                                    style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
+                                    onClick = {()=>this.openPreviewImage()}
+                                ></div>
                             </div>
-
-                            <div className="col-3">
-                                <label>Số điện thoại</label>
-                                <input type="text" className="form-control"
-                                    value={phoneNumber}
-                                    onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
-                                />
-                            </div>
-                            <div className="col-9">
-                                <label>Địa chỉ</label>
-                                <input type="text" className="form-control"
-                                    value={address}
-                                    onChange={(event) => { this.onChangeInput(event, 'address') }}
-                                />
-                            </div>
-
-                            <div className="col-3">
-                                <label>Giới tính</label>
-                                <select className="form-control"
-                                    onChange={(event) => { this.onChangeInput(event, 'gender') }}
-                                    value={gender}
-                                >
-                                    {genders && genders.length > 0 &&
-                                        genders.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-
-                            <div className="col-3">
-                                <label>Vai trò</label>
-                                <select className="form-control"
-                                    onChange={(event) => { this.onChangeInput(event, 'role') }}
-                                    value={role}
-                                >
-                                    {roles && roles.length > 0 &&
-                                        roles.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-
-                            <div className="col-3">
-                                <label>Chức danh</label>
-                                <select className="form-control"
-                                    onChange={(event) => { this.onChangeInput(event, 'position') }}
-                                    value={position}
-                                >
-                                    {positions && positions.length > 0 &&
-                                        positions.map((item, index) => {
-                                            return (
-                                                <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                        )
-                                    })}
-                                </select>
-                            </div>
-
-                            <div className="col-3">
-                                <label>Ảnh đại diện</label>
-                                <div className="preview-image-container">
-                                    <input id="previewImg" type="file" hidden
-                                        onChange={(event) => this.handleOnChangeImage(event)}
-                                    />
-                                    <label className="label-upload" htmlFor="previewImg">
-                                        Tải ảnh
-                                        <i className="fas fa-upload"></i>
-                                    </label>
-                                    <div className="preview-image"
-                                        style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
-                                        onClick = {()=>this.openPreviewImage()}
-                                    ></div>
-                                </div>
-                            </div>
-                            <div className="col-12 my-3">
-                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? "btn btn-warning" : "btn btn-primary"}
-                                    onClick={() => this.handleSaveUser()}
-                                >
-                                    {this.state.action === CRUD_ACTIONS.EDIT ? 'Cập nhật' : 'Lưu thông tin'}
-                                </button>
-                            </div>
-                            
-                            <div className="col-12 mb-5">
-                                <TableManage 
-                                    handleEditUserFromParentKey={this.handleEditUserFromParent}
-                                    action={this.state.action}
-                                />
-                            </div>
+                        </div>
+                        <div className="col-12 my-3">
+                            <button className={this.state.action === CRUD_ACTIONS.EDIT ? "btn btn-warning" : "btn btn-primary"}
+                                onClick={() => this.handleSaveUser()}
+                            >
+                                {this.state.action === CRUD_ACTIONS.EDIT ? 'Cập nhật' : 'Lưu thông tin'}
+                            </button>
+                        </div>
+                        
+                        <div className="col-12 mb-5">
+                            <TableManage 
+                                handleEditUserFromParentKey={this.handleEditUserFromParent}
+                                action={this.state.action}
+                            />
                         </div>
                     </div>
                 </div>
-                
                 {this.state.isOpen === true &&
                     <Lightbox
                         mainSrc={this.state.previewImgURL}
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 }
-                
-            </>
+            </div>
         );
     }
 

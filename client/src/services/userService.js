@@ -72,7 +72,15 @@ const getAllSpecialty = () => {
 }
 
 const getDetailSpecialtyById = (data) => {
-    return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}&location=${data.location}`);
+    return axios.get(`/api/get-detail-specialty-by-id?id=${data.id}`);
+}
+
+const deleteSpecialty = (id) => {
+    return axios.delete(`/api/delete-specialty`, { data: { id: id }});
+}
+
+const editSpecialty = (data) => {
+    return axios.put('/api/edit-specialty', data);
 }
 
 const createNewClinic = (data) => {
@@ -85,6 +93,46 @@ const getAllClinic = () => {
 
 const getDetailClinicById = (data) => {
     return axios.get(`/api/get-detail-clinic-by-id?id=${data.id}`);
+}
+
+const deleteClinic = (id) => {
+    return axios.delete(`/api/delete-clinic`, { data: { id: id }});
+}
+
+const editClinic = (data) => {
+    return axios.put('/api/edit-clinic', data);
+}
+
+const getAllPatientForDoctor = (data) => {
+    return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
+}
+
+const createNewHandbook = (data) => {
+    return axios.post('/api/create-new-handbook', data)
+}
+
+const getAllHandbook = () => {
+    return axios.get(`/api/get-all-handbook`);
+}
+
+const getDetailHandbookById = (data) => {
+    return axios.get(`/api/get-detail-handbook-by-id?id=${data.id}`);
+}
+
+const deleteHandbook = (id) => {
+    return axios.delete(`/api/delete-handbook`, { data: { id: id }});
+}
+
+const editHandbook = (data) => {
+    return axios.put('/api/edit-handbook', data);
+}
+
+const postSendPrescription = (data) => {
+    return axios.post(`/api/send-prescription`, data);
+}
+
+const postCancelSchedule = (data) => {
+    return axios.post(`/api/cancel-schedule`, data);
 }
 
 export {
@@ -108,5 +156,17 @@ export {
     getDetailSpecialtyById,
     createNewClinic,
     getAllClinic,
-    getDetailClinicById
+    getDetailClinicById,
+    getAllPatientForDoctor,
+    createNewHandbook,
+    getAllHandbook,
+    getDetailHandbookById,
+    postSendPrescription,
+    postCancelSchedule,
+    deleteHandbook,
+    deleteClinic,
+    deleteSpecialty,
+    editHandbook,
+    editSpecialty,
+    editClinic,
 }

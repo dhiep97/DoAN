@@ -1,7 +1,7 @@
 .detail-clinic-container{
 
     .clinic-description-header{
-        padding: 0 100px;
+        padding: 0 200px;
         .clinic-image{
             height: 300px;
             margin-left: auto;
@@ -26,21 +26,21 @@
             }
         }
         .detail-clinic-note{
-            background-color: #5bb3f6;
+            background-color: #92ccf8;
             padding: 5px 10px;
             margin-bottom: 15px;
-            border-radius: 5px; 
+            border-radius: 10px; 
         }
     
         .detail-clinic-note1{
-            background-color: #71f582;
+            background-color: #88f797;
             padding: 5px 10px;
-            border-radius: 5px; 
+            border-radius: 10px; 
         }
     }
     
     .clinic-description{
-        padding: 10px 100px;
+        padding: 10px 200px;
         background-color: #eee;
         h3{
             font-size: 22px;
@@ -54,7 +54,7 @@
     }
 
     .detail-clinic-body{
-        padding: 10px 100px;
+        padding: 10px 200px;
 
         .each-doctor{
             display: flex;

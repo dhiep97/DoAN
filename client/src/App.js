@@ -14,6 +14,15 @@ import Doctor from './pages/Doctor/Doctor';
 import DetailSpecialty from './components/DetailSpecialty/DetailSpecialty';
 import DetailClinic from './components/DetailClinic/DetailClinic';
 import VerifyEmail from './components/DetailDoctor/VerifyEmail/VerifyEmail';
+import DetailHandbook from './components/DetailHandbook/DetailHandbook';
+import MoreSpecialty from './components/HomePage/Search/MoreSpecialty';
+import MoreClinic from './components/HomePage/Search/MoreClinic';
+import MoreDoctor from './components/HomePage/Search/MoreDoctor';
+import MoreHandbook from './components/HomePage/Search/MoreHandbook';
+import PrivacyPolicy from './components/HomePage/Support/PrivacyPolicy';
+import TermsOfUse from './components/HomePage/Support/TermsOfUse';
+import Support from './components/HomePage/Support/Support';
+
 class App extends Component {
     handlePersistorState = () => {
         const { persistor } = this.props;
@@ -35,35 +44,38 @@ class App extends Component {
 
     render() {
         return (
-            <Router history={history}>
-                <div className="main-container">
-                    <div className="content-container">
-                        <Switch>
-                            <Route path='/' exact component={(Home)} />
-                            <Route path='/home' exact component={(HomePage)} />
-                            <Route path='/login' component={userIsNotAuthenticated(Auth)} />
-                            <Route path='/system' component={userIsAuthenticated(System)} />
-                            <Route path='/doctor' component={userIsAuthenticated(Doctor)} />
-                            <Route path='/detail-doctor/:id' component={(DetailDoctor)} />
-                            <Route path='/detail-specialty/:id' component={(DetailSpecialty)} />
-                            <Route path='/detail-medical-facility/:id' component={(DetailClinic)} />
-                            <Route path='/verify-booking' component={(VerifyEmail)} />
-                        </Switch>
-                    </div>
-                    <ToastContainer
-                        position="bottom-center"
-                        autoClose={2000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme='dark'
-                    />
-                </div>
-
+            <Router history={history}>                  
+                <Switch>
+                    <Route path='/' exact component={(Home)} />
+                    <Route path='/home' exact component={(HomePage)} />
+                    <Route path='/login' component={userIsNotAuthenticated(Auth)} />
+                    <Route path='/system' component={userIsAuthenticated(System)} />
+                    <Route path='/doctor' component={userIsAuthenticated(Doctor)} />
+                    <Route path='/detail-doctor/:id' component={(DetailDoctor)} />
+                    <Route path='/detail-specialty/:id' component={(DetailSpecialty)} />
+                    <Route path='/detail-medical-facility/:id' component={(DetailClinic)} />
+                    <Route path='/detail-handbook/:id' component={(DetailHandbook)} />
+                    <Route path='/verify-booking' component={(VerifyEmail)} />
+                    <Route path='/more-specialty' component={(MoreSpecialty)} />
+                    <Route path='/more-doctor' component={(MoreDoctor)} />
+                    <Route path='/more-clinic' component={(MoreClinic)} />
+                    <Route path='/more-handbook' component={(MoreHandbook)} />
+                    <Route path='/privacy-policy' component={(PrivacyPolicy)} />
+                    <Route path='/terms-of-use' component={(TermsOfUse)} />
+                    <Route path='/support' component={(Support)} />
+                </Switch>
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme='dark'
+                />
             </Router>
         )
     }

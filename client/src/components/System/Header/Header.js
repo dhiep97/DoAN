@@ -2,7 +2,8 @@ import { Component } from 'react';
 import './Header.scss';
 import { connect } from 'react-redux';
 import * as actions from "../../../store/actions";
-import { NavLink } from 'react-router-dom';
+import { UilSearch } from '@iconscout/react-unicons';
+
 class Header extends Component {
 
     constructor(props) {
@@ -20,35 +21,19 @@ class Header extends Component {
         return (
             
             <div className="header-container">
-                {/* navigation */}
-                
-                <div className="navigation">
-                    <NavLink activeClassName="active" to="/home" exact >
-                        <i className="fas fa-home"></i>
-                    </NavLink>
-                    <NavLink activeClassName="active" to="/system/dashboard" exact>Quản trị</NavLink>
-                    <NavLink activeClassName="active" to="/system/user-manage">Quản lý người dùng</NavLink>
-                    <NavLink activeClassName="active" to="/system/doctor-manage">Quản lý bác sĩ</NavLink>
-                    <NavLink activeClassName="active" to="/doctor/schedule-manage">Kế hoạch khám bệnh</NavLink>
-                    <NavLink activeClassName="active" to="/system/specialty-manage">Chuyên khoa</NavLink>
-                    <NavLink activeClassName="active" to="/system/clinic-manage">Phòng khám</NavLink>
-                    <NavLink activeClassName="active" to="/system/handbook-manage">Cẩm nang</NavLink>
+                <div className="header-search">
+                    <input type="text" placeholder="Search..." />
+                    <UilSearch />
                 </div>
-            
-                {/* language && logout */}
                 <div className="languages">
                     <span className="welcome">
-                        Xin chào,
-                        {userInfo && userInfo.firstName && userInfo.lastName ? userInfo.firstName + ' ' + userInfo.lastName :''} !
+                        Xin chào, {userInfo && userInfo.firstName && userInfo.lastName ? userInfo.lastName + ' ' + userInfo.firstName : ''} !
                     </span>
-                    {/* <span className="language-vi">VN</span>
-                    <span className="language-en">EN</span> */}
                     
                     <div className="btn-logout" onClick={processLogout} title="Log out">
                         <i className="fa fa-sign-out-alt"></i>
                     </div>
                 </div>
-                
             </div>
         )
     }
