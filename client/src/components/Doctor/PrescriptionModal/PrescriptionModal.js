@@ -11,14 +11,19 @@ class PrescriptionModal extends Component {
         super(props);
         this.state = {
             email: '',
-            imageBase64: '',
+            firstName: '',
+            lastName: '',
+            timeType: '',
         }
     }
 
     async componentDidMount() {
         if (this.props.dataModal) {
             this.setState({
-                email: this.props.dataModal.email
+                email: this.props.dataModal.email,
+                firstName: this.props.dataModal.firstName,
+                lastName: this.props.dataModal.lastName,
+                timeType: this.props.dataModal.timeType,
             })
         }
     }
@@ -26,26 +31,20 @@ class PrescriptionModal extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.dataModal !== this.props.dataModal) {
             this.setState({
-                email: this.props.dataModal.email
+                email: this.props.dataModal.email,
+                firstName: this.props.dataModal.firstName,
+                lastName: this.props.dataModal.lastName,
+                timeType: this.props.dataModal.timeType,
             })
         }
     }
 
-    handleOnChangeEmail = (event) => {
+    handleOnChangeInput = (event, id) => {
+        let stateCopy = { ...this.state };
+        stateCopy[id] = event.target.value;
         this.setState({
-            email: event.target.value
+            ...stateCopy
         })
-    }
-
-    handleOnChangeImage = async (event) => {
-        let data = event.target.files;
-        let file = data[0];
-        if (file) {
-            let base64 = await CommonUtils.getBase64(file);
-            this.setState({
-                imageBase64: base64
-            })
-        }
     }
 
     handleSendPrescription = () => {
@@ -60,7 +59,7 @@ class PrescriptionModal extends Component {
                 >
                     <div className="prescription-modal-content">
                         <div className="prescription-modal-header">
-                            <span className="left">Gửi hóa đơn khám bệnh</span>
+                            <span className="left">Xác nhận bệnh nhân đến khám bệnh</span>
                             <span
                                 className="right"
                                 onClick={closePrescriptionModal}
@@ -69,22 +68,32 @@ class PrescriptionModal extends Component {
                         <div className="row prescription-modal-body">
                             <div className="col-6 form-group">
                                 <label>Email bệnh nhân</label>
-                                <input className="form-control" type="email" value={this.state.email}
-                                    onChange={(event)=>this.handleOnChangeEmail(event)}
+                                <input className="form-control" type="email" value={this.state.email || ''}
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'email')}
                                 />
                             </div>
                             <div className="col-6 form-group">
-                                <label>Chọn file đơn thuốc</label>
-                                <input className="form-control-file" type="file"
-                                    onChange={(event) => this.handleOnChangeImage(event)}
+                                <label>Tên bệnh nhân</label>
+                                <input className="form-control" type="email" value={this.state.firstName || ''}
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'firstName')}
                                 />
+                            </div>
+                            <div className="col-6 form-group">
+                                <label>Họ bệnh nhân</label>
+                                <input className="form-control" type="email" value={this.state.lastName || ''}
+                                    onChange={(event)=>this.handleOnChangeInput(event, 'lastName')}
+                                />
+                            </div>
+                            <div className="col-6 form-group">
+                                <label>Thời gian đến khám</label>
+                                <p>{this.state.timeType}</p>
                             </div>
                         </div>
                         <div className="prescription-modal-footer">
                             <button
                                 className="btn-prescription-confirm"
                                 onClick={()=>this.handleSendPrescription()}
-                            >Gửi hóa đơn</button>
+                            >Đã khám xong</button>
                             <button
                                 className="btn-prescription-cancel" onClick={closePrescriptionModal}
                             >Hủy bỏ</button>

@@ -8,9 +8,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { saveBulkScheduleDoctor, getScheduleDoctorByDate } from '../../../services/userService';
+import { saveBulkScheduleDoctor, getScheduleDoctorByDate, deleteSchedule } from '../../../services/userService';
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css" ;
+import DeleteScheduleModal from './DeleteScheduleModal';
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -21,6 +22,8 @@ class ManageSchedule extends Component {
             currentDate: new Date(),
             rangeTime: [],
             dataScheduleDoctor: [],
+            scheduleEdit: [],
+            isShowDeleteModal: false,
         }
     }
 
@@ -55,21 +58,6 @@ class ManageSchedule extends Component {
             })
         }
     }
-
-    // listScheduleDoctor = async () => {
-    //     let { selectedDoctor, currentDate } = this.state;
-    //     console.log(selectedDoctor)
-    //     let formattedDate = moment(new Date(currentDate)).format('YYYY-MM-DD');
-    //     let res = await getScheduleDoctorByDate({
-    //         doctorId: selectedDoctor,
-    //         date: formattedDate
-    //     });
-    //     if (res && res.errCode === 0) {
-    //         this.setState({
-    //             dataScheduleDoctor: res.data
-    //         })
-    //     }
-    // }
 
     buildDataInputSelect = (inputData) => {
         let result = []; 
@@ -124,7 +112,6 @@ class ManageSchedule extends Component {
             let selectedTime = rangeTime.filter(item => item.isSelected === true);
             if (selectedTime && selectedTime.length > 0) {
                 selectedTime.map((schedule) => {
-                    console.log(schedule)
                     let object = {};
                     object.doctorId = selectedDoctor.value;
                     object.date = formattedDate;
@@ -138,50 +125,112 @@ class ManageSchedule extends Component {
             }
         }
         let res = await saveBulkScheduleDoctor({
-        // await this.props.saveScheduleDoctor({
             arrSchedule: result,
             doctorId: selectedDoctor.value,
             formattedDate: formattedDate
         })
         if (res && res.errCode === 0) {
             toast.success("Lưu lịch khám bệnh thành công");
+            await this.getScheduleDoctorByDate()
         } else {
             toast.error("Lỗi lưu lịch khám bệnh")
         }
     }
 
+    getScheduleDoctorByDate = async () => {
+        let { selectedDoctor, currentDate } = this.state;
+        if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+            toast.error("Vui lòng chọn bác sĩ")
+            return;
+        }
+        let formattedDate = moment(new Date(currentDate)).format('YYYY-MM-DD');
+        let doctorId = selectedDoctor.value;
+        let date = formattedDate;
+        let res = await getScheduleDoctorByDate(doctorId, date);
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataScheduleDoctor: res.data
+            })
+        }
+    }
+
+    handleSearchSchedule = async () => {
+        this.getScheduleDoctorByDate()
+    }
+
+    handleDelete = async (item) => {
+        this.setState({
+            isShowDeleteModal: true,
+            scheduleEdit: item
+        })
+    }
+    
+    closeDeleteModal = () => {
+        this.setState({
+            isShowDeleteModal: false,
+        })
+    }
+
+    handleDeleteSchedule = async (data) => {
+        try {
+            let res = await deleteSchedule(data)
+            if (res && res.errCode === 0) {
+                this.setState({
+                    isShowDeleteModal: false
+                })
+                toast.success('Xóa lịch khám thành công')
+                await this.getScheduleDoctorByDate()
+            } else {
+                toast.error('Lỗi không thể xóa lịch khám này')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     render() {
-        let { rangeTime, dataScheduleDoctor } = this.state;
-        // console.log(dataScheduleDoctor);
-        // const columns = [
-        //     { Header: 'Thời gian', accessor: 'timeType', minWidth: 120 },
-        //     { Header: 'Email', accessor: 'patientData.email', minWidth: 220 },
-        //     { Header: 'Họ', accessor: 'patientData.lastName', minWidth: 120 },
-        //     { Header: 'Tên', accessor: 'patientData.firstName', minWidth: 70 },
-        //     { Header: 'Điạ chỉ', accessor: 'patientData.address', minWidth: 100 },
-        //     { Header: 'Số điện thoại', accessor: 'patientData.phoneNumber', minWidth: 100 },
-        //     { Header: 'Lý do khám bệnh', accessor: 'reason', minWidth: 200 },
-        //     {
-        //         Header: 'Thao tác', accessor: 'action', minWidth: 250,
-        //         Cell: (item) => {
-        //             return(
-        //             <div className="action">
-        //                 <button className="btn-confirm"
-        //                     onClick={()=> this.handleConfirm1(item)}
-        //                 >Đã khám xong</button>
-        //                 <button className="btn-cancel"
-        //                     onClick={()=> this.handleCancel1(item)}
-        //                 >Hủy lịch khám</button>
-        //             </div>
-        //         )}
-        //     },
-        // ]
+        let { rangeTime, dataScheduleDoctor, isShowDeleteModal } = this.state;
+        let columns = [
+            {
+                Header: 'STT', accessor: 'STT', minWidth: 20,
+                Cell: (item) => {
+                    return (
+                        <span>{item.index + 1}</span>
+                    )
+                }
+            },
+            { Header: 'Thời gian khám', accessor: 'timeTypeData.valueVi', minWidth: 100 },
+            {
+                Header: 'Họ và tên', accessor: 'fullName', minWidth: 250,
+                Cell: (item) => {
+                    return(
+                    <span>{item.original.doctorData.lastName + ' ' + item.original.doctorData.firstName}</span>
+                )}
+            },
+            {
+                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Cell: (item) => {
+                    return(
+                    <div className="action">
+                        <button className="btn-delete-schedule"
+                            onClick={()=> this.handleDelete(item)}
+                        >Xóa</button>
+                    </div>
+                )}
+            },
+        ]
         return (
             <div className="manage-schedule-container">
                 <div className="manage-schedule-title">
                     Quản lý kế hoạch khám bệnh của bác sĩ
                 </div>
-                <div className="manage-schedule-container">
+                <DeleteScheduleModal
+                    isOpenDelete={isShowDeleteModal}
+                    closeDeleteModal={this.closeDeleteModal}
+                    currentDelete={this.state.scheduleEdit}
+                    deleteSchedule={this.handleDeleteSchedule}
+                />
+                <div className="manage-schedule-content">
                     <div className="row">
                         <div className="col-4 form-group">
                             <label>Chọn bác sĩ</label>
@@ -214,18 +263,21 @@ class ManageSchedule extends Component {
                                 })
                             }
                         </div>
-                        <div className='col-12'>
+                        <div className='col-12 manage-schedule-button'>
                             <button className="btn-save-schedule"
                                 onClick={() => this.handleSaveSchedule()}
                             >Lưu thông tin</button>
+                            <button className="btn-search-schedule"
+                                onClick={() => this.handleSearchSchedule()}
+                            >Xem lịch đã tạo</button>
                         </div>
-                        {/* <div className="col-12">
+                        <div className="col-12">
                             <ReactTable
-                                // data={}
+                                data={dataScheduleDoctor}
                                 columns={columns}
                                 defaultPageSize={5}
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

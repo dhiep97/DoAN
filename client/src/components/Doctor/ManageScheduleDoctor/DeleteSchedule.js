@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './ManagerClinic.scss';
+import './ManageScheduleDoctor.scss';
 import { Modal } from 'reactstrap';
 import { UilTimes } from '@iconscout/react-unicons';
 
-class DeleteClinicModal extends Component {
+class DeleteScheduleModal extends Component {
 
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ class DeleteClinicModal extends Component {
     }
 
     handleDelete = () => {
-        this.props.deleteClinic(this.props.currentClinic.original.id)
+        this.props.deleteSchedule(this.props.currentDelete.original.id)
     }
 
     render() {
@@ -40,7 +40,7 @@ class DeleteClinicModal extends Component {
                         ><UilTimes /></span>
                     </div>
                     <div className="delete-modal-body">
-                        <span>Bạn muốn xóa phòng khám này</span>
+                        <span>Bạn muốn khoảng thời gian này</span>
                     </div>
                     <div className="delete-modal-footer">
                             <button
@@ -71,4 +71,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteClinicModal);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteScheduleModal);

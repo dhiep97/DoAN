@@ -8,8 +8,8 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      currentNumber: {
-        type: Sequelize.INTEGER
+      booking: {
+        type: Sequelize.STRING
       },
       maxNumber: {
         type: Sequelize.INTEGER

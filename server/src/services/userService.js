@@ -231,24 +231,32 @@ let getAllCodeService = (typeInput) => {
     })
 }
 
-let countDoctor = (data) => {
+let countDoctor = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data) {
-                resolve({
-                    errCode: 1,
-                    errMessage: 'Missing required parameter!'
-                })
-            } else {
-                let count = await db.User.count({
-                    where: {roleId: 'R2'}
-                })
-                console.log(count)
-                resolve({
-                    errCode: 0,
-                    count: count,
-                });
-            }           
+            let count = await db.User.count({
+                where: {roleId: 'R2'}
+            })
+            resolve({
+                errCode: 0,
+                count: count,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let countPatient = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let count = await db.User.count({
+                where: {roleId: 'R3'}
+            })
+            resolve({
+                errCode: 0,
+                count: count,
+            });
         } catch (e) {
             reject(e);
         }
@@ -262,5 +270,6 @@ module.exports = {
     deleteUser: deleteUser,
     updateUserData: updateUserData,
     getAllCodeService: getAllCodeService,
-    countDoctor: countDoctor
+    countDoctor: countDoctor,
+    countPatient: countPatient,
 }

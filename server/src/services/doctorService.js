@@ -208,14 +208,14 @@ let bulkCreateSchedule = (data) => {
                 let schedule = data.arrSchedule;
                 if (schedule && schedule.length > 0) {
                     schedule = schedule.map(item => {
-                        item.maxNumber = MAX_NUMBER_SCHEDULE;
+                        item.booking = 'B1';
                         return item;
                     })
                 }
 
                 let existing = await db.Schedule.findAll(
                     {
-                        where: {doctorId: data.doctorId, date: data.formattedDate},
+                        where: {doctorId: data.doctorId, date: data.formattedDate, booking: 'B1'},
                         attributes: ['timeType', 'date', 'doctorId', 'maxNumber'],
                         raw: true
                     }, 
@@ -253,7 +253,8 @@ let getScheduleByDate = (doctorId, date) => {
                 let dataSchedule = await db.Schedule.findAll({
                     where: {
                         doctorId: doctorId, 
-                        date: date
+                        date: date,
+                        booking: 'B1'
                     },
                     include: [
                         {
@@ -369,6 +370,55 @@ let getProfileDoctorInfoById = (inputId) => {
     })
 }
 
+let getAllDoctorInfo = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let data = await db.User.findAll({
+                where: { roleId: 'R2' },
+                order: [['createdAt', 'DESC']],
+                attributes: {
+                    exclude: ['password', 'gender', 'email', 'positionId']
+                },
+                include: [
+                    {
+                        model: db.Markdown,
+                        attributes: {
+                            exclude: ['contentHTML', 'contentMarkdown']
+                        }
+                    },
+                    { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                    {
+                        model: db.Doctor_Info,
+                        attributes: {
+                            exclude: ['id', 'doctorId']
+                        },
+                        include: [
+                            { model: db.Allcode, as: 'priceData', attributes: ['valueEn', 'valueVi'] },
+                            { model: db.Allcode, as: 'paymentData', attributes: ['valueEn', 'valueVi'] },
+                            { model: db.Allcode, as: 'provinceData', attributes: ['valueEn', 'valueVi'] },
+                        ]
+                    },
+                ],
+                raw: false,
+                nest: true
+            });
+            if (data && data.length > 0) {
+                data.map(item => {
+                    item.image = new Buffer.from(item.image, 'base64').toString('binary');
+                })
+            }
+            if (!data) data = {};
+            resolve({
+                errCode: 0,
+                errMessage: 'Ok',
+                data
+            })
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 let getListPatientForDoctor = (doctorId, date) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -429,7 +479,13 @@ let postSendPrescription = (data) => {
                     appointment.statusId = 'S3';
                     await appointment.save()
                 }
-
+                await db.History.create({
+                    doctorId: data.doctorId,
+                    patientId: data.patientId,
+                    email: data.email,
+                    firstName: data.firstName,
+                    lastName: data.lastName
+                })
                 //send email
                 resolve({
                     errCode: 0,
@@ -465,11 +521,42 @@ let postCancelSchedule = (data) => {
                     appointment.statusId = 'S4';
                     await appointment.save()
                 }
-
                 //send email
                 resolve({
                     errCode: 0,
                     data: data
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let deleteSchedule = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameter'
+                })
+            } else {
+                let scheduleId = await db.Schedule.findOne({
+                    where: { id: inputId}
+                })
+                if(!scheduleId) {
+                    resolve({
+                        errCode: 2,
+                        errMessage: `Schedule isn't exist`
+                    })
+                }
+                await db.Schedule.destroy({
+                    where: { id: inputId}
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: `Schedule is delete`,
                 })
             }
         } catch (error) {
@@ -490,4 +577,6 @@ module.exports = {
     getListPatientForDoctor: getListPatientForDoctor,
     postSendPrescription: postSendPrescription,
     postCancelSchedule: postCancelSchedule,
+    deleteSchedule: deleteSchedule,
+    getAllDoctorInfo: getAllDoctorInfo
 }

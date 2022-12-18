@@ -135,20 +135,28 @@ class ManagerClinic extends Component {
     render() {
         let {dataClinic, isShowAddModal, isShowEditModal, isShowDeleteModal} = this.state;
         const columns = [
+            {
+                Header: 'STT', accessor: 'STT', minWidth: 50,
+                Cell: (item) => {
+                    return (
+                        <span>{item.index + 1}</span>
+                    )
+                }
+            },
             { Header: 'Tên phòng khám', accessor: 'name', minWidth: 180 },
             { Header: 'Đia chỉ', accessor: 'address', minWidth: 250 },
             { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 450 },
             {
-                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Header: 'Thao tác', accessor: 'action', minWidth: 100,
                 Cell: (item) => {
                     return(
                     <div className="action">
                         <button className="btn-edit-clinic"
                             onClick={()=> this.handleEdit(item)}
-                        >Sửa phòng khám</button>
+                        >Sửa</button>
                         <button className="btn-delete-clinic"
                             onClick={()=> this.handleDelete(item)}
-                        >Xóa phòng khám</button>
+                        >Xóa</button>
                     </div>
                 )}
             },

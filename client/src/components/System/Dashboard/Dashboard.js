@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import './Dashboard.scss';
+import { countDoctor, countPatient, countHandbook, countClinic } from '../../../services/userService';
 import { UilAccessibleIconAlt, UilNewspaper, UilHospital, UilUserMd } from '@iconscout/react-unicons';
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css" ;
@@ -11,11 +12,55 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             usersRedux: [],
+            countDoctor: '',
+            countPatient: '',
+            countHandbook: '',
+            countClinic: '',
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.fetchUserRedux();
+        this.countDoctor();
+        this.countPatient();
+        this.countClinic();
+        this.countHandbook();
+    }
+
+    countDoctor = async () => {
+        let res = await countDoctor()
+        if (res && res.errCode === 0) { 
+            this.setState({
+                countDoctor: res.count
+            })
+        }
+    }
+
+    countPatient = async () => {
+        let res = await countPatient()
+        if (res && res.errCode === 0) { 
+            this.setState({
+                countPatient: res.count
+            })
+        }
+    }
+
+    countClinic = async () => {
+        let res = await countClinic()
+        if (res && res.errCode === 0) { 
+            this.setState({
+                countClinic: res.count
+            })
+        }
+    }
+
+    countHandbook = async () => {
+        let res = await countHandbook()
+        if (res && res.errCode === 0) { 
+            this.setState({
+                countHandbook: res.count
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -29,9 +74,15 @@ class Dashboard extends Component {
 
     render() {  
         let arrUser = this.state.usersRedux;
+        let { countDoctor, countPatient, countHandbook, countClinic } = this.state;
         const columns = [
             {
-                Header: 'STT', accessor: 'STT', minWidth: 150,
+                Header: 'STT', accessor: 'STT', minWidth: 20,
+                Cell: (item) => {
+                    return (
+                        <span>{item.index + 1}</span>
+                    )
+                }
             },
             { Header: 'email', accessor: 'email', minWidth: 150 },
             { Header: 'Tên', accessor: 'firstName', minWidth: 100 },
@@ -39,33 +90,33 @@ class Dashboard extends Component {
             { Header: 'Địa chỉ', accessor: 'address', minWidth: 100 },
             { Header: 'Số điện thoại', accessor: 'phoneNumber', minWidth: 100 },
         ]
-        console.log(arrUser)
+        console.log(this.state)
         return (
             <div className="system-dashboard-container">
                 <div className="count">
                     <div className="count-group">
-                        <div className="badge">0</div>
+                        <div className="badge">{countDoctor}</div>
                         <div className="content">
                             <UilUserMd style={{color: "coral"}}/>
                             <span className="subtitle">Bác sĩ</span>
                         </div>
                     </div>
                     <div className="count-group">
-                        <div className="badge">0</div>
+                        <div className="badge">{countPatient}</div>
                         <div className="content">
                             <UilAccessibleIconAlt style={{color: "mediumaquamarine"}}/>
                             <span className="subtitle">Bệnh nhân</span>
                         </div>
                     </div>
                     <div className="count-group">
-                        <div className="badge">0</div>
+                        <div className="badge">{countClinic}</div>
                         <div className="content">
                             <UilHospital style={{color: "darkorchid"}}/>
                             <span className="subtitle">Cơ sở ý tế</span>
                         </div>
                     </div>
                     <div className="count-group">
-                        <div className="badge">0</div>
+                        <div className="badge">{countHandbook}</div>
                         <div className="content">
                             <UilNewspaper style={{color: "limegreen"}}/>
                             <span className="subtitle">Bài viết</span>

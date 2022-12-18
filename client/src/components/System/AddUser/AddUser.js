@@ -4,7 +4,6 @@ import './AddUser.scss';
 import { UilUploadAlt } from '@iconscout/react-unicons'
 import * as actions from "../../../store/actions"
 import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import { toast } from "react-toastify";
 
@@ -150,7 +149,7 @@ class AddUser extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address']
+        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'mobile', 'address']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;

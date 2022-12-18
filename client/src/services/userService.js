@@ -47,6 +47,10 @@ const getScheduleDoctorByDate = (doctorId, date) => {
     return axios.get(`/api/get-schedule-doctor-by-date?doctorId=${doctorId}&date=${date}`)
 }
 
+const deleteSchedule = (id) => {
+    return axios.delete(`/api/delete-schedule`, { data: { id: id }});
+}
+
 const getDoctorInfoById = (doctorId) => {
     return axios.get(`/api/get-doctor-info-by-id?doctorId=${doctorId}`)
 }
@@ -55,12 +59,24 @@ const getProfileDoctorInfoById = (doctorId) => {
     return axios.get(`/api/get-profile-doctor-info-by-id?doctorId=${doctorId}`)
 }
 
+const getAllDoctorInfo = () => {
+    return axios.get(`/api/get-all-doctor-info`)
+}
+
 const postPatientBookingAppointment = (data) => {
     return axios.post('/api/patient-booking-appointment', data)
 }
 
 const postVerifyBookingAppointment = (data) => {
     return axios.post('/api/verify-booking-appointment', data)
+}
+
+const countDoctor = () => {
+    return axios.get(`/api/countDoctor`);
+}
+
+const countPatient = () => {
+    return axios.get(`/api/countPatient`);
 }
 
 const createNewSpecialty = (data) => {
@@ -103,6 +119,10 @@ const editClinic = (data) => {
     return axios.put('/api/edit-clinic', data);
 }
 
+const countClinic = () => {
+    return axios.get(`/api/countClinic`);
+}
+
 const getAllPatientForDoctor = (data) => {
     return axios.get(`/api/get-list-patient-for-doctor?doctorId=${data.doctorId}&date=${data.date}`);
 }
@@ -125,6 +145,10 @@ const deleteHandbook = (id) => {
 
 const editHandbook = (data) => {
     return axios.put('/api/edit-handbook', data);
+}
+
+const countHandbook = () => {
+    return axios.get(`/api/countHandbook`);
 }
 
 const postSendPrescription = (data) => {
@@ -169,4 +193,10 @@ export {
     editHandbook,
     editSpecialty,
     editClinic,
+    countDoctor,
+    countPatient,
+    countHandbook,
+    countClinic,
+    deleteSchedule,
+    getAllDoctorInfo
 }

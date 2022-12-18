@@ -28,10 +28,10 @@ let createHandbook = (data) => {
     })
 }
 
-let getAllHandbook = async (req, res) => {
+let getAllHandbook = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await db.Handbook.findAll();
+            let data = await db.Handbook.findAll({order: [['createdAt', 'DESC']]});
             if (data && data.length > 0) {
                 data.map(item => {
                     item.image = new Buffer.from(item.image, 'base64').toString('binary');
@@ -144,10 +144,25 @@ let editHandbook = (data) => {
     })
 }
 
+let countHandbook = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let count = await db.Handbook.count()
+            resolve({
+                errCode: 0,
+                count: count,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     createHandbook: createHandbook,
     getAllHandbook: getAllHandbook,
     getDetailHandbookById: getDetailHandbookById,
     deleteHandbook: deleteHandbook,
-    editHandbook: editHandbook
+    editHandbook: editHandbook,
+    countHandbook: countHandbook
 }

@@ -11,8 +11,6 @@ import "react-table-6/react-table.css" ;
 import PrescriptionModal from '../PrescriptionModal/PrescriptionModal';
 import { toast } from 'react-toastify';
 import CancelSchedule from '../CancelSchedule/CancelSchedule';
-import { Modal } from 'reactstrap';
-import { UilTimes } from '@iconscout/react-unicons';
 
 class ManagePatient extends Component {
 
@@ -73,22 +71,11 @@ class ManagePatient extends Component {
 
     handleConfirm = (item) => {
         let data = {
-            doctorId: item.doctorId,
-            patientId: item.patientId,
-            email: item.patientData.email,
-            timeType: item.timeType
-        }
-        this.setState({
-            isOpenPrescriptionModal: true,
-            dataModal: data
-        })
-    }
-
-    handleConfirm1 = (item) => {
-        let data = {
             doctorId: item.original.doctorId,
             patientId: item.original.patientId,
             email: item.original.patientData.email,
+            firstName: item.original.patientData.firstName,
+            lastName: item.original.patientData.lastName,
             timeType: item.original.timeType
         }
         this.setState({
@@ -98,19 +85,6 @@ class ManagePatient extends Component {
     }
 
     handleCancel = async (item) => {
-        let data = {
-            doctorId: item.doctorId,
-            patientId: item.patientId,
-            email: item.patientData.email,
-            timeType: item.timeType
-        }
-        this.setState({
-            isOpenCancelModal: true,
-            dataModal: data
-        })
-    }
-
-    handleCancel1 = async (item) => {
         let data = {
             doctorId: item.original.doctorId,
             patientId: item.original.patientId,
@@ -143,17 +117,18 @@ class ManagePatient extends Component {
         let { dataModal } = this.state;
         let res = await postSendPrescription({
             email: dataChild.email,
-            imageBase64: dataChild.imageBase64,
+            firstName: dataChild.firstName,
+            lastName: dataChild.lastName,
             doctorId: dataModal.doctorId,
             patientId: dataModal.patientId,
             timeType: dataModal.timeType,
         });
         if (res && res.errCode === 0) {
-            toast.success('Gửi hóa đơn thành công')
+            toast.success('Bệnh nhân thành công')
             this.closePrescriptionModal()
             await this.getDataPatient();
         } else {
-            toast.error('Lỗi gửi hóa đơn')
+            toast.error('Lỗi xác nhận')
         }
     }
 
@@ -173,11 +148,11 @@ class ManagePatient extends Component {
                     return(
                     <div className="action">
                         <button className="btn-confirm"
-                            onClick={()=> this.handleConfirm1(item)}
-                        >Đã khám xong</button>
+                            onClick={()=> this.handleConfirm(item)}
+                        >Xác nhận</button>
                         <button className="btn-cancel"
-                            onClick={()=> this.handleCancel1(item)}
-                        >Hủy lịch khám</button>
+                            onClick={()=> this.handleCancel(item)}
+                        >Hủy lịch</button>
                     </div>
                 )}
             },
@@ -199,47 +174,6 @@ class ManagePatient extends Component {
                             />
                         </div>
                         <div className="col-12 table-manage-patient">
-                            {/* <table style={{width: '100%'}}>
-                                <tbody>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Thời gian</th>
-                                        <th>Email</th>
-                                        <th>Họ và tên</th>
-                                        <th>Địa chỉ</th>
-                                        <th>Số điện thoại</th>
-                                        <th>Lý do khám bệnh</th>
-                                        <th>Thao tác</th>
-                                    </tr> 
-                                        {dataPatient && dataPatient.length > 0 ?
-                                            dataPatient.map((item, index) => {
-                                            return(
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{item.timeType}</td>
-                                                    <td>{item.patientData.email}</td>
-                                                    <td>{item.patientData.lastName+' '+item.patientData.firstName}</td>
-                                                    <td>{item.patientData.address}</td>
-                                                    <td>{item.patientData.phoneNumber}</td>
-                                                    <td>{item.reason}</td>
-                                                    <td>
-                                                        <button className="btn-confirm"
-                                                            onClick={()=> this.handleConfirm(item)}
-                                                        >Đã khám xong</button>
-                                                        <button className="btn-cancel"
-                                                            onClick={()=> this.handleCancel(item)}
-                                                        >Hủy lịch khám</button>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                        :
-                                        <tr>
-                                            <td colSpan={8} style={{textAlign: 'center'}}>Không có bệnh nhân đặt lịch vào ngày hôm nay</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table> */}
                             <ReactTable
                                 data={dataPatient}
                                 columns={columns}

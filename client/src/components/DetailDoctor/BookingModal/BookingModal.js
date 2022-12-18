@@ -224,6 +224,7 @@ class BookingModal extends Component {
                                 <div className="col-6 form-group">
                                     <label>Số điện thoại</label>
                                     <input className="form-control"
+                                        type="number"
                                         value={this.state.phoneNumber}
                                         onChange={(e) =>this.handleOnChangeInput(e, 'phoneNumber')}
                                     />
@@ -232,6 +233,8 @@ class BookingModal extends Component {
                                     <label>Địa chỉ e-mail</label>
                                     <input className="form-control"
                                         value={this.state.email}
+                                        type="email"
+                                        pattern='/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i'
                                         onChange={(e) =>this.handleOnChangeInput(e, 'email')}
                                     />
                                 </div>

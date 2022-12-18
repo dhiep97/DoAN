@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './ManagerUser.scss';
+import './ManageUser.scss';
+import { UilUploadAlt, UilTimes } from '@iconscout/react-unicons'
+import { Modal } from 'reactstrap';
 import * as actions from "../../../store/actions"
-import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
-import TableManage from '../TableManageUser/TableManage';
+import { CommonUtils } from "../../../utils";
 import { toast } from "react-toastify";
 
-class ManagerUser extends Component {
+class EditUserModal extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,8 +16,6 @@ class ManagerUser extends Component {
             positionArr: [],
             roleArr: [],
             previewImgURL:'',
-            isOpen: false,
-
             email: '',
             password: '',
             firstName: '',
@@ -28,9 +26,7 @@ class ManagerUser extends Component {
             position: '',
             role: '',
             avatar: '',
-
-            actions: '',
-            userEditId: ''
+            userId:''
         }
     }
 
@@ -38,22 +34,29 @@ class ManagerUser extends Component {
         this.props.getGenderStart();
         this.props.getPositionStart();
         this.props.getRoleStart();
+        let user = this.props.currentUser.row;
+        let imageBase64 = '';
+        if (user.image) {
+            imageBase64 = new Buffer.from(user.image, 'base64').toString('binary');
+        }
+        this.setState({
+            userId: user.id,
+            email: user.email,
+            password: 'hardcode',
+            firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+            gender: user.gender,
+            position: user.positionId,
+            role: user.roleId,
+            avatar: imageBase64,
+            previewImgURL: imageBase64,
+        })
+        console.log(this.state)
     }
-    // async componentDidMount() {
-    //     try {
-    //         let res = await getAllCodeService('GENDER');
-    //         if (res && res.errCode === 0) {
-    //             this.setState({
-    //                 genderArr: res.data
-    //             })
-    //         }
-    //         console.log(res);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.genderRedux !== this.props.genderRedux) {
             let arrGenders = this.props.genderRedux;
             this.setState({
@@ -77,28 +80,6 @@ class ManagerUser extends Component {
                 position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
             })
         }
-
-        if (prevProps.listUsers !== this.props.listUsers) {
-            let arrGenders = this.props.genderRedux;
-            let arrPositions = this.props.positionRedux;
-            let arrRoles = this.props.roleRedux;
-
-            this.setState({
-                email: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                phoneNumber: '',
-                address: '',
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
-                avatar: '',
-                action: CRUD_ACTIONS.CREATE,
-                previewImgURL:''
-                
-            })
-        }
     }
 
     handleOnChangeImage = async (event) => {
@@ -114,55 +95,9 @@ class ManagerUser extends Component {
         }
     }
 
-    openPreviewImage = () => {
-        if (!this.state.previewImgURL) return;
-        this.setState({
-            isOpen: true
-        })
-    }
-
-    handleSaveUser = () => {
-        let isValid = this.checkValidateInput();
-        if (isValid === false) return;
-
-        //fire redux action
-        let action = this.state.action;
-        if (action === CRUD_ACTIONS.CREATE) {
-            //fire redux create
-            this.props.createNewUser({
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phoneNumber: this.state.phoneNumber,
-                gender: this.state.gender,
-                roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar
-            });
-        }
-        if (action === CRUD_ACTIONS.EDIT) {
-            //fire redux edit user
-            this.props.editUserRedux({
-                id: this.state.userEditId,
-                email: this.state.email,
-                password: this.state.password,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                address: this.state.address,
-                phoneNumber: this.state.phoneNumber,
-                gender: this.state.gender,
-                roleId: this.state.role,
-                positionId: this.state.position,
-                avatar: this.state.avatar
-            })
-        }
-    }
-
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address']
+        let arrCheck = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address', 'avatar']
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -179,62 +114,84 @@ class ManagerUser extends Component {
         this.setState({
             ...copyState
         })
-        event.preventDefault()
     }
 
-    handleEditUserFromParent = (user) => {
-        let imageBase64 = '';
-        if (user.image) {
-            imageBase64 = new Buffer.from(user.image, 'base64').toString('binary');
+    handleSaveUser = async () => {
+        let isValid = this.checkValidateInput();
+        if (isValid) {
+            this.props.editUserRedux({
+                id: this.state.userId,
+                email: this.state.email,
+                password: this.state.password,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                address: this.state.address,
+                phoneNumber: this.state.phoneNumber,
+                gender: this.state.gender,
+                roleId: this.state.role,
+                positionId: this.state.position,
+                avatar: this.state.avatar
+            });
+            this.props.closeEditUser()
         }
-        this.setState({
-            email: user.email,
-            password: 'hardcode',
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phoneNumber: user.phoneNumber,
-            address: user.address,
-            gender: user.gender,
-            position: user.positionId,
-            role: user.roleId,
-            avatar: '',
-            previewImgURL: imageBase64,
-            action: CRUD_ACTIONS.EDIT,
-            userEditId: user.id
-        })
     }
 
     render() {
+        let { isOpenModal, closeEditUser } = this.props;
         let genders = this.state.genderArr;
         let roles = this.state.roleArr;
         let positions = this.state.positionArr;
-        let {email, password, firstName, lastName, phoneNumber, address, gender, position, role, avatar} = this.state;
+        let { email, password, firstName, lastName, phoneNumber, address, gender, position, role } = this.state;
         return (
-            <div className="user-body">
-                <div className="user-title">
-                    Thêm người dùng mới
+            <Modal isOpen={isOpenModal} className="add-user-modal-container" size="lg"
+                centered
+            >
+                <div className="add-user-modal-title">
+                    <span className="left">Sửa dữ liệu người dùng</span>
+                        <span
+                            className="right"
+                            onClick={closeEditUser}
+                        ><UilTimes /></span>
                 </div>
-                <div className="user-container">
-                    <div className="row">
-                        
-                        <div className="col-3">
+                <div className="add-user-content">
+                    <div className="add-modal-body-left">
+                        <img src="" alt="" 
+                            style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
+                        />
+                    </div>
+                    <div className="row add-modal-body-right">
+                        <div className="col-6">
+                            <label>Ảnh đại diên</label>
+                            <div className="preview-image">
+                                <input id="previewImg" type="file" hidden 
+                                    onChange={(event) => this.handleOnChangeImage(event)}
+                                />
+                                <label className="label-upload" htmlFor="previewImg">
+                                    Tải ảnh lên
+                                    <UilUploadAlt className="icon"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="col-6">
                             <label>Email</label>
                             <input type="email" className="form-control"
                                 value={email}
                                 onChange={(event) => { this.onChangeInput(event, 'email') }}
-                                disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
+                                disabled={this.state}
                             />
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Mật khẩu</label>
                             <input type="password" className="form-control"
                                 value={password}
                                 onChange={(event) => { this.onChangeInput(event, 'password') }}
-                                disabled={this.state.action === CRUD_ACTIONS.EDIT ? true : false}
+                                disabled={this.state} 
                             />
                         </div>
-                        <div className="col-3">
+
+                        <div className="col-6">
                             <label>Tên</label>
                             <input type="text" className="form-control"
                                 value={firstName}
@@ -242,7 +199,7 @@ class ManagerUser extends Component {
                             />
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Họ</label>
                             <input type="text" className="form-control"
                                 value={lastName}
@@ -250,14 +207,15 @@ class ManagerUser extends Component {
                             />
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Số điện thoại</label>
-                            <input type="tel" className="form-control"
+                            <input type="text" className="form-control"
                                 value={phoneNumber}
                                 onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
                             />
                         </div>
-                        <div className="col-9">
+
+                        <div className="col-6">
                             <label>Địa chỉ</label>
                             <input type="text" className="form-control"
                                 value={address}
@@ -265,7 +223,7 @@ class ManagerUser extends Component {
                             />
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Giới tính</label>
                             <select className="form-control"
                                 onChange={(event) => { this.onChangeInput(event, 'gender') }}
@@ -280,7 +238,7 @@ class ManagerUser extends Component {
                             </select>
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Vai trò</label>
                             <select className="form-control"
                                 onChange={(event) => { this.onChangeInput(event, 'role') }}
@@ -295,7 +253,7 @@ class ManagerUser extends Component {
                             </select>
                         </div>
 
-                        <div className="col-3">
+                        <div className="col-6">
                             <label>Chức danh</label>
                             <select className="form-control"
                                 onChange={(event) => { this.onChangeInput(event, 'position') }}
@@ -309,54 +267,28 @@ class ManagerUser extends Component {
                                 })}
                             </select>
                         </div>
-
-                        <div className="col-3">
-                            <label>Ảnh đại diện</label>
-                            <div className="preview-image-container">
-                                <input id="previewImg" type="file" hidden
-                                    onChange={(event) => this.handleOnChangeImage(event)}
-                                />
-                                <label className="label-upload" htmlFor="previewImg">
-                                    Tải ảnh
-                                    <i className="fas fa-upload"></i>
-                                </label>
-                                <div className="preview-image"
-                                    style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
-                                    onClick = {()=>this.openPreviewImage()}
-                                ></div>
-                            </div>
-                        </div>
-                        <div className="col-12 my-3">
-                            <button className={this.state.action === CRUD_ACTIONS.EDIT ? "btn btn-warning" : "btn btn-primary"}
+                        <div className="add-modal-footer">
+                            <button className="btn-editor"
                                 onClick={() => this.handleSaveUser()}
                             >
-                                {this.state.action === CRUD_ACTIONS.EDIT ? 'Cập nhật' : 'Lưu thông tin'}
+                                Cập nhập thông tin
                             </button>
-                        </div>
-                        
-                        <div className="col-12 mb-5">
-                            <TableManage 
-                                handleEditUserFromParentKey={this.handleEditUserFromParent}
-                                action={this.state.action}
-                            />
+                            
+                            <button className="btn-cancel"
+                                onClick={closeEditUser}
+                            >
+                                Hủy
+                            </button>
                         </div>
                     </div>
                 </div>
-                {this.state.isOpen === true &&
-                    <Lightbox
-                        mainSrc={this.state.previewImgURL}
-                        onCloseRequest={() => this.setState({ isOpen: false })}
-                    />
-                }
-            </div>
-        );
+            </Modal>
+        )
     }
-
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = state => { //redux
     return {
-        language: state.app.language,
         genderRedux: state.admin.genders,
         roleRedux: state.admin.roles,
         positionRedux: state.admin.positions,
@@ -364,15 +296,15 @@ const mapStateToProps = state => {
     };
 };
 
+
 const mapDispatchToProps = dispatch => {
     return {
         getGenderStart: () => dispatch(actions.fetchGenderStart()),
         getPositionStart: () => dispatch(actions.fetchPositionStart()),
         getRoleStart: () => dispatch(actions.fetchRoleStart()),
-        createNewUser: (data) => dispatch(actions.createNewUser(data)),
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
         editUserRedux: (data) => dispatch(actions.editUser(data))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagerUser);
+export default connect(mapStateToProps, mapDispatchToProps)(EditUserModal);

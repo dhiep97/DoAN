@@ -22,7 +22,7 @@ class System extends Component {
     }
 
     render() {
-        let { userInfo, isLoggedIn } = this.props;
+        let { userInfo } = this.props;
         return (
             
             <div className="system-container">
@@ -42,7 +42,7 @@ class System extends Component {
                             <Route path='/system/clinic-manage' component={(ManagerClinic)} />
                             <Route path='/system/handbook-manage' component={(ManagerHandbook)} />
                             <Route path='/system/specialty-manage' component={(ManagerSpecialty)} />
-                            <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
+                            <Route path='/system/schedule-manage' component={(ManageSchedule)} />
                             <Route path='/system/add-user-manage' component={(AddUserManage)} />
                             <Route path='/system/users-manage' component={(UserManager)} />
                         </Switch> 

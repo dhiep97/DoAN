@@ -31,7 +31,7 @@ let createClinic = (data) => {
 let getAllClinic = async (req, res) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await db.Clinic.findAll();
+            let data = await db.Clinic.findAll({order: [['createdAt', 'DESC']]});
             if (data && data.length > 0) {
                 data.map(item => {
                     item.image = new Buffer.from(item.image, 'base64').toString('binary');
@@ -169,10 +169,25 @@ let editClinic = (data) => {
     })
 }
 
+let countClinic = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let count = await db.Clinic.count()
+            resolve({
+                errCode: 0,
+                count: count,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     createClinic: createClinic,
     getAllClinic: getAllClinic,
     getDetailClinicById: getDetailClinicById,
     deleteClinic: deleteClinic,
-    editClinic: editClinic
+    editClinic: editClinic,
+    countClinic: countClinic
 }

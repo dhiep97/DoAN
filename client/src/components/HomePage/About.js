@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomePage.scss';
+import photo1 from '../../assets/about/Research.webp';
+import photo2 from '../../assets/about/Reviewed.webp';
+import photo3 from '../../assets/about/Monitored.webp';
+import photo4 from '../../assets/about/Trustworthy.webp';
 
 class About extends Component {
 
@@ -8,21 +12,43 @@ class About extends Component {
         return (
             <div className="section-share section-about">
                 <div className="section-about-header">
-                    Thông tin trang web
+                    HiduBooking đem đến thông tin sức khỏe mà bạn cần
                 </div>
                 <div className="section-about-content">
-                    <div className="content-left">
-                        <iframe width="100%" height="400px"
-                            src="https://www.youtube.com/embed/lx97nEYqAa8"
-                            title="Thôi tình dang dở từ đây nhớ em mà duyên khó thành... Dang Dở ~ Những Bản Nhạc Lofi Chill Buồn Nhất"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen>
-                        </iframe>
+                    <div className="section-about-des">
+                        <img src={photo1} alt="" />
+                        <div className="title">
+                            Dựa trên nguồn thông tin xác thực
+                        </div>
+                        <div className="description">
+                            Tất cả bài viết của HiduBooking đều được viết dựa trên những tin tức y khoa, nghiên cứu và báo cáo khoa học đến từ các tổ chức giáo dục, y tế hàng đầu.
+                        </div>
                     </div>
-                    <div className="content-right">
-                        <div>
-                            <p>Thôi tình dang dở từ đây nhớ em mà duyên khó thành... Dang Dở ~ Những Bản Nhạc Lofi Chill Buồn Nhất</p>
+                    <div className="section-about-des">
+                        <img src={photo2} alt="" />
+                        <div className="title">
+                            Được tham vấn y khoa
+                        </div>
+                        <div className="description">
+                            Bài viết trên trang HiduBooking được đội ngũ bác sĩ và chuyên gia y tế của chúng tôi cẩn trọng tư vấn và kiểm duyệt.
+                        </div>
+                    </div>
+                    <div className="section-about-des">
+                        <img src={photo3} alt="" />
+                        <div className="title">
+                            Được cập nhật thường xuyên
+                        </div>
+                        <div className="description">
+                            Chúng tôi làm việc với các bác sĩ và chuyên gia y tế để liên tục cập nhật các bài viết đảm bảo độ chính xác.
+                        </div>
+                    </div>
+                    <div className="section-about-des">
+                        <img src={photo4} alt="" />
+                        <div className="title">
+                            Đáng tin cậy
+                        </div>
+                        <div className="description">
+                            Tại HiduBooking, trang thông tin y tế, sức khỏe hàng đầu thị trường, chúng tôi cam kết đem đến những bài viết chính xác, dễ dàng tiếp cận và cập nhật nhất, giúp bạn đọc có thể đưa ra quyết định đúng đắn nhất cho sức khỏe của bản thân và gia đình.
                         </div>
                     </div>
                 </div>

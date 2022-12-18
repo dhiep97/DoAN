@@ -3,18 +3,20 @@ import { connect } from 'react-redux';
 import './MoreSearch.scss';
 import { withRouter } from 'react-router';
 import * as actions from '../../../store/actions';
-
+import {getTopDoctorHomeService} from '../../../services/userService';
+import _ from 'lodash';
 class MoreDoctor extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            dataDoctor:[]
+            dataDoctor: [],
         }
     }
 
     componentDidMount() {
-        this.props.loadTopDoctors()
+        this.props.loadTopDoctors();
+        // this.getDataDoctor();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -33,17 +35,17 @@ class MoreDoctor extends Component {
 
     render() {
         let { dataDoctor } = this.state;
-        console.log(dataDoctor);
+        
         return (
             <div className="more-list-container">
                 <div className="more-title">Bác sĩ nổi bật</div>
                 {dataDoctor && dataDoctor.length > 0 &&
                     dataDoctor.map((item, index) => {
                         let imageBase64 = '';
-                                    if (item.image) {
-                                        imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
-                                    }
-                                    let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName} `;
+                        if (item.image) {
+                            imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
+                        }
+                        let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName} `;
                         return (
                             <div className="more-list"
                                 key={index}

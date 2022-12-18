@@ -6,8 +6,10 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Select from 'react-select';
 import * as actions from '../../../store/actions';
-import { getDetailInfoDoctor } from '../../../services/userService';
+import { getDetailInfoDoctor, getAllDoctorInfo } from '../../../services/userService';
 import { CRUD_ACTIONS } from "../../../utils";
+import TableDoctor from './TableDoctor';
+import { UilPlus } from '@iconscout/react-unicons'
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 class ManagerDoctor extends Component {
@@ -38,13 +40,25 @@ class ManagerDoctor extends Component {
             note: '',
             clinicId: '',
             specialtyId: '',
+
+            dataDoctor: [],
+            isShow: false,
         }
     }
 
     componentDidMount() {
         this.props.fetchAllDoctorsRedux()
         this.props.getAllRequiredDoctorInfo();
+        this.getAllDoctorInfo()
+    }
 
+    getAllDoctorInfo = async () => {
+        let res = await getAllDoctorInfo();
+        if (res && res.errCode === 0) {
+            this.setState({
+                dataDoctor: res.data
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -140,9 +154,8 @@ class ManagerDoctor extends Component {
         })
     }
 
-    handleSaveContent = () => {
+    handleSaveContent = async () => {
         let { hasOldData } = this.state;
-
         this.props.createDetailDoctorsRedux({
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
@@ -159,6 +172,7 @@ class ManagerDoctor extends Component {
             specialtyId: this.state.selectedSpecialty.value,
             clinicId: this.state.selectedClinic && this.state.selectedClinic.value ? this.state.selectedClinic.value : ''
         })
+        await this.getAllDoctorInfo()
     }
 
     //lay gia tri theo selectedOption doctor
@@ -247,121 +261,153 @@ class ManagerDoctor extends Component {
         // console.log(selectedOption)
     }
 
+    showAdd = (status) => {
+        this.setState({
+            isShow: status
+        })
+    }
+
     render() {
-        let { hasOldData, listSpecialty } = this.state;
+        let { hasOldData, dataDoctor, isShow } = this.state;
         return (
             <div className="manage-doctor-container">
                 <div className="manage-doctor-title">
                     Tạo thông tin bác sĩ
                 </div>
-                <div className="more-info">
-                    <div className="content-left ">
-                        <label>Chọn bác sĩ</label>
-                        <Select
-                            value={this.state.selectedOption}
-                            onChange={this.handleChangeSelect}
-                            options={this.state.listDoctors}
-                            placeholder={'Chọn bác sĩ'}
+                {isShow === true ?
+                    <>
+                        <div className="more-info">
+                            <div className="content-left ">
+                                <label>Chọn bác sĩ</label>
+                                <Select
+                                    value={this.state.selectedOption}
+                                    onChange={this.handleChangeSelect}
+                                    options={this.state.listDoctors}
+                                    placeholder={'Chọn bác sĩ'}
+                                />
+                            </div>
+                            <div className="content-right">
+                                <label>Thông tin giới thiệu</label>
+                                <textarea className="form-control" rows="3"
+                                    onChange={(event) => this.handleOnChangeDescription(event, 'description')}
+                                    value={this.state.description}
+                                >
+                                </textarea>
+                            </div>
+                        
+                        </div>
+                        <div className="more-info-extra row">
+                            <div className="col-4 form-group">
+                                <label>Chọn giá khám</label>
+                                <Select
+                                    value={this.state.selectedPrice}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listPrice}
+                                    placeholder={'Chọn giá khám'}
+                                    name="selectedPrice"
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Chọn tỉnh thành</label>
+                                <Select
+                                    value={this.state.selectedProvince}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listProvince}
+                                    placeholder={'Chọn tỉnh thành'}
+                                    name="selectedProvince"
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Chọn phương thức thanh toán</label>
+                                <Select
+                                    value={this.state.selectedPayment}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listPayment}
+                                    placeholder={'Chọn phương thức thanh toán'}
+                                    name="selectedPayment"
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Tên phòng khám</label>
+                                <input className="form-control"
+                                    onChange={(event) => this.handleOnChangeDescription(event, 'nameClinic')}
+                                    value={this.state.nameClinic}
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Địa chỉ phòng khám</label>
+                                <input className="form-control"
+                                    onChange={(event) => this.handleOnChangeDescription(event, 'addressClinic')}
+                                    value={this.state.addressClinic}
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Ghi chú</label>
+                                <input className="form-control"
+                                    onChange={(event) => this.handleOnChangeDescription(event, 'note')}
+                                    value={this.state.note}
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Chọn chuyên khoa</label>
+                                <Select
+                                    value={this.state.selectedSpecialty}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listSpecialty}
+                                    placeholder={'Chọn chuyên khoa'}
+                                    name="selectedSpecialty"
+                                />
+                            </div>
+                            <div className="col-4 form-group">
+                                <label>Chọn phòng khám</label>
+                                <Select
+                                    value={this.state.selectedClinic}
+                                    onChange={this.handleChangeSelectDoctorInfo}
+                                    options={this.state.listClinic}
+                                    placeholder={'Chọn phòng khám'}
+                                    name="selectedClinic"
+                                />
+                            </div>
+                        </div>
+                        <div className="manage-doctor-editor">
+                            <label>Thông tin chi tiết</label>
+                            <MdEditor
+                                style={{ height: '300px' }}
+                                renderHTML={text => mdParser.render(text)}
+                                onChange={this.handleEditorChange}
+                                value={this.state.contentMarkdown}
+                            />
+                        </div>
+                        <div className="button-doctor">
+                            <button
+                                className={hasOldData === true ? "save-content-doctor" : "create-content-doctor"}
+                                onClick={() => this.handleSaveContent()}
+                            >
+                                {hasOldData ? 'Cập nhật thông tin' : 'Lưu thông tin'}
+                            </button>
+                            <button className="btn-cancel-doctor"
+                                onClick={() => this.showAdd(false)}
+                            >
+                                Hủy
+                            </button>
+                        </div>
+                    </>
+                    :
+                    <div className="table-doctor">
+                        <div className="table-doctor-title">
+                            <span className="doctor-title">Danh sách thông tin bác sĩ</span>
+                            <button className="btn-add-doctor"
+                                onClick={() => this.showAdd(true)}
+                            >
+                                <UilPlus />
+                                Tạo và sửa thông tin
+                            </button>
+                        </div>
+                        <TableDoctor
+                            dataDoctor={dataDoctor}
                         />
                     </div>
-                    <div className="content-right">
-                        <label>Thông tin giới thiệu</label>
-                        <textarea className="form-control" rows="3"
-                            onChange={(event) => this.handleOnChangeDescription(event, 'description')}
-                            value={this.state.description}
-                        >
-                        </textarea>
-                    </div>
-                    
-                </div>
-                <div className="more-info-extra row">
-                    <div className="col-4 form-group">
-                        <label>Chọn giá khám</label>
-                        <Select
-                            value={this.state.selectedPrice}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            options={this.state.listPrice}
-                            placeholder={'Chọn giá khám'}
-                            name="selectedPrice"
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Chọn tỉnh thành</label>
-                        <Select
-                            value={this.state.selectedProvince}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            options={this.state.listProvince}
-                            placeholder={'Chọn tỉnh thành'}
-                            name="selectedProvince"
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Chọn phương thức thanh toán</label>
-                        <Select
-                            value={this.state.selectedPayment}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            options={this.state.listPayment}
-                            placeholder={'Chọn phương thức thanh toán'}
-                            name="selectedPayment"
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Tên phòng khám</label>
-                        <input className="form-control"
-                            onChange={(event) => this.handleOnChangeDescription(event, 'nameClinic')}
-                            value={this.state.nameClinic}
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Địa chỉ phòng khám</label>
-                        <input className="form-control"
-                            onChange={(event) => this.handleOnChangeDescription(event, 'addressClinic')}
-                            value={this.state.addressClinic}
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Ghi chú</label>
-                        <input className="form-control"
-                            onChange={(event) => this.handleOnChangeDescription(event, 'note')}
-                            value={this.state.note}
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Chọn chuyên khoa</label>
-                        <Select
-                            value={this.state.selectedSpecialty}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            options={this.state.listSpecialty}
-                            placeholder={'Chọn chuyên khoa'}
-                            name="selectedSpecialty"
-                        />
-                    </div>
-                    <div className="col-4 form-group">
-                        <label>Chọn phòng khám</label>
-                        <Select
-                            value={this.state.selectedClinic}
-                            onChange={this.handleChangeSelectDoctorInfo}
-                            options={this.state.listClinic}
-                            placeholder={'Chọn phòng khám'}
-                            name="selectedClinic"
-                        />
-                    </div>
-                </div>
-                <div className="manage-doctor-editor">
-                    <label>Thông tin chi tiết</label>
-                    <MdEditor
-                        style={{ height: '300px' }}
-                        renderHTML={text => mdParser.render(text)}
-                        onChange={this.handleEditorChange}
-                        value={this.state.contentMarkdown}
-                    />
-                </div>
-                <button
-                    className={hasOldData === true ? "save-content-doctor" : "create-content-doctor" }
-                    onClick={()=>this.handleSaveContent()}
-                >
-                    {hasOldData ? 'Cập nhật thông tin' : 'Lưu thông tin'}
-                </button>
+                }
             </div>
         );
     }

@@ -134,20 +134,28 @@ class ManagerHandbook extends Component {
     render() {
         let { dataHandbook, isShowAddModal, isShowEditModal, isShowDeleteModal } = this.state;
         const columns = [
+            {
+                Header: 'STT', accessor: 'STT', minWidth: 50,
+                Cell: (item) => {
+                    return (
+                        <span>{item.index + 1}</span>
+                    )
+                }
+            },
             { Header: 'Tác giả', accessor: 'author', minWidth: 150 },
             { Header: 'Tiêu đề', accessor: 'title', minWidth: 300 },
             { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 500 },
             {
-                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Header: 'Thao tác', accessor: 'action', minWidth: 100,
                 Cell: (item) => {
                     return(
                     <div className="action">
                         <button className="btn-edit-handbook"
                             onClick={()=> this.handleEdit(item)}
-                        >Sửa bài viết</button>
+                        >Sửa</button>
                         <button className="btn-delete-handbook"
                             onClick={()=> this.handleDelete(item)}
-                        >Xóa bài viết</button>
+                        >Xóa</button>
                     </div>
                 )}
             },

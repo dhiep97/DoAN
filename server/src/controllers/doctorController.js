@@ -152,6 +152,32 @@ let postCancelSchedule = async (req, res) => {
     }
 }
 
+let deleteSchedule = async (req, res) => {
+    try {
+        let info = await doctorService.deleteSchedule(req.body.id);
+        return res.status(200).json(info)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+
+let getAllDoctorInfo = async (req, res) => {
+    try {
+        let info = await doctorService.getAllDoctorInfo();
+        return res.status(200).json(info)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -163,5 +189,7 @@ module.exports = {
     getProfileDoctorInfoById: getProfileDoctorInfoById,
     getListPatientForDoctor: getListPatientForDoctor,
     postSendPrescription: postSendPrescription,
-    postCancelSchedule: postCancelSchedule
+    postCancelSchedule: postCancelSchedule,
+    deleteSchedule: deleteSchedule,
+    getAllDoctorInfo: getAllDoctorInfo
 }

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Header from '../../components/System/Header/Header';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ManageSchedule from '../../components/System/Schedule/ManageSchedule';
 import './Doctor.scss'
 import SidebarDoctor from '../../components/System/Sidebar/SidebarDoctor';
 import Sidebar from '../../components/System/Sidebar/Sidebar';
 import ManagePatient from '../../components/Doctor/ManagePatient/ManagePatient'
+import ManageScheduleDoctor from '../../components/Doctor/ManageScheduleDoctor/ManageScheduleDoctor';
 
 class Doctor extends Component {
 
@@ -15,7 +15,7 @@ class Doctor extends Component {
     }
 
     render() {
-        const { userInfo, isLoggedIn } = this.props;
+        const { userInfo } = this.props;
     
         return (
             <div className="doctor-container">
@@ -28,7 +28,7 @@ class Doctor extends Component {
                     <div className="doctor-router">
                         <Header/>
                         <Switch>
-                            <Route path='/doctor/schedule-manage' component={(ManageSchedule)} />
+                            <Route path='/doctor/schedule-manage' component={(ManageScheduleDoctor)} />
                             <Route path='/doctor/patient-manage' component={(ManagePatient)} />
                         </Switch>
                     </div>

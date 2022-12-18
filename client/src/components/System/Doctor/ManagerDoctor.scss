@@ -14,32 +14,55 @@
         padding: 5px;
     }
 
-    .save-content-doctor{
-        margin: 20px;
-        border-radius: 3px;
-        outline: none;
-        border: none;
-        background: blue;
-        color: #fff;
-        padding: 5px;
-        cursor: pointer;
-        &:hover{
-            opacity: 0.8;
+    .button-doctor{
+        display: flex;
+        justify-content: center;
+
+        .save-content-doctor{
+            margin: 20px;
+            border-radius: 3px;
+            outline: none;
+            border: none;
+            background: green;
+            color: #fff;
+            padding: 5px;
+            min-width: 120px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+        .create-content-doctor{
+            margin: 20px;
+            border-radius: 3px;
+            outline: none;
+            border: none;
+            background: blue;
+            color: #fff;
+            padding: 5px;
+            min-width: 120px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+
+        .btn-cancel-doctor{
+            margin: 20px;
+            border-radius: 3px;
+            outline: none;
+            border: none;
+            background: red;
+            color: #fff;
+            padding: 5px;
+            min-width: 100px;
+            cursor: pointer;
+            &:hover{
+                opacity: 0.8;
+            }
         }
     }
-    .create-content-doctor{
-        margin: 20px;
-        border-radius: 3px;
-        outline: none;
-        border: none;
-        background: green;
-        color: #fff;
-        padding: 5px;
-        cursor: pointer;
-        &:hover{
-            opacity: 0.8;
-        }
-    }
+
 
     .more-info{
         display: flex;
@@ -52,6 +75,37 @@
 
         .content-right{
             width: 67%;
+        }
+    }
+
+    .table-doctor{
+        
+        .table-doctor-title{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .doctor-title{
+                text-transform: uppercase;
+                font-size: 20px;
+                text-align: center;
+                color: green;
+            }
+
+            .btn-add-doctor{
+                text-decoration: none;
+                color: green;
+                font-size: 20px;
+                font-weight: 400;
+                border: 1px solid green;
+                border-radius: 5px;
+                padding: 3px;
+                margin-bottom: 5px;
+                cursor: pointer;
+    
+                svg{
+                    margin-bottom: 5px;
+                }
+            }
         }
     }
 }

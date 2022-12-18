@@ -159,7 +159,7 @@ class EditHandbookModal extends Component {
                             <button
                                 className="btn-edit-confirm"
                                 onClick={()=>this.handleEditHandbook()}
-                            >Sửa thông tin</button>
+                            >Cập nhật thông tin</button>
                             <button
                                 className="btn-add-cancel" onClick={closeEditModal}
                             >Hủy bỏ</button>

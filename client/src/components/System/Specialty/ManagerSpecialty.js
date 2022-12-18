@@ -142,19 +142,27 @@ class ManagerSpecialty extends Component {
     render() {
         let { dataSpecialty, isShowAddModal, isShowEditModal, isShowDeleteModal } = this.state;
         const columns = [
-            { Header: 'Tên chuyên khoa', accessor: 'name', minWidth: 200 },
-            { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 600 },
             {
-                Header: 'Thao tác', accessor: 'action', minWidth: 250,
+                Header: 'STT', accessor: 'STT', minWidth: 50,
+                Cell: (item) => {
+                    return (
+                        <span>{item.index + 1}</span>
+                    )
+                }
+            },
+            { Header: 'Tên chuyên khoa', accessor: 'name', minWidth: 200 },
+            { Header: 'Nội dung', accessor: 'descriptionMarkdown', minWidth: 800 },
+            {
+                Header: 'Thao tác', accessor: 'action', minWidth: 100,
                 Cell: (item) => {
                     return(
                     <div className="action">
                         <button className="btn-edit-specialty"
                             onClick={()=> this.handleEdit(item)}
-                        >Sửa chuyên khoa</button>
+                        >Sửa</button>
                         <button className="btn-delete-specialty"
                             onClick={()=> this.handleDelete(item)}
-                        >Xóa chuyên khoa</button>
+                        >Xóa</button>
                     </div>
                 )}
             },

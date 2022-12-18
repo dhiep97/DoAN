@@ -43,16 +43,10 @@ class SidebarDoctor extends Component {
                         <Link to="/doctor/schedule-manage" style={{ textDecoration: "none" }}>
                             <li>
                                 <UilSchedule className="icon" />
-                                <span>Kế hoạch khám bệnh</span>
+                                <span>Tạo lịch khám bệnh</span>
                             </li>
                         </Link>
                         <Link to="/doctor/patient-manage" style={{ textDecoration: "none" }}>
-                            <li>
-                                <UilAccessibleIconAlt className="icon" />
-                                <span>Bệnh nhân khám bệnh</span>
-                            </li>
-                        </Link>
-                        <Link to="/doctor/table-manage" style={{ textDecoration: "none" }}>
                             <li>
                                 <UilAccessibleIconAlt className="icon" />
                                 <span>Bệnh nhân khám bệnh</span>

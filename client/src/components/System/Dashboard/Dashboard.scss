@@ -9,9 +9,9 @@
         gap: 45px;
 
         .count-group{
-            width: 245px;
+            width: 280px;
             height: 150px;
-            box-shadow: 0 0 4px #aef87a;
+            box-shadow: 0 0 4px hwb(95 3% 4%);
             position: relative;
             display: flex;
             justify-content: center;
@@ -20,12 +20,11 @@
             .badge {
                 position: absolute;
                 top: 10px;
-                left: 0;
+                left: 10px;
                 padding: 20px 30px;
-                background-color: #f5f5dc;
-                font-weight: bold;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
+                background-color: #67ea9b;
+                border-radius: 50%;
+                font-size: 25px;
             }
 
             .content{

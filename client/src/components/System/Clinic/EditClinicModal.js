@@ -155,7 +155,7 @@ class AddClinicModal extends Component {
                         <button
                             className="btn-add-confirm"
                             onClick={()=>this.handleEditClinic()}
-                        >Lưu thông tin</button>
+                        >Cập nhật thông tin</button>
                         <button
                             className="btn-add-cancel" onClick={closeEditModal}
                         >Hủy bỏ</button>

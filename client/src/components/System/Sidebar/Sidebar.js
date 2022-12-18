@@ -52,7 +52,7 @@ class Sidebar extends Component {
                                 <span>Bác sĩ</span>
                             </li>
                         </Link>
-                        <Link to="/doctor/schedule-manage" style={{ textDecoration: "none" }}>
+                        <Link to="/system/schedule-manage" style={{ textDecoration: "none" }}>
                             <li>
                                 <UilSchedule className="icon" />
                                 <span>Kế hoạch khám bệnh</span>

@@ -23,35 +23,31 @@ class DoctorSchedule extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    // async componentDidMount() {
-    //     let allDays = [];
-    //     for (let i = 0; i < 7; i++) {
-    //         let object = {};
-    //         let labelVi = moment(new Date()).add(i, 'days').format('dddd - DD/MM');
-    //         object.label = this.capitalizeFirstLetter(labelVi)
-    //         object.value = moment(new Date()).add(i, 'days').startOf('day').format('YYYY-MM-DD')
-    //         allDays.push(object);
-    //     }
-    //     this.setState({
-    //         allDays: allDays,
-    //     });
-    //     console.log(allDays)
-    // }
-
     async componentDidMount() {
         let allDays = this.getArrDays();
         if (this.props.doctorIdFromParent) {
-            let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
-            if (res && res.errCode === 0) {
-                this.setState({
-                    allAvailableTimes: res.data ? res.data : []
-                })
-            }
+            // let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
+            // if (res && res.errCode === 0) {
+            //     this.setState({
+            //         allAvailableTimes: res.data ? res.data : []
+            //     })
+            // }
+            this.getScheduleDoctorByDate();
         }
         
         this.setState({
             allDays: allDays,
         });
+    }
+
+    getScheduleDoctorByDate = async () => {
+        let allDays = this.getArrDays();
+        let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
+        if (res && res.errCode === 0) {
+            this.setState({
+                allAvailableTimes: res.data ? res.data : []
+            })
+        }
     }
 
     getArrDays = () => {
@@ -75,11 +71,14 @@ class DoctorSchedule extends Component {
     async componentDidUpdate(prevProps, prevState) {     
 
         if (this.props.doctorIdFromParent !== prevProps.doctorIdFromParent) {
-            let allDays = this.getArrDays();
-            let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
-            this.setState({
-                allAvailableTimes: res.data ? res.data : []
-            })
+            // let allDays = this.getArrDays();
+            // let res = await getScheduleDoctorByDate(this.props.doctorIdFromParent, allDays[0].value);
+            // if (res && res.errCode === 0) {
+            //     this.setState({
+            //         allAvailableTimes: res.data ? res.data : []
+            //     })
+            // }
+            this.getScheduleDoctorByDate();
         }
     }
 
@@ -107,6 +106,7 @@ class DoctorSchedule extends Component {
         this.setState({
             isOpenModalBooking: false,
         })
+        this.getScheduleDoctorByDate();
         emitter.emit('EVENT_CLEAR_MODAL_DATA')
     }
 

@@ -57,9 +57,19 @@ let postPatientBookingAppointment = (data) => {
                         }
                     })
                 }
+                let appointment = await db.Schedule.findOne({
+                    where: {
+                        booking: 'B1'
+                    },
+                    raw: false
+                })
+                if (appointment) {
+                    appointment.booking = 'B2';
+                    await appointment.save()
+                }
                 resolve({
                     errCode: 0,
-                    errMessage: 'Save info doctor success!'  
+                    errMessage: 'Save info patient success!'  
                 })
             }
             

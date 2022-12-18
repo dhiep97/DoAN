@@ -22,6 +22,23 @@
         }
 
     }
+
+    .cellWithStatus {
+        padding: 5px;
+        border-radius: 5px;
+    
+        &.R1 {
+            background-color: rgb(199, 241, 199);
+            color: green;
+        }
+        &.R2 {
+            color: blue;
+        }
+        &.R3 {
+            color: greenyellow;
+        }
+    }
+
     .cellAction {
         display: flex;
         align-items: center;
@@ -41,6 +58,90 @@
             color: crimson;
             border: 1px dotted crimson;
             cursor: pointer;
+        }
+    }
+}
+
+.add-user-modal-container{
+
+    .add-user-modal-title{
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+
+        .left{
+            font-size: 20px;
+            font-weight: 600;
+            color: green;
+        }
+        .right{
+            float: right;
+            cursor: pointer;
+        }
+    }
+
+    .add-user-content{
+        display: flex;
+        
+        .add-modal-body-left{
+            width: 25%;
+            text-align: center;
+            margin: 30px 10px;
+            img{
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                object-fit: cover;
+                background: center center no-repeat;
+                background-size: contain;
+                cursor: pointer;
+            }
+        }
+
+        .add-modal-body-right{
+            width: 75%;
+
+            .preview-image{
+                .label-upload{
+                    padding: 5px;
+                    border-radius: 3px;
+                    background: #eee;
+                    cursor: pointer;
+                    &:hover{
+                        opacity: 0.8;
+                    }
+                    .icon{
+                        margin-left: 4px;
+                        font-size: 18px;
+                        color: green;
+                    }
+                }
+            }
+        }
+        .add-modal-footer{
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+
+            button{
+                padding: 5px;
+                border: none;
+                border-radius: 5px;
+                color: white;
+                min-width: 100px;
+                margin: 0 20px;
+            }
+
+            .btn-save{
+                background: blue;
+            }
+
+            .btn-cancel{
+                background: red;
+            }
+
+            .btn-editor{
+                background: green;
+            }
         }
     }
 }

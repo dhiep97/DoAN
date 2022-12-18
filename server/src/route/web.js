@@ -1,5 +1,4 @@
 import express from "express";
-import homeController from "../controllers/homeController"
 import userController from "../controllers/userController"
 import doctorController from "../controllers/doctorController"
 import patientController from "../controllers/patientController"
@@ -19,8 +18,16 @@ let initRoutes = (app) => {
     router.put('/api/edit-user', userController.handleEditUser);
     router.delete('/api/delete-user', userController.handleDeleteUser);
 
+    //countDoctor 
+    router.get('/api/countDoctor', userController.countDoctor)
+
+    //countPatient 
+    router.get('/api/countPatient', userController.countPatient)
+
     //key code
     router.get('/api/all-code', userController.getAllCode);
+    
+
     
     //doctor
     router.get('/api/top-doctor-home', doctorController.getTopDoctorHome);
@@ -33,6 +40,9 @@ let initRoutes = (app) => {
 
     //lay thong tin chi tiet bac si theo id
     router.get('/api/get-detail-doctor-by-id', doctorController.getDetailDoctorById);
+
+    //lay toan bo thogn tin vao table
+    router.get('/api/get-all-doctor-info', doctorController.getAllDoctorInfo);
 
     //tao thoi gian kham benh
     router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
@@ -54,6 +64,10 @@ let initRoutes = (app) => {
 
     //benh nhan huy lich kham, khong den kham
     router.post('/api/cancel-schedule', doctorController.postCancelSchedule);
+
+    //xoa lịch khám
+    router.delete('/api/delete-schedule', doctorController.deleteSchedule);
+
 
 
     //benh nhan dat lich hen
@@ -77,6 +91,8 @@ let initRoutes = (app) => {
     //edit chuyen khoa
     router.put('/api/edit-specialty', specialtyController.editSpecialty);
 
+
+
     //tao phong kham
     router.post('/api/create-new-clinic', clinicController.createClinic);
 
@@ -92,6 +108,11 @@ let initRoutes = (app) => {
     //edit phong khám
     router.put('/api/edit-clinic', clinicController.editClinic);
 
+    //countClinic 
+    router.get('/api/countClinic', clinicController.countClinic);
+
+
+
     //tao cam nang
     router.post('/api/create-new-handbook', handbookController.createHandbook);
 
@@ -106,6 +127,9 @@ let initRoutes = (app) => {
     
     //edit bài viet
     router.put('/api/edit-handbook', handbookController.editHandbook);
+
+    //countHandbook 
+    router.get('/api/countHandbook', handbookController.countHandbook);
 
     return app.use("/", router);
 }

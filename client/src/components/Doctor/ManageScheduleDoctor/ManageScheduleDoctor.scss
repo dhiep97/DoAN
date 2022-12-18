@@ -1,7 +1,7 @@
 // @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
-.manage-schedule-container{
+.manage-schedule-doctor-container{
     padding: 0 10px;
-    .manage-schedule-title{
+    .manage-schedule-doctor-title{
         text-transform: uppercase;
         margin: 30px;
         font-weight: 600;
@@ -10,8 +10,8 @@
         color: blue;
     }
     .pick-hour-container{
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         gap: 25px;
         flex-wrap: wrap;
         display: flex;
@@ -61,6 +61,7 @@
             }
         }
     }
+    
     .action{
         .btn-delete-schedule{
             border: none;
@@ -77,3 +78,4 @@
         }
     }
 }
+

@@ -65,10 +65,24 @@ let editHandbook = async (req, res) => {
     }
 }
 
+let countHandbook = async (req, res) => {
+    try {
+        let info = await handbookService.countHandbook();
+        return res.status(200).json(info)
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server...'
+        })
+    }
+}
+
 module.exports = {
     createHandbook: createHandbook,
     getAllHandbook: getAllHandbook,
     getDetailHandbookById: getDetailHandbookById,
     deleteHandbook: deleteHandbook,
-    editHandbook: editHandbook
+    editHandbook: editHandbook,
+    countHandbook: countHandbook
 }
