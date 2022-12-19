@@ -1,6 +1,4 @@
 .manager-handbook-container{
-    padding: 0 10px;
-
     .manage-handbook-title{
         text-transform: uppercase;
         margin: 30px;
@@ -43,7 +41,7 @@
             width: 100%;
             font-size: 20px;
             color: green;
-            padding: 10px 10px;
+            padding: 0px 10px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
@@ -167,7 +165,6 @@
 
 .delete-modal-container{
     display: flex;
-    flex-direction: column;
     .delete-modal-header{
         padding: 5px;
         border-bottom: 1px solid #ccc;

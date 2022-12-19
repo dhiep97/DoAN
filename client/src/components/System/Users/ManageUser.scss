@@ -1,63 +1,80 @@
-.table-user{
-    padding: 10px;
-    .table-title {
-        width: 100%;
-        font-size: 24px;
-        color: green;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+.manage-user-container{
+    padding: 0 10px;
+
+    .manage-user-title{
         text-transform: uppercase;
-
-        .link{
-            text-decoration: none;
-            color: green;
-            font-size: 18px;
-            font-weight: 400;
-            border: 1px solid green;
-            border-radius: 5px;
-            padding: 3px;
-            cursor: pointer;
-        }
-
+        margin: 30px;
+        font-weight: 600;
+        font-size: 30px;
+        text-align: center;
+        color: blue;
     }
 
-    .cellWithStatus {
-        padding: 5px;
-        border-radius: 5px;
-    
-        &.R1 {
-            background-color: rgb(199, 241, 199);
-            color: green;
-        }
-        &.R2 {
-            color: blue;
-        }
-        &.R3 {
-            color: greenyellow;
-        }
-    }
+    .manage-user-body{
 
-    .cellAction {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    
-        .viewButton {
-            padding: 2px 5px;
-            border-radius: 5px;
-            color: darkblue;
-            border: 1px dotted darkblue;
-            cursor: pointer;
+        .table-user-title{
+            font-size: 20px;
+            color: green;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .btn-add{
+                text-decoration: none;
+                color: green;
+                font-size: 20px;
+                font-weight: 400;
+                border: 1px solid green;
+                border-radius: 5px;
+                padding: 3px;
+                cursor: pointer;
+
+                svg{
+                    margin-bottom: 5px;
+                }
+            }
         }
+
+        .cellDoctor {
+            padding: 5px;
+            border-radius: 5px;
         
-        .deleteButton {
-            padding: 2px 5px;
-            border-radius: 5px;
-            color: crimson;
-            border: 1px dotted crimson;
-            cursor: pointer;
+            &.R1 {
+                background-color: rgb(199, 241, 199);
+                color: green;
+            }
+            &.R2 {
+                color: blue;
+            }
+            &.R3 {
+                color: greenyellow;
+            }
+        }
+
+        .action{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            .btn-edit-user {
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: green;
+            }
+    
+            .btn-delete-user {
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: red;
+            }
         }
     }
 }
@@ -99,7 +116,7 @@
 
         .add-modal-body-right{
             width: 75%;
-
+            padding: 5px;
             .preview-image{
                 .label-upload{
                     padding: 5px;

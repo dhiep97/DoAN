@@ -72,25 +72,45 @@ class Dashboard extends Component {
         }
     }
 
+    setUpRole = (roleId) => {
+        let element = <div>Bệnh nhân</div>
+        if (roleId === 'R1') {
+            element = <div>Quản trị viên</div>
+        } else if (roleId === 'R2') {
+            element = <div>Bác sĩ</div>
+        } 
+        return element
+    }
+
     render() {  
         let arrUser = this.state.usersRedux;
         let { countDoctor, countPatient, countHandbook, countClinic } = this.state;
         const columns = [
             {
-                Header: 'STT', accessor: 'STT', minWidth: 20,
+                Header: 'STT', accessor: 'STT', minWidth: 40, flex: 1,
                 Cell: (item) => {
                     return (
                         <span>{item.index + 1}</span>
                     )
                 }
             },
-            { Header: 'email', accessor: 'email', minWidth: 150 },
-            { Header: 'Tên', accessor: 'firstName', minWidth: 100 },
-            { Header: 'Họ', accessor: 'lastName', minWidth: 100 },
-            { Header: 'Địa chỉ', accessor: 'address', minWidth: 100 },
-            { Header: 'Số điện thoại', accessor: 'phoneNumber', minWidth: 100 },
+            { Header: 'email', accessor: 'email', minWidth: 150, flex: 1 },
+            { Header: 'Tên', accessor: 'firstName', minWidth: 100, flex: 1 },
+            { Header: 'Họ', accessor: 'lastName', minWidth: 100, flex: 1 },
+            { Header: 'Địa chỉ', accessor: 'address', minWidth: 100, flex: 1 },
+            { Header: 'Số điện thoại', accessor: 'phoneNumber', minWidth: 100, flex: 1 },
+            {
+                accessor: 'role', Header: 'Vai trò', minWidth: 110, flex: 1,
+                Cell: (item) => {
+                    return (
+                        <div className={`cell ${item.original.roleId}`}>
+                            {this.setUpRole(item.original.roleId)}
+                        </div>
+                    );
+                },
+            }
         ]
-        console.log(this.state)
+        
         return (
             <div className="system-dashboard-container">
                 <div className="count">

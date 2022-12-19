@@ -34,7 +34,7 @@ class EditUserModal extends Component {
         this.props.getGenderStart();
         this.props.getPositionStart();
         this.props.getRoleStart();
-        let user = this.props.currentUser.row;
+        let user = this.props.currentUser.original;
         let imageBase64 = '';
         if (user.image) {
             imageBase64 = new Buffer.from(user.image, 'base64').toString('binary');
@@ -53,15 +53,16 @@ class EditUserModal extends Component {
             avatar: imageBase64,
             previewImgURL: imageBase64,
         })
-        console.log(this.state)
+        
     }
 
     componentDidUpdate(prevProps, prevState) {
+        let user = this.props.currentUser.original;
         if (prevProps.genderRedux !== this.props.genderRedux) {
             let arrGenders = this.props.genderRedux;
             this.setState({
                 genderArr: arrGenders,
-                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : ''
+                gender: user.gender
             })
         }
 
@@ -69,7 +70,7 @@ class EditUserModal extends Component {
             let arrRoles = this.props.roleRedux;
             this.setState({
                 roleArr: arrRoles,
-                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : ''
+                role: user.roleId
             })
         }
 
@@ -77,7 +78,27 @@ class EditUserModal extends Component {
             let arrPositions = this.props.positionRedux;
             this.setState({
                 positionArr: arrPositions,
-                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : ''
+                position: user.positionId
+            })
+        }
+
+        if (prevProps.listUsers !== this.props.listUsers) {
+            let arrGenders = this.props.genderRedux;
+            let arrPositions = this.props.positionRedux;
+            let arrRoles = this.props.roleRedux;
+
+            this.setState({
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                phoneNumber: '',
+                address: '',
+                gender: arrGenders && arrGenders.length > 0 ? arrGenders[0].keyMap : '',
+                position: arrPositions && arrPositions.length > 0 ? arrPositions[0].keyMap : '',
+                role: arrRoles && arrRoles.length > 0 ? arrRoles[0].keyMap : '',
+                avatar: '',
+                previewImgURL: ''
             })
         }
     }
@@ -159,127 +180,124 @@ class EditUserModal extends Component {
                             style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
                         />
                     </div>
-                    <div className="row add-modal-body-right">
-                        <div className="col-6">
-                            <label>Ảnh đại diên</label>
-                            <div className="preview-image">
-                                <input id="previewImg" type="file" hidden 
-                                    onChange={(event) => this.handleOnChangeImage(event)}
-                                />
-                                <label className="label-upload" htmlFor="previewImg">
-                                    Tải ảnh lên
-                                    <UilUploadAlt className="icon"/>
-                                </label>
+                    <div className="add-modal-body-right">
+                        <form onSubmit={(event) => this.handleSaveUser(event)}>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Ảnh đại diên</label>
+                                    <div className="preview-image">
+                                        <input id="previewImg" type="file" hidden 
+                                            onChange={(event) => this.handleOnChangeImage(event)}
+                                        />
+                                        <label className="label-upload" htmlFor="previewImg">
+                                            Tải ảnh lên
+                                            <UilUploadAlt className="icon"/>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="col-6">
-                            <label>Email</label>
-                            <input type="email" className="form-control"
-                                value={email}
-                                onChange={(event) => { this.onChangeInput(event, 'email') }}
-                                disabled={this.state}
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Mật khẩu</label>
-                            <input type="password" className="form-control"
-                                value={password}
-                                onChange={(event) => { this.onChangeInput(event, 'password') }}
-                                disabled={this.state} 
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Tên</label>
-                            <input type="text" className="form-control"
-                                value={firstName}
-                                onChange={(event) => { this.onChangeInput(event, 'firstName') }}
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Họ</label>
-                            <input type="text" className="form-control"
-                                value={lastName}
-                                onChange={(event) => { this.onChangeInput(event, 'lastName') }}
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Số điện thoại</label>
-                            <input type="text" className="form-control"
-                                value={phoneNumber}
-                                onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Địa chỉ</label>
-                            <input type="text" className="form-control"
-                                value={address}
-                                onChange={(event) => { this.onChangeInput(event, 'address') }}
-                            />
-                        </div>
-
-                        <div className="col-6">
-                            <label>Giới tính</label>
-                            <select className="form-control"
-                                onChange={(event) => { this.onChangeInput(event, 'gender') }}
-                                value={gender}
-                            >
-                                {genders && genders.length > 0 &&
-                                    genders.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-
-                        <div className="col-6">
-                            <label>Vai trò</label>
-                            <select className="form-control"
-                                onChange={(event) => { this.onChangeInput(event, 'role') }}
-                                value={role}
-                            >
-                                {roles && roles.length > 0 &&
-                                    roles.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-
-                        <div className="col-6">
-                            <label>Chức danh</label>
-                            <select className="form-control"
-                                onChange={(event) => { this.onChangeInput(event, 'position') }}
-                                value={position}
-                            >
-                                {positions && positions.length > 0 &&
-                                    positions.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.keyMap}>{item.valueVi}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                        <div className="add-modal-footer">
-                            <button className="btn-editor"
-                                onClick={() => this.handleSaveUser()}
-                            >
-                                Cập nhập thông tin
-                            </button>
-                            
-                            <button className="btn-cancel"
-                                onClick={closeEditUser}
-                            >
-                                Hủy
-                            </button>
-                        </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label>Email</label>
+                                    <input type="email" className="form-control"
+                                        value={email}
+                                        onChange={(event) => { this.onChangeInput(event, 'email') }}
+                                        disabled={this.state}
+                                    />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label>Password</label>
+                                    <input type="password" className="form-control"
+                                        value={password}
+                                        onChange={(event) => { this.onChangeInput(event, 'password') }} 
+                                        disabled={this.state}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label>Họ</label>
+                                    <input type="text" className="form-control"
+                                        value={lastName}
+                                        onChange={(event) => { this.onChangeInput(event, 'lastName') }}
+                                    />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label>Tên</label>
+                                    <input type="text" className="form-control"
+                                        value={firstName}
+                                        onChange={(event) => { this.onChangeInput(event, 'firstName') }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-6">
+                                    <label>Địa chỉ</label>
+                                    <input type="text" className="form-control"
+                                        value={address}
+                                        onChange={(event) => { this.onChangeInput(event, 'address') }}
+                                    />
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" className="form-control"
+                                        value={phoneNumber}
+                                        onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-md-2">
+                                    <label>Giới tính</label>
+                                    <select className="form-control"
+                                        onChange={(event) => { this.onChangeInput(event, 'gender') }}
+                                        value={gender}
+                                    >
+                                        {genders && genders.length > 0 &&
+                                            genders.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="form-group col-md-5">
+                                    <label>Vai trò</label>
+                                    <select className="form-control"
+                                        onChange={(event) => { this.onChangeInput(event, 'role') }}
+                                        value={role}
+                                    >
+                                        {roles && roles.length > 0 &&
+                                            roles.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="form-group col-md-5">
+                                    <label>Chức danh</label>
+                                    <select className="form-control"
+                                        onChange={(event) => { this.onChangeInput(event, 'position') }}
+                                        value={position}
+                                    >
+                                        {positions && positions.length > 0 &&
+                                            positions.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item.keyMap}>{item.valueVi}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='add-modal-footer'>
+                                <button type="submit" className="btn-editor"
+                                >Cập nhật</button>
+                                <button type="submit" className="btn-cancel"
+                                    onClick={closeEditUser}
+                                >Hủy</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </Modal>

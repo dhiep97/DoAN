@@ -22,7 +22,7 @@
                 top: 10px;
                 left: 10px;
                 padding: 20px 30px;
-                background-color: #67ea9b;
+                background-color: lightcyan;
                 border-radius: 50%;
                 font-size: 25px;
             }
@@ -48,5 +48,24 @@
 
     .table{
         padding-top: 30px;
+        text-align: center;
+        .cell {
+            padding: 5px;
+            border-radius: 5px;
+        
+            &.R1 {
+                background-color: rgb(199, 241, 199);
+                color: green;
+            }
+            &.R2 {
+                background-color: rgb(199, 241, 199);
+                color: blue;
+            }
+            &.R3 {
+                background-color: rgb(199, 241, 199);
+                color: red;
+            }
+        }
+    
     }
 }

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './ManageUser.scss';
-import { Link } from 'react-router-dom';
 import { UilPlus } from '@iconscout/react-unicons'
-import { DataGrid } from "@mui/x-data-grid";
 import * as actions from '../../../store/actions';
 import AddUserModal from './AddUserModal';
 import EditUserModal from './EditUserModal';
+import DeleteUserModal from './DeleteUserModal';
+import ReactTable from "react-table-6";  
+import "react-table-6/react-table.css" ;
 
 class ManageUser extends Component {
 
@@ -16,6 +17,7 @@ class ManageUser extends Component {
             usersRedux: [],
             isOpenShowModal: false,
             isOpenEditModal: false,
+            isOpenDeleteModal: false,
             editUser: []
         };
     }
@@ -44,8 +46,11 @@ class ManageUser extends Component {
         })
     }
     
-    handleDeleteUser = (user) => {
-        this.props.deleteUserRedux(user.row.id)
+    handleDeleteUser = (data) => {
+        this.setState({
+            isOpenDeleteModal: true,
+            editUser: data
+        })
     }
 
     handleEditUser = (data) => {
@@ -61,6 +66,12 @@ class ManageUser extends Component {
         })
     }
 
+    closeDeleteModal = () => {
+        this.setState({
+            isOpenDeleteModal: false
+        })
+    }
+
     setUpRole = (roleId) => {
         let element = <div>Bệnh nhân</div>
         if (roleId === 'R1') {
@@ -73,30 +84,40 @@ class ManageUser extends Component {
 
     render() {
         let arrUsers = this.state.usersRedux;
-        let { isOpenShowModal, isOpenEditModal } = this.state;
-        const actionColumn = [
+        let { isOpenShowModal, isOpenEditModal, isOpenDeleteModal } = this.state;
+        const columns = [
             {
-                field: 'role', headerName: 'Vai trò', width: 110, editable: true, flex: 1,
-                renderCell: (item) => {
+                Header: 'STT', accessor: 'STT', minWidth: 40, flex: 1,
+                Cell: (item) => {
                     return (
-                        <div className={`cellWithStatus ${item.row.roleId}`}>
-                            {this.setUpRole(item.row.roleId)}
+                        <span>{item.index + 1}</span>
+                    )
+                }
+            },
+            { Header: 'email', accessor: 'email', minWidth: 150, flex: 1 },
+            { Header: 'Tên', accessor: 'firstName', minWidth: 100, flex: 1 },
+            { Header: 'Họ', accessor: 'lastName', minWidth: 100, flex: 1 },
+            { Header: 'Địa chỉ', accessor: 'address', minWidth: 100, flex: 1 },
+            { Header: 'Số điện thoại', accessor: 'phoneNumber', minWidth: 100, flex: 1 },
+            {
+                accessor: 'role', Header: 'Vai trò', minWidth: 110, flex: 1,
+                Cell: (item) => {
+                    return (
+                        <div className={`cellDoctor ${item.original.roleId}`}>
+                            {this.setUpRole(item.original.roleId)}
                         </div>
                     );
                 },
             },
             {
-                field: "action",
-                headerName: "Thao tác",
-                width: 200,
-                flex: 1,
-                renderCell: (item) => {
+                accessor: "action", Header: "Thao tác", width: 100, flex: 1,
+                Cell: (item) => {
                     return (
-                    <div className="cellAction">
-                        <div className="viewButton"
+                    <div className="action">
+                        <div className="btn-edit-user"
                             onClick={() => this.handleEditUser(item)}
                         >Sửa</div>
-                        <div className="deleteButton"
+                        <div className="btn-delete-user"
                             onClick={() => this.handleDeleteUser(item)}
                         >
                             Xóa
@@ -105,51 +126,48 @@ class ManageUser extends Component {
                     );
                 },
             },
-        ];
-        const columns = [
-            { field: 'id', headerName: 'ID', width: 50, editable: true },
-            { field: 'email', headerName: 'Email', width: 220, editable: true, flex: 1 },
-            {
-                field: 'fullName', headerName: 'Họ và tên', width: 200, editable: true, flex: 1,
-                renderCell: (item) => {
-                    return (
-                        <span>{item.row.lastName + ' ' + item.row.firstName}</span>
-                    )
-                }
-            },
-            { field: 'address', headerName: 'Địa chỉ', width: 200, editable: true, flex: 1 },
-            { field: 'phoneNumber', headerName: 'Số điện thoại', width: 180, editable: true, flex: 1 },
-        ];
+        ]
         return (
-            <div className="table-user">
-                <AddUserModal 
-                    isOpenModal={isOpenShowModal}
-                    closeAddUser={this.closeAddModal}
-                />
-                {
-                    this.state.isOpenEditModal &&
-                    <EditUserModal
-                        isOpenModal={isOpenEditModal}
-                        closeEditUser={this.closeEditModal}
-                        currentUser={this.state.editUser}
+            <div className="manage-user-container">
+                <div className="manage-user-title">Quản lý người dùng</div>
+                <div className="manage-user-body row">
+                    <AddUserModal 
+                        isOpenModal={isOpenShowModal}
+                        closeAddUser={this.closeAddModal}
                     />
-                }
-                <div className="table-title">
-                    Danh sách người dùng
-                    <button className="link"
-                        onClick={() => this.handleAddNewUser()}
-                    >
-                        <UilPlus/>
-                        Thêm người dùng mới
-                    </button>
-                </div>
-                <div style={{ height: 630, width: '100%' }}>
-                    <DataGrid
-                        rows={arrUsers}
-                        columns={columns.concat(actionColumn)}
-                        experimentalFeatures={{ newEditingApi: true }}
-                        pageSize={10}
-                    />
+                    {
+                        this.state.isOpenEditModal &&
+                        <EditUserModal
+                            isOpenModal={isOpenEditModal}
+                            closeEditUser={this.closeEditModal}
+                            currentUser={this.state.editUser}
+                        />
+                    }
+                    {
+                        this.state.isOpenDeleteModal &&
+                        <DeleteUserModal
+                            isOpenModal={isOpenDeleteModal}
+                            closeDeleteModal={this.closeDeleteModal}
+                            currentUser={this.state.editUser}
+                        />
+                    }
+                    
+                    <div className="col-12">
+                        <div className="table-user-title">
+                            Danh sách người dùng
+                            <button className="btn-add"
+                                onClick={() => this.handleAddNewUser()}
+                            >
+                                <UilPlus/>
+                                Thêm người dùng mới
+                            </button>
+                        </div>
+                        <ReactTable
+                            data={arrUsers}
+                            columns={columns}
+                            defaultPageSize={10}
+                        />
+                    </div>
                 </div>
             </div>
         )
@@ -165,7 +183,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchUserRedux: () => dispatch(actions.fetchAllUsersStart()),
-        deleteUserRedux: (id) => dispatch(actions.deleteUser(id))
     };
 };
 
