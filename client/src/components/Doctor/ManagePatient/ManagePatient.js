@@ -134,8 +134,9 @@ class ManagePatient extends Component {
 
     render() {
         let { dataPatient, isOpenCancelModal, isOpenPrescriptionModal, dataModal } = this.state;
+        console.log(dataPatient)
         const columns = [
-            { Header: 'Thời gian', accessor: 'timeType', minWidth: 120 },
+            { Header: 'Thời gian', accessor: 'timeTypeBook.valueVi', minWidth: 120 },
             { Header: 'Email', accessor: 'patientData.email', minWidth: 220 },
             { Header: 'Họ', accessor: 'patientData.lastName', minWidth: 120 },
             { Header: 'Tên', accessor: 'patientData.firstName', minWidth: 70 },

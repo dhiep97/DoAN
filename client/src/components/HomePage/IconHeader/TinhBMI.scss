@@ -1,0 +1,60 @@
+.bmi-container{
+    .bmi-title{
+        position: relative;
+        width: 100%;
+        min-height: 200px;
+        background-color: inherit;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 20px 200px;
+        text-align: center;
+        background-image: url('../../../assets/Header/toolBannerBlue-circle-large.svg');
+        display: flex;
+        justify-content: space-between;
+        .bmi-left {
+            width: 70%;
+        }
+    }
+
+    .bmi-content{
+        padding: 50px 200px;
+        .button-kq{
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            .btn-kq{
+                background: blue;
+                color: white;
+                border: none;
+                min-width: 120px;
+                outline: none;
+            }
+        }
+        
+    }
+    .bmi-des{
+        background: #ddd;
+        margin-top: 20px;
+        padding: 20px;
+        .bmi-t{
+            font-weight: 600;
+            font-size: 22px;
+        }
+
+        .bmi-i{
+            font-style: italic;
+        }
+
+        .bmi-b{
+            font-weight: 500;
+        }
+
+        img{
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+}

@@ -2,8 +2,8 @@ import db from "../models/index";
 import emailService from './emailService'
 import { v4 as uuidv4 } from 'uuid';
 
-let buildUrlEmail = (doctorId, token) => {
-    let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`;
+let buildUrlEmail = (doctorId, token, timeType) => {
+    let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}&timeType=${timeType}`;
     return result;
 }
 let postPatientBookingAppointment = (data) => {
@@ -19,14 +19,6 @@ let postPatientBookingAppointment = (data) => {
 
                 let token = uuidv4();
                 
-                await emailService.sendSimpleEmail({
-                    receiverEmail: data.email,
-                    patientName: data.lastName + ' ' + data.firstName,
-                    time: data.timeString,
-                    doctorName: data.doctorName,
-                    redirectLink: buildUrlEmail(data.doctorId, token)
-                })
-
                 let user = await db.User.findOrCreate({
                     where: { email: data.email },
                     defaults: {
@@ -38,12 +30,11 @@ let postPatientBookingAppointment = (data) => {
                         gender: data.selectedGender,
                         address: data.address,
                         phoneNumber: data.phoneNumber,
-                        
                     }
                 })
 
                 if (user && user[0]) {
-                    await db.Booking.findOrCreate({
+                    let booking = await db.Booking.findOrCreate({
                         where: {  patientId: user[0].id, dateBooking: data.date, },
                         defaults: {
                             statusId: 'S1',
@@ -54,18 +45,17 @@ let postPatientBookingAppointment = (data) => {
                             timeType: data.timeType,
                             reason: data.reason,
                             token: token,
-                        }
+                        },
                     })
-                }
-                let appointment = await db.Schedule.findOne({
-                    where: {
-                        booking: 'B1'
-                    },
-                    raw: false
-                })
-                if (appointment) {
-                    appointment.booking = 'B2';
-                    await appointment.save()
+                    if (booking) {
+                        await emailService.sendSimpleEmail({
+                            receiverEmail: data.email,
+                            patientName: data.lastName + ' ' + data.firstName,
+                            time: data.timeString,
+                            doctorName: data.doctorName,
+                            redirectLink: buildUrlEmail(data.doctorId, token, data.timeType)
+                        })
+                    }
                 }
                 resolve({
                     errCode: 0,
@@ -82,7 +72,7 @@ let postPatientBookingAppointment = (data) => {
 let postVerifyBookingAppointment = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.doctorId || !data.token) {
+            if (!data.doctorId || !data.token ||!data.timeType ) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Missing parameter'
@@ -107,6 +97,27 @@ let postVerifyBookingAppointment = (data) => {
                     resolve({
                         errCode: 2,
                         errMessage: 'Appointment has been activated or does not exist'
+                    })
+                }
+                let book = await db.Schedule.findOne({
+                    where: {
+                        booking: 'B1',
+                        doctorId: data.doctorId,
+                        timeType: data.timeType
+                    },
+                    raw: false,
+                })
+                if (book) {
+                    book.booking = 'B2';
+                    await book.save();
+                    resolve({
+                        errCode: 0,
+                        errMessage: 'Update the book successfully'
+                    })
+                } else {
+                    resolve({
+                        errCode: 2,
+                        errMessage: 'book has been activated or does not exist'
                     })
                 }
             }

@@ -17,7 +17,7 @@ let getTopDoctorHome = (limitInput) => {
                 },
                 include: [
                     { model: db.Allcode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-                    { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']}
+                    { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },
                 ],
                 raw: true,
                 nest: true
@@ -437,8 +437,11 @@ let getListPatientForDoctor = (doctorId, date) => {
                             model: db.User, as: 'patientData',
                             attributes: ['email', 'firstName', 'lastName', 'address', 'phoneNumber'],
                             include: [
-                                { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi']}
+                                { model: db.Allcode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },
                             ]
+                        },
+                        {
+                            model: db.Allcode, as: 'timeTypeBook', attributes: ['valueEn', 'valueVi']
                         },
                     ],
                     raw: false,

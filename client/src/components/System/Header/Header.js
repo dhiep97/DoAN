@@ -2,8 +2,8 @@ import { Component } from 'react';
 import './Header.scss';
 import { connect } from 'react-redux';
 import * as actions from "../../../store/actions";
-import { UilSearch } from '@iconscout/react-unicons';
-
+import { UilEstate } from '@iconscout/react-unicons';
+import { Link } from 'react-router-dom';
 class Header extends Component {
 
     constructor(props) {
@@ -21,9 +21,11 @@ class Header extends Component {
         return (
             
             <div className="header-container">
-                <div className="header-search">
-                    <input type="text" placeholder="Search..." />
-                    <UilSearch />
+                <div className="header-home">
+                    <Link to="/home">
+                        <UilEstate className="icon"/>
+                        <span>Trang chủ</span>
+                    </Link>
                 </div>
                 <div className="languages">
                     <span className="welcome">

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './MoreSearch.scss';
 import { withRouter } from 'react-router';
 import { getAllHandbook } from '../../../services/userService';
+import { UilSearch } from '@iconscout/react-unicons';
 
 class MoreHandbook extends Component {
 
@@ -10,6 +11,7 @@ class MoreHandbook extends Component {
         super(props);
         this.state = {
             dataHandbook: [],
+            inputText: ''
         }
     }
 
@@ -27,13 +29,33 @@ class MoreHandbook extends Component {
             this.props.history.push(`/detail-handbook/${item.id}}`);
         }
     }
+
+    searchInput = (event) => {
+        event.preventDefault();
+        let inputText = event.target.value;
+        this.setState({
+            inputText: inputText
+        })
+    }
+
     render() {
-        let { dataHandbook } = this.state;
+        let { dataHandbook, inputText } = this.state;
         return (
             <div className="more-list-container">
                 <div className="more-title">Cẩm nang</div>
-                {dataHandbook && dataHandbook.length > 0 &&
-                    dataHandbook.map((item, index) => {
+                <div className="more-search">
+                    <input type="text" placeholder="Tìm kiếm bài viết..."
+                        value={inputText}
+                        onChange={(event) => this.searchInput(event)} />
+                    <UilSearch />
+                </div>
+                {dataHandbook && dataHandbook.length > 0 && dataHandbook.filter(item => {
+                        if (inputText === "") {
+                            return item
+                        } else if(item.title.toLowerCase().includes(inputText.toLowerCase())){
+                            return item
+                        }
+                    }).map((item, index) => {
                         return (
                             <div className="more-list"
                                 key={index}

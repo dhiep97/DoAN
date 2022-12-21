@@ -77,7 +77,7 @@ class BookingModal extends Component {
         if (this.props.dataTime !== prevProps.dataTime) {
             if (this.props.dataTime && !_.isEmpty(this.props.dataTime)) {
                 let doctorId = this.props.dataTime.doctorId;
-                let timeType = this.props.dataTime.timeTypeData.valueVi;
+                let timeType = this.props.dataTime.timeType;
                 let date = this.props.dataTime.date;
                 this.setState({
                     doctorId: doctorId,
@@ -117,12 +117,25 @@ class BookingModal extends Component {
                 isValid = false;
                 toast.error("Vui lòng điền thêm thông tin: " + arrCheck[i]);
                 break;
+            } else if (!this.state[arrCheck[0]].includes("@")) {
+                isValid = false;
+                toast.error("Email không đúng");
+                break;
+            } else if (this.state[arrCheck[3]].length > 10) {
+                isValid = false;
+                toast.error("Số điện thoại không đúng");
+                break;
+            } else if (this.state[arrCheck[3]].length < 10) {
+                isValid = false;
+                toast.error("Số điện thoại không đúng");
+                break;
             }
         }
         return isValid;
     }
 
-    handleConfirmBooking = async () => {
+    handleConfirmBooking = async (event) => {
+        event.preventDefault();
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let birthday = moment(new Date(this.state.birthday)).format('DD/MM/YYYY');
@@ -183,7 +196,7 @@ class BookingModal extends Component {
         let { isOpenModal, closeBooingModal, dataTime } = this.props;
         let doctorId = dataTime && !_.isEmpty(dataTime) ? dataTime.doctorId : ''
         
-        // console.log(dataTime)
+        console.log(dataTime)
         return (
             <>
                 <Modal isOpen={isOpenModal} className="booking-modal-container" size="lg"
@@ -206,79 +219,90 @@ class BookingModal extends Component {
                                     dataTime={dataTime}
                                 />
                             </div>
-                            <div className="row">
-                                <div className="col-6 form-group">
-                                    <label>Họ</label>
-                                    <input className="form-control"
-                                        value={this.state.lastName}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'lastName')}
-                                    />
+                            <form onSubmit={(event)=>this.handleConfirmBooking(event)}>
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label>Họ</label>
+                                        <input className="form-control"
+                                            value={this.state.lastName}
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'lastName')}
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Tên</label>
+                                        <input className="form-control"
+                                            value={this.state.firstName}
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'firstName')}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-6 form-group">
-                                    <label>Tên</label>
-                                    <input className="form-control"
-                                        value={this.state.firstName}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'firstName')}
-                                    />
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label>Số điện thoại</label>
+                                        <input className="form-control"
+                                            type="tel" pattern='[0-9]{10}'
+                                            value={this.state.phoneNumber}
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'phoneNumber')}
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Địa chỉ e-mail</label>
+                                        <input className="form-control"
+                                            value={this.state.email}
+                                            type="email"
+                                            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'email')}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-6 form-group">
-                                    <label>Số điện thoại</label>
-                                    <input className="form-control"
-                                        type="number"
-                                        value={this.state.phoneNumber}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'phoneNumber')}
-                                    />
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label>Địa chỉ liên hệ</label>
+                                        <input className="form-control"
+                                            value={this.state.address}
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'address')}
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Lý do khám</label>
+                                        <input className="form-control"
+                                            value={this.state.reason}
+                                            onChange={(e) =>this.handleOnChangeInput(e, 'reason')}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-6 form-group">
-                                    <label>Địa chỉ e-mail</label>
-                                    <input className="form-control"
-                                        value={this.state.email}
-                                        type="email"
-                                        pattern='/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i'
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'email')}
-                                    />
+                                <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label>Ngày sinh</label>
+                                        <DatePicker
+                                            onChange={this.handleOnChangeDatePicker} 
+                                            className="form-control"
+                                            selected={this.state.birthday}
+                                            dateFormat="dd/MM/yyyy"
+                                            peekNextMonth
+                                            showMonthDropdown
+                                            showYearDropdown
+                                            dropdownMode="select"
+                                        />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Giới tính</label>
+                                        <Select
+                                            value={this.state.selectedGender}
+                                            onChange={this.handleChangeSelect}
+                                            options={this.state.genders}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-6 form-group">
-                                    <label>Địa chỉ liên hệ</label>
-                                    <input className="form-control"
-                                        value={this.state.address}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'address')}
-                                    />
+                                <div className="booking-modal-footer">
+                                    <button type="submit"
+                                        className="btn-booking-confirm"
+                                    >Xác nhận</button>
+                                    <button
+                                        className="btn-booking-cancel" onClick={closeBooingModal}
+                                    >Hủy bỏ</button>
                                 </div>
-                                <div className="col-6 form-group">
-                                    <label>Lý do khám</label>
-                                    <input className="form-control"
-                                        value={this.state.reason}
-                                        onChange={(e) =>this.handleOnChangeInput(e, 'reason')}
-                                    />
-                                </div>
-                                <div className="col-6 form-group">
-                                    <label>Ngày sinh</label>
-                                    <DatePicker
-                                        onChange={this.handleOnChangeDatePicker} 
-                                        className="form-control"
-                                        selected={this.state.birthday}
-                                        dateFormat="dd/MM/yyyy"
-                                    />
-                                </div>
-                                <div className="col-6 form-group">
-                                    <label>Giới tính</label>
-                                    <Select
-                                        value={this.state.selectedGender}
-                                        onChange={this.handleChangeSelect}
-                                        options={this.state.genders}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="booking-modal-footer">
-                            <button
-                                className="btn-booking-confirm"
-                                onClick={()=>this.handleConfirmBooking()}
-                            >Xác nhận</button>
-                            <button
-                                className="btn-booking-cancel" onClick={closeBooingModal}
-                            >Hủy bỏ</button>
+                            </form>
                         </div>
                     </div>
                 </Modal>

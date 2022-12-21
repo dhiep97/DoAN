@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import './MoreSearch.scss';
 import { withRouter } from 'react-router';
 import * as actions from '../../../store/actions';
-import {getTopDoctorHomeService} from '../../../services/userService';
-import _ from 'lodash';
+import { UilSearch } from '@iconscout/react-unicons';
+
 class MoreDoctor extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             dataDoctor: [],
+            inputText: ''
         }
     }
 
@@ -33,19 +34,37 @@ class MoreDoctor extends Component {
         }
     }
 
+    searchInput = (event) => {
+        event.preventDefault();
+        let inputText = event.target.value;
+        this.setState({
+            inputText: inputText
+        })
+    }
+
     render() {
-        let { dataDoctor } = this.state;
-        
+        let { dataDoctor, inputText } = this.state;
         return (
             <div className="more-list-container">
                 <div className="more-title">Bác sĩ nổi bật</div>
-                {dataDoctor && dataDoctor.length > 0 &&
-                    dataDoctor.map((item, index) => {
+                <div className="more-search">
+                    <input type="text" placeholder="Tìm kiếm bác sĩ..."
+                        value={inputText}
+                        onChange={(event) => this.searchInput(event)} />
+                    <UilSearch />
+                </div>
+                {dataDoctor && dataDoctor.length > 0 && dataDoctor.filter(item => {
+                        if (inputText === "") {
+                            return item
+                        } else if(item.firstName.toLowerCase().includes(inputText.toLowerCase())){
+                            return item
+                        }
+                    }).map((item, index) => {
                         let imageBase64 = '';
                         if (item.image) {
                             imageBase64 = new Buffer.from(item.image, 'base64').toString('binary');
                         }
-                        let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName} `;
+                        let nameVi = `${item.lastName} ${item.firstName} `;
                         return (
                             <div className="more-list"
                                 key={index}
@@ -54,7 +73,10 @@ class MoreDoctor extends Component {
                                 <div className="more-img-doctor"
                                     style={{ backgroundImage: `url(${imageBase64})` }}
                                 />
-                                <div className="more-list-title">{nameVi}</div>
+                                <div className="more-list-title">
+                                    <p className='name-doctor'>{nameVi}</p>
+                                    <p>Chức danh: {item.positionData.valueVi}</p>
+                                </div>
                             </div>
                         )
                     })

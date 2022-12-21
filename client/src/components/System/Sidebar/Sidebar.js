@@ -26,7 +26,7 @@ class Sidebar extends Component {
         return (
             <div className="sidebar-container">
                 <div className="sidebar-top">
-                    <Link to="/system/dashboard" style={{ textDecoration: "none" }}>
+                    <Link to="/home" style={{ textDecoration: "none" }}>
                         <img src={logo} alt="logo" />
                     </Link>
                 </div>
@@ -40,7 +40,7 @@ class Sidebar extends Component {
                             </li>
                         </Link>
                         <p className='title'>Quản lý</p>
-                        <Link to="/system/user-manage" style={{ textDecoration: "none" }}>
+                        <Link to="/system/users-manage" style={{ textDecoration: "none" }}>
                             <li>
                                 <UilUser className="icon" />
                                 <span>Người dùng</span>
@@ -74,12 +74,6 @@ class Sidebar extends Component {
                             <li>
                                 <UilNewspaper className="icon" />
                                 <span>Cẩm nang</span>
-                            </li>
-                        </Link>
-                        <Link to="/system/users-manage" style={{ textDecoration: "none" }}>
-                            <li>
-                                <UilNewspaper className="icon" />
-                                <span>Test</span>
                             </li>
                         </Link>
                         <Link to="" style={{ textDecoration: "none" }}>

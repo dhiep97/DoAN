@@ -39,7 +39,7 @@ class CancelSchedule extends Component {
                         ><UilTimes /></span>
                     </div>
                     <div className="cancel-schedule-modal-body">
-                        <span>Bệnh nhân đã hủy lịch khám bệnh, không tới khám hoặc hẹn ngày khác</span>
+                        <span>Bệnh nhân đã hủy lịch khám bệnh hoặc không tới khám</span>
                     </div>
                     <div className="cancel-schedule-modal-footer">
                             <button

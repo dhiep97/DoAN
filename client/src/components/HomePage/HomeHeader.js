@@ -3,21 +3,46 @@ import { connect } from 'react-redux';
 import './HomeHeader.scss';
 import logo from '../../assets/Logo/logo.svg';
 import hospital from '../../assets/Header/hospital.png';
-import mobile from '../../assets/Header/mobile.png';
+import unnamed from '../../assets/Header/unnamed.webp';
+import bmi from '../../assets/Header/bmi.png';
 import examination from '../../assets/Header/examination.png';
-import test from '../../assets/Header/test.png';
-import mentalHealth from '../../assets/Header/mental-health.png';
-import dental from '../../assets/Header/dental.png';
 import { Link } from 'react-router-dom';
 
 class HomeHeader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isShow: false,
+        }
+    }
+
+    isShowLogin = () => {
+        this.setState({ isShow: true})
+    }
+
     render() {
+        let { isShow } = this.state;
         return (
             <>
                 <div className="home-header-container">
                     <div className="home-header-content">
                         <div className="left-content">
-                            <i className="fas fa-bars"></i>
+                            <div className="home-header-menu">
+                                {isShow === false ?
+                                    <div onClick={()=>this.isShowLogin()}>
+                                        <i className="fas fa-bars"></i>
+                                    </div>
+                                    :
+                                    <div className="home-header-login-system">
+                                        <Link to="/system">
+                                            <p>Hệ thống</p>
+                                        </Link>
+                                        <Link to="/login">
+                                            <p>Đăng nhập</p>
+                                        </Link>
+                                    </div>
+                                }
+                            </div>
                             <Link to="/home">
                                 <img className="header-logo" src={logo} alt="" />
                             </Link>
@@ -69,8 +94,8 @@ class HomeHeader extends Component {
                 {this.props.isShowBanner === true &&
                     <div className="home-header-banner">
                         <div className="content-up">
-                            <div className="title1">Nền tảng y tế</div>
-                            <div className="title2">Chăm sóc sức khỏe toàn diện</div>
+                            <div className="title1">Chăm sóc sức khỏe toàn diện</div>
+                            <div className="title1">Đặt lịch hẹn dễ dàng và miến phí</div>
                             <div className="search">
                                 <i className="fas fa-search"></i>
                                 <input type="text" placeholder="Tìm kiếm" />
@@ -79,28 +104,28 @@ class HomeHeader extends Component {
                         <div className="content-down">
                             <div className="options">
                                 <div className="option-child">
-                                    <div className="icon-child"><img src={hospital} alt="" /></div>
-                                    <div className="text-child">Khám chuyên khoa</div>
+                                    <Link to="/more-specialty">
+                                        <div className="icon-child"><img src={hospital} alt="" /></div>
+                                        <div className="text-child">Khám chuyên khoa</div>
+                                    </Link>
                                 </div>
                                 <div className="option-child">
-                                    <div className="icon-child"><img src={mobile} alt="" /></div>
-                                    <div className="text-child">Khám từ xa</div>
+                                    <Link to='/tinh-bmi'>
+                                        <div className="icon-child"><img src={bmi} alt="" /></div>
+                                        <div className="text-child">Đo chỉ số BMI</div>
+                                    </Link>
                                 </div>
                                 <div className="option-child">
-                                    <div className="icon-child"><img src={examination} alt="" /></div>
-                                    <div className="text-child">Khám tổng quát</div>
+                                    <Link to='/tinh-bmr'>
+                                        <div className="icon-child"><img src={unnamed} alt="" /></div>
+                                        <div className="text-child">Đo nhu cầu calo (BMR)</div>
+                                    </Link>
                                 </div>
                                 <div className="option-child">
-                                    <div className="icon-child"><img src={test} alt="" /></div>
-                                    <div className="text-child">Xét nghiệm y học</div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><img src={mentalHealth} alt="" /></div>
-                                    <div className="text-child">Sức khỏe tinh thần</div>
-                                </div>
-                                <div className="option-child">
-                                    <div className="icon-child"><img src={dental} alt="" /></div>
-                                    <div className="text-child">Khám nha khoa</div>
+                                    <Link to='more-doctor'>
+                                        <div className="icon-child"><img src={examination} alt="" /></div>
+                                        <div className="text-child">Khám bác sĩ</div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

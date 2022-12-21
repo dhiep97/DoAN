@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './Auth.scss';
-import { handleLogin, handleRegister } from '../../services/authService';
+import { handleLogin } from '../../services/authService';
 import * as actions from "../../store/actions";
 import { connect } from 'react-redux';
 import { push } from "connected-react-router";
+import logo from "../../assets/Logo/logo.svg";
 
 class Auth extends Component {
     constructor(props) {
@@ -69,6 +70,7 @@ class Auth extends Component {
             <div className="background">
                 <div className="login-container">
                     <div className="login-content">
+                        <img src={logo} alt=""/>
                         <div className="text-login">Đăng nhập</div>
                         <div className="input-login">
                             <input
@@ -120,7 +122,6 @@ const mapDispatchToProps = dispatch => {
     return {
         navigate: (path) => dispatch(push(path)),
         userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
-        userRegisterSuccess: (data) => dispatch(actions.userRegisterSuccess(data)),
     };
 };
 

@@ -103,6 +103,22 @@ class AddUserModal extends Component {
                 isValid = false;
                 toast.error("Điền thêm thông tin: " + arrCheck[i]);
                 break;
+            } else if (!this.state[arrCheck[0]].includes("@")) {
+                isValid = false;
+                toast.error("Email không đúng");
+                break;
+            } else if (this.state[arrCheck[4]].length > 10) {
+                isValid = false;
+                toast.error("Số điện thoại không đúng");
+                break;
+            } else if (this.state[arrCheck[1]].length < 3) {
+                isValid = false;
+                toast.error("Mật khẩu nhiều  hơn 3 kí tự");
+                break;
+            } else if (this.state[arrCheck[4]].length < 10) {
+                isValid = false;
+                toast.error("Số điện thoại không đúng");
+                break;
             }
         }
         return isValid;
@@ -117,6 +133,7 @@ class AddUserModal extends Component {
     }
 
     handleSaveUser = async (event) => {
+        event.preventDefault();
         let isValid = this.checkValidateInput();
         if (isValid) {
             this.props.createNewUser({
@@ -179,6 +196,7 @@ class AddUserModal extends Component {
                                 <div className="form-group col-md-6">
                                     <label>Email</label>
                                     <input type="email" className="form-control"
+                                        pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
                                         value={email}
                                         onChange={(event) => { this.onChangeInput(event, 'email') }}
                                     />
@@ -217,7 +235,8 @@ class AddUserModal extends Component {
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label>Số điện thoại</label>
-                                    <input type="text" className="form-control"
+                                    <input type="tel" className="form-control"
+                                        pattern='[0-9]{10}'
                                         value={phoneNumber}
                                         onChange={(event) => { this.onChangeInput(event, 'phoneNumber') }}
                                     />

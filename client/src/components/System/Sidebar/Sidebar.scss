@@ -10,6 +10,24 @@
         }
     }
 
+    .sidebar-image{
+        padding: 10px;
+        .fullName{
+            text-align: center;
+            font-weight: 600;
+            font-size: 20px;
+            color: green;
+        }
+        img{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: center center no-repeat;
+            background-size: contain;
+        }
+    }
+
     .sidebar-center{
         padding-left: 10px;
 

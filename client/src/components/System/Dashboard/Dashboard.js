@@ -6,6 +6,7 @@ import { countDoctor, countPatient, countHandbook, countClinic } from '../../../
 import { UilAccessibleIconAlt, UilNewspaper, UilHospital, UilUserMd } from '@iconscout/react-unicons';
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css" ;
+import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -117,29 +118,37 @@ class Dashboard extends Component {
                     <div className="count-group">
                         <div className="badge">{countDoctor}</div>
                         <div className="content">
-                            <UilUserMd style={{color: "coral"}}/>
-                            <span className="subtitle">Bác sĩ</span>
+                            <Link to="/system/users-manage">
+                                <UilUserMd style={{color: "coral"}}/>
+                                <span className="subtitle">Bác sĩ</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="count-group">
                         <div className="badge">{countPatient}</div>
                         <div className="content">
-                            <UilAccessibleIconAlt style={{color: "mediumaquamarine"}}/>
-                            <span className="subtitle">Bệnh nhân</span>
+                            <Link to="/system/users-manage">
+                                <UilAccessibleIconAlt style={{color: "mediumaquamarine"}}/>
+                                <span className="subtitle">Bệnh nhân</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="count-group">
                         <div className="badge">{countClinic}</div>
                         <div className="content">
-                            <UilHospital style={{color: "darkorchid"}}/>
-                            <span className="subtitle">Cơ sở ý tế</span>
+                            <Link to="/system/clinic-manage">
+                                <UilHospital style={{color: "darkorchid"}}/>
+                                <span className="subtitle">Cơ sở ý tế</span>
+                            </Link>
                         </div>
                     </div>
                     <div className="count-group">
                         <div className="badge">{countHandbook}</div>
                         <div className="content">
-                            <UilNewspaper style={{color: "limegreen"}}/>
-                            <span className="subtitle">Bài viết</span>
+                            <Link to="/system/handbook-manage">
+                                <UilNewspaper style={{color: "limegreen"}}/>
+                                <span className="subtitle">Bài viết</span>
+                            </Link>
                         </div>
                     </div>
                 </div>

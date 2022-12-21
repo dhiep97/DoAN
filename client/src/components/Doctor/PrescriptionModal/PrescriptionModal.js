@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './PrescriptionModal.scss';
 import { Modal } from 'reactstrap';
 import { UilTimes } from '@iconscout/react-unicons';
-import { CommonUtils } from '../../../utils';
 
 class PrescriptionModal extends Component {
 
@@ -23,7 +22,6 @@ class PrescriptionModal extends Component {
                 email: this.props.dataModal.email,
                 firstName: this.props.dataModal.firstName,
                 lastName: this.props.dataModal.lastName,
-                timeType: this.props.dataModal.timeType,
             })
         }
     }
@@ -34,7 +32,6 @@ class PrescriptionModal extends Component {
                 email: this.props.dataModal.email,
                 firstName: this.props.dataModal.firstName,
                 lastName: this.props.dataModal.lastName,
-                timeType: this.props.dataModal.timeType,
             })
         }
     }
@@ -52,6 +49,7 @@ class PrescriptionModal extends Component {
     }
     render() {
         let { isOpenModal, closePrescriptionModal } = this.props;
+        console.log(this.props.dataModal)
         return (
             <>
                 <Modal isOpen={isOpenModal} className="prescription-modal-container" size="md"
@@ -66,7 +64,7 @@ class PrescriptionModal extends Component {
                             ><UilTimes /></span>
                         </div>
                         <div className="row prescription-modal-body">
-                            <div className="col-6 form-group">
+                            <div className="col-12 form-group">
                                 <label>Email bệnh nhân</label>
                                 <input className="form-control" type="email" value={this.state.email || ''}
                                     onChange={(event)=>this.handleOnChangeInput(event, 'email')}
@@ -74,19 +72,15 @@ class PrescriptionModal extends Component {
                             </div>
                             <div className="col-6 form-group">
                                 <label>Tên bệnh nhân</label>
-                                <input className="form-control" type="email" value={this.state.firstName || ''}
+                                <input className="form-control" type="text" value={this.state.firstName || ''}
                                     onChange={(event)=>this.handleOnChangeInput(event, 'firstName')}
                                 />
                             </div>
                             <div className="col-6 form-group">
                                 <label>Họ bệnh nhân</label>
-                                <input className="form-control" type="email" value={this.state.lastName || ''}
+                                <input className="form-control" type="text" value={this.state.lastName || ''}
                                     onChange={(event)=>this.handleOnChangeInput(event, 'lastName')}
                                 />
-                            </div>
-                            <div className="col-6 form-group">
-                                <label>Thời gian đến khám</label>
-                                <p>{this.state.timeType}</p>
                             </div>
                         </div>
                         <div className="prescription-modal-footer">

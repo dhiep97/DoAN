@@ -22,13 +22,20 @@ class SidebarDoctor extends Component {
 
     }
     render() {
-        const { processLogout } = this.props;
+        const { processLogout, userInfo } = this.props;
+        let imageBase64 = new Buffer.from(userInfo.image, 'base64').toString('binary');
         return (
             <div className="sidebar-container">
                 <div className="sidebar-top">
                     <Link to="/home" style={{ textDecoration: "none" }}>
                         <img src={logo} alt="logo" />
                     </Link>
+                </div>
+                <div className="sidebar-image">
+                    <img src="" alt="" 
+                        style={{ backgroundImage: `url(${imageBase64})` }}
+                    />
+                    <div className="fullName">{userInfo && userInfo.firstName && userInfo.lastName ? userInfo.lastName + ' ' + userInfo.firstName : ''}</div>
                 </div>
                 <div className="sidebar-center">
                     <ul>
@@ -52,7 +59,7 @@ class SidebarDoctor extends Component {
                                 <span>Bệnh nhân khám bệnh</span>
                             </li>
                         </Link>
-                        <Link to="/system/user-manage" style={{ textDecoration: "none" }}>
+                        <Link to="" style={{ textDecoration: "none" }}>
                             <li onClick={processLogout} title="Log out">
                                 <UilSignOutAlt className="icon" />
                                 <span>Đăng xuất</span>
@@ -68,7 +75,7 @@ class SidebarDoctor extends Component {
 
 const mapStateToProps = state => { //redux
     return {
-        
+        userInfo: state.user.userInfo
     };
 };
 

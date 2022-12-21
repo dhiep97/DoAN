@@ -20,7 +20,8 @@ class DeleteUserModal extends Component {
     }
 
     handleDelete = () => {
-        this.props.deleteUserRedux(this.props.currentUser.original.id)
+        this.props.deleteUserRedux(this.props.currentUser.original.id);
+        this.props.closeDeleteModal()
     }
     
     render() {

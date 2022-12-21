@@ -23,6 +23,8 @@ import PrivacyPolicy from './components/HomePage/Support/PrivacyPolicy';
 import TermsOfUse from './components/HomePage/Support/TermsOfUse';
 import Support from './components/HomePage/Support/Support';
 import ScrollToTop from './components/IntlProviderWrapper/ScrollToTop'
+import TinhBMi from './components/HomePage/IconHeader/TinhBMi';
+import TinhBMR from './components/HomePage/IconHeader/TinhBMR';
 
 class App extends Component {
     handlePersistorState = () => {
@@ -65,6 +67,8 @@ class App extends Component {
                         <Route path='/privacy-policy' component={(PrivacyPolicy)} />
                         <Route path='/terms-of-use' component={(TermsOfUse)} />
                         <Route path='/support' component={(Support)} />
+                        <Route path='/tinh-bmi' component={(TinhBMi)} />
+                        <Route path='/tinh-bmr' component={(TinhBMR)} />
                     </Switch>
                     <ToastContainer
                         position="bottom-center"

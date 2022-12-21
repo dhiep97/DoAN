@@ -19,9 +19,11 @@ class VerifyEmail extends Component {
             let urlParams = new URLSearchParams(this.props.location.search);
             let token = urlParams.get('token');
             let doctorId = urlParams.get('doctorId');
+            let timeType = urlParams.get('timeType');
             let res = await postVerifyBookingAppointment({
                 token: token,
-                doctorId: doctorId
+                doctorId: doctorId,
+                timeType: timeType,
             })
             if (res && res.errCode === 0) {
                 this.setState({
@@ -54,11 +56,13 @@ class VerifyEmail extends Component {
                         <div>
                             {+errCode === 0 ? 
                                 <div className="info-booking">
-                                    Xác nhận lịch hẹn thành công!
+                                    <p>Xác nhận lịch hẹn thành công!</p>
+                                    <p>Mọi thắc mắc vui lòng liên hệ email:hiep45960@nuce.edu.vn</p>
                                 </div>
                                 :
                                 <div className="info-booking">
-                                    Lịch hẹn không tồn tại hoặc đã được xác nhận!
+                                    <p>Lịch hẹn không tồn tại hoặc đã được xác nhận!</p>
+                                    <p>Mọi thắc mắc vui lòng liên hệ email:hiep45960@nuce.edu.vn</p>
                                 </div>
                             }
                         </div>
