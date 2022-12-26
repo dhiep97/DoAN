@@ -99,7 +99,7 @@ class EditSpecialtyModal extends Component {
             >
                 <div className="add-modal-content">
                     <div className="add-modal-header">
-                        <span className="left">Thêm chuyên khoa</span>
+                        <span className="left">Sửa thông tin chuyên khoa</span>
                         <span
                             className="right"
                             onClick={closeEditModal}

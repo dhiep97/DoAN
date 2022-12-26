@@ -1,39 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './ManagePatient.scss';
+import './CancelAppointment.scss';
+import Select from 'react-select';
+import * as actions from '../../../store/actions';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getAllPatientForDoctor, postSendPrescription, postCancelSchedule } from '../../../services/userService';
-import moment from 'moment';
+import moment from "moment";
+import { toast } from "react-toastify";
+import _ from "lodash";
+import { getAllPatientForDoctor, deletePatientSchedule } from '../../../services/userService';
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css" ;
-import PrescriptionModal from '../PrescriptionModal/PrescriptionModal';
-import { toast } from 'react-toastify';
-import CancelSchedule from '../CancelSchedule/CancelSchedule';
+import CancelSchedule from './CancelSchedule';
 
-class ManagePatient extends Component {
-
+class CancelAppointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            listDoctors: [],
+            selectedDoctor: {},
             currentDate: new Date(),
             dataPatient: [],
             isOpenCancelModal: false,
-            isOpenPrescriptionModal: false,
-            dataModal: {},
+            currentPatient: [],
         }
     }
 
     async componentDidMount() {
-        this.getDataPatient();
+        this.props.fetchAllDoctorsRedux();
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+        if (prevProps.allDoctors !== this.props.allDoctors) {
+            let dataSelect = this.buildDataInputSelect(this.props.allDoctors)
+            this.setState({
+                listDoctors: dataSelect,
+            });
+        }
+    }
+
+    buildDataInputSelect = (inputData) => {
+        let result = []; 
+        if (inputData && inputData.length > 0) {
+            inputData.map((item) => {
+                let object = {};
+                let labelVi = `${item.lastName} ${item.firstName}`
+                object.label = labelVi
+                object.value = item.id;
+                result.push(object);
+            })
+            
+        }
+        return result;
     }
 
     getDataPatient = async () => {
-        let { user } = this.props;
-        let { currentDate } = this.state;
+        let { selectedDoctor, currentDate } = this.state; 
+        if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+            toast.error("Vui lòng chọn bác sĩ")
+            return;
+        }
+        let doctorId = selectedDoctor.value;
         let formattedDate = moment(new Date(currentDate)).format('YYYY-MM-DD');
         let res = await getAllPatientForDoctor({
-            doctorId: user.id,
+            doctorId: doctorId,
             date: formattedDate
         });
         if (res && res.errCode === 0) {
@@ -43,66 +73,38 @@ class ManagePatient extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    handleChangeSelect = async (selectedOption) => {
+        this.setState({
+            selectedDoctor: selectedOption
+        });
+    }
 
+    handleViewPatient = async () => {
+        this.getDataPatient()
     }
 
     handleOnChangeDatePicker = (date) => {
         this.setState({
             currentDate: date
-        }, async() => {
-            await this.getDataPatient();
         })
     }
-
-    closePrescriptionModal = () => {
-        this.setState({
-            isOpenPrescriptionModal: false,
-            dataModal: {}
-        })
-    }
-
+    
     closeCancelModal = () => {
         this.setState({
             isOpenCancelModal: false,
         })
     }
 
-    handleConfirm = (item) => {
-        let data = {
-            doctorId: item.original.doctorId,
-            patientId: item.original.patientId,
-            email: item.original.patientData.email,
-            firstName: item.original.patientData.firstName,
-            lastName: item.original.patientData.lastName,
-            timeType: item.original.timeType
-        }
-        this.setState({
-            isOpenPrescriptionModal: true,
-            dataModal: data
-        })
-    }
 
-    handleCancel = async (item) => {
-        let data = {
-            doctorId: item.original.doctorId,
-            patientId: item.original.patientId,
-            email: item.original.patientData.email,
-            timeType: item.original.timeType
-        }
+    handleCancel = (item) => {
         this.setState({
             isOpenCancelModal: true,
-            dataModal: data
+            currentPatient: item
         })
     }
 
-    cancelSchedule = async () => {
-        let { dataModal } = this.state;
-        let res = await postCancelSchedule({
-            doctorId: dataModal.doctorId,
-            patientId: dataModal.patientId,
-            timeType: dataModal.timeType
-        })
+    cancelSchedule = async (data) => {
+        let res = await deletePatientSchedule(data)
         if (res && res.errCode === 0) {
             toast.success('Huỷ lịch khám thành công')
             this.closeCancelModal()
@@ -112,28 +114,9 @@ class ManagePatient extends Component {
         }
     }
 
-    sendPrescription = async (dataChild) => {
-        let { dataModal } = this.state;
-        let res = await postSendPrescription({
-            email: dataChild.email,
-            firstName: dataChild.firstName,
-            lastName: dataChild.lastName,
-            doctorId: dataModal.doctorId,
-            patientId: dataModal.patientId,
-            timeType: dataModal.timeType,
-        });
-        if (res && res.errCode === 0) {
-            toast.success('Bệnh nhân thành công')
-            this.closePrescriptionModal()
-            await this.getDataPatient();
-        } else {
-            toast.error('Lỗi xác nhận')
-        }
-    }
 
     render() {
-        let { dataPatient, isOpenCancelModal, isOpenPrescriptionModal, dataModal } = this.state;
-        console.log(dataPatient)
+        let { dataPatient, isOpenCancelModal } = this.state;
         const columns = [
             { Header: 'Thời gian', accessor: 'timeTypeBook.valueVi', minWidth: 120 },
             { Header: 'Email', accessor: 'patientData.email', minWidth: 220 },
@@ -147,9 +130,6 @@ class ManagePatient extends Component {
                 Cell: (item) => {
                     return(
                     <div className="action">
-                        <button className="btn-confirm"
-                            onClick={()=> this.handleConfirm(item)}
-                        >Xác nhận</button>
                         <button className="btn-cancel"
                             onClick={()=> this.handleCancel(item)}
                         >Hủy lịch</button>
@@ -164,7 +144,15 @@ class ManagePatient extends Component {
                         Quản lý bệnh nhân khám bệnh
                     </div>
                     <div className="manage-patient-content row">
-                        <div className="col-6 form-group">
+                        <div className="col-4 form-group">
+                        <label>Chọn bác sĩ</label>
+                            <Select
+                                value={this.state.selectedDoctor}
+                                onChange={this.handleChangeSelect}
+                                options={this.state.listDoctors}
+                            />
+                        </div>
+                        <div className="col-4 form-group">
                             <label>Chọn ngày khám</label>
                             <DatePicker
                                 onChange={this.handleOnChangeDatePicker} 
@@ -172,6 +160,11 @@ class ManagePatient extends Component {
                                 selected={this.state.currentDate}
                                 dateFormat="dd/MM/yyyy"
                             />
+                        </div>
+                        <div className="col-12 form-group">
+                            <button className="btn btn-primary"
+                                onClick={()=>this.handleViewPatient()}
+                            >Xem danh sách</button>
                         </div>
                         <div className="col-12 table-manage-patient">
                             <ReactTable
@@ -182,16 +175,10 @@ class ManagePatient extends Component {
                         </div>
                     </div>
                 </div>
-                <PrescriptionModal 
-                    isOpenModal={isOpenPrescriptionModal}
-                    dataModal={dataModal}
-                    closePrescriptionModal={this.closePrescriptionModal}
-                    sendPrescription={this.sendPrescription}
-                />
                 <CancelSchedule
                     isOpenModal={isOpenCancelModal}
                     closeCancelModal={this.closeCancelModal}
-                    dataModal={dataModal}
+                    currentPatient={this.state.currentPatient}
                     cancelSchedule={this.cancelSchedule}
                 />
             </>
@@ -199,17 +186,17 @@ class ManagePatient extends Component {
     }
 }
 
-const mapStateToProps = state => { //redux
+const mapStateToProps = state => {
     return {
-        user: state.user.userInfo
+        allDoctors: state.admin.allDoctors,
     };
 };
-
 
 const mapDispatchToProps = dispatch => {
     return {
-        
+        fetchAllDoctorsRedux: () => dispatch(actions.fetchAllDoctors()),
+        fetchAllScheduleTime: () => dispatch(actions.fetchAllScheduleTime()),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagePatient);
+export default connect(mapStateToProps, mapDispatchToProps)(CancelAppointment);

@@ -129,7 +129,7 @@ class ManageUser extends Component {
         ]
         return (
             <div className="manage-user-container">
-                <div className="manage-user-title">Quản lý người dùng</div>
+                <div className="manage-user-title">Quản lý tài khoản</div>
                 <div className="manage-user-body row">
                     <AddUserModal 
                         isOpenModal={isOpenShowModal}
@@ -154,12 +154,12 @@ class ManageUser extends Component {
                     
                     <div className="col-12">
                         <div className="table-user-title">
-                            Danh sách người dùng
+                            Danh sách tài khoản
                             <button className="btn-add"
                                 onClick={() => this.handleAddNewUser()}
                             >
                                 <UilPlus/>
-                                Thêm người dùng mới
+                                Thêm tài khoản mới
                             </button>
                         </div>
                         <ReactTable

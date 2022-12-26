@@ -44,10 +44,11 @@ class MoreHandbook extends Component {
             <div className="more-list-container">
                 <div className="more-title">Cẩm nang</div>
                 <div className="more-search">
+                    <UilSearch />
                     <input type="text" placeholder="Tìm kiếm bài viết..."
                         value={inputText}
                         onChange={(event) => this.searchInput(event)} />
-                    <UilSearch />
+                    
                 </div>
                 {dataHandbook && dataHandbook.length > 0 && dataHandbook.filter(item => {
                         if (inputText === "") {

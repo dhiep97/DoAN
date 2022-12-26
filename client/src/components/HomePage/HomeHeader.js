@@ -96,10 +96,10 @@ class HomeHeader extends Component {
                         <div className="content-up">
                             <div className="title1">Chăm sóc sức khỏe toàn diện</div>
                             <div className="title1">Đặt lịch hẹn dễ dàng và miến phí</div>
-                            <div className="search">
+                            {/* <div className="search">
                                 <i className="fas fa-search"></i>
                                 <input type="text" placeholder="Tìm kiếm" />
-                            </div>
+                            </div> */}
                         </div>
                         <div className="content-down">
                             <div className="options">

@@ -12,9 +12,6 @@ class Header extends Component {
             
         };
     }
-    handleChangeLanguage = (language) => {
-        this.props.changeLanguageAppRedux(language);
-    }
 
     render() {
         const { processLogout, userInfo } = this.props;
@@ -44,7 +41,6 @@ class Header extends Component {
 const mapStateToProps = state => {
     return {
         isLoggedIn: state.user.isLoggedIn,
-        language: state.app.language,
         userInfo: state.user.userInfo
     };
 };
@@ -52,7 +48,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         processLogout: () => dispatch(actions.processLogout()),
-        changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language))
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

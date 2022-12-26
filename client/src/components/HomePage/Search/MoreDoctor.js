@@ -48,10 +48,10 @@ class MoreDoctor extends Component {
             <div className="more-list-container">
                 <div className="more-title">Bác sĩ nổi bật</div>
                 <div className="more-search">
+                    <UilSearch />
                     <input type="text" placeholder="Tìm kiếm bác sĩ..."
                         value={inputText}
                         onChange={(event) => this.searchInput(event)} />
-                    <UilSearch />
                 </div>
                 {dataDoctor && dataDoctor.length > 0 && dataDoctor.filter(item => {
                         if (inputText === "") {

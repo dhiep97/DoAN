@@ -101,7 +101,7 @@ class AddClinicModal extends Component {
             >
                 <div className="add-modal-content">
                     <div className="add-modal-header">
-                        <span className="left">Sửa phòng khám</span>
+                        <span className="left">Sửa thông tin phòng khám</span>
                         <span
                             className="right"
                             onClick={closeEditModal}

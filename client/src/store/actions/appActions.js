@@ -11,7 +11,7 @@ export const setContentOfConfirmModal = (contentOfConfirmModal) => ({
     contentOfConfirmModal: contentOfConfirmModal
 });
 
-export const changeLanguageApp = (languageInput) => ({
-    type: actionTypes.CHANGE_LANGUAGE,
-    language: languageInput
-})
+// export const changeLanguageApp = (languageInput) => ({
+//     type: actionTypes.CHANGE_LANGUAGE,
+//     language: languageInput
+// })

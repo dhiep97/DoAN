@@ -35,7 +35,7 @@ let postPatientBookingAppointment = (data) => {
 
                 if (user && user[0]) {
                     let booking = await db.Booking.findOrCreate({
-                        where: {  patientId: user[0].id, dateBooking: data.date, },
+                        where: {  patientId: user[0].id, dateBooking: data.date },
                         defaults: {
                             statusId: 'S1',
                             doctorId: data.doctorId,
@@ -89,6 +89,18 @@ let postVerifyBookingAppointment = (data) => {
                 if (appointment) {
                     appointment.statusId = 'S2';
                     await appointment.save()
+                    let book = await db.Schedule.findOne({
+                        where: {
+                            booking: 'B1',
+                            doctorId: data.doctorId,
+                            timeType: data.timeType
+                        },
+                        raw: false,
+                    })
+                    if (book) {
+                        book.booking = 'B2';
+                        await book.save();
+                    }
                     resolve({
                         errCode: 0,
                         errMessage: 'Update the appointment successfully'
@@ -97,27 +109,6 @@ let postVerifyBookingAppointment = (data) => {
                     resolve({
                         errCode: 2,
                         errMessage: 'Appointment has been activated or does not exist'
-                    })
-                }
-                let book = await db.Schedule.findOne({
-                    where: {
-                        booking: 'B1',
-                        doctorId: data.doctorId,
-                        timeType: data.timeType
-                    },
-                    raw: false,
-                })
-                if (book) {
-                    book.booking = 'B2';
-                    await book.save();
-                    resolve({
-                        errCode: 0,
-                        errMessage: 'Update the book successfully'
-                    })
-                } else {
-                    resolve({
-                        errCode: 2,
-                        errMessage: 'book has been activated or does not exist'
                     })
                 }
             }

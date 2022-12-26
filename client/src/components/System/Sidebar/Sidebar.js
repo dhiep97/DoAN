@@ -43,7 +43,7 @@ class Sidebar extends Component {
                         <Link to="/system/users-manage" style={{ textDecoration: "none" }}>
                             <li>
                                 <UilUser className="icon" />
-                                <span>Người dùng</span>
+                                <span>Tài khoản</span>
                             </li>
                         </Link>
                         <Link to="/system/doctor-manage" style={{ textDecoration: "none" }}>
@@ -74,6 +74,12 @@ class Sidebar extends Component {
                             <li>
                                 <UilNewspaper className="icon" />
                                 <span>Cẩm nang</span>
+                            </li>
+                        </Link>
+                        <Link to="/system/cancel-appoint-manage" style={{ textDecoration: "none" }}>
+                            <li>
+                                <UilNewspaper className="icon" />
+                                <span>Bệnh nhân hủy lịch</span>
                             </li>
                         </Link>
                         <Link to="" style={{ textDecoration: "none" }}>

@@ -68,7 +68,7 @@ class HandBook extends Component {
 
 const mapStateToProps = state => { //redux
     return {
-        language: state.app.language,
+        
     };
 };
 

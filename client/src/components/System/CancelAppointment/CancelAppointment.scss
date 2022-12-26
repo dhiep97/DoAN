@@ -1,0 +1,133 @@
+.manage-patient-container{
+    padding: 0 10px;
+
+    .manage-patient-title{
+        text-transform: uppercase;
+        margin: 30px;
+        font-weight: 600;
+        font-size: 30px;
+        text-align: center;
+        color: blue;
+    }
+
+    .manage-patient-content{
+        padding: 0px 20px;
+
+        .table-manage-patient {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+
+            td{
+                border: 1px solid #eeee;
+                padding: 8px;
+            }
+
+            th{
+                border: 1px solid #eeee;
+                padding: 8px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #0dcf0d;
+                color: white;
+            }
+
+            tr{
+                background-color: white;
+                &:hover{
+                    background-color: #eeee;
+                }
+            }
+
+            button{
+                border: none;
+                outline: none;
+                cursor: pointer;
+                color: white;
+            }
+            .btn-confirm{
+                margin-right: 5px;
+                height: 30px;
+                border-radius: 5px;
+                background: green;
+            }
+
+            .btn-cancel{
+                margin-right: 5px;
+                height: 30px;
+                border-radius: 5px;
+                background: red;
+            }
+        }
+        .action{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            .btn-confirm{
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: green;
+            }
+    
+            .btn-cancel{
+                padding: 2px 5px;
+                border-radius: 5px;
+                border: none;
+                color: white;
+                cursor: pointer;
+                background: red;
+            }
+        }
+    }
+}
+
+.cancel-schedule-modal-container{
+    display: flex;
+    flex-direction: column;
+    .cancel-schedule-modal-header{
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+
+        .left{
+            font-size: 20px;
+            font-weight: 600;
+
+        }
+        .right{
+            float: right;
+            cursor: pointer;
+        }
+    }
+
+    .cancel-schedule-modal-body{
+        font-weight: 600;
+        font-size: 20px;
+        padding: 30px 10px;
+    }
+
+    .cancel-schedule-modal-footer{
+        padding: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+
+        button{
+            border: none;
+            outline: none;
+            padding: 5px 8px;
+            border-radius: 5px;
+        }
+        .btn-cancel-schedule-confirm{
+            background-color: aqua;
+        }
+
+        .btn-cancel-schedule-cancel{
+            background-color: lightsalmon;
+        }
+    }
+}

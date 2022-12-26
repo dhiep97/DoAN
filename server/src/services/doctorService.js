@@ -536,6 +536,38 @@ let postCancelSchedule = (data) => {
     })
 }
 
+let deletePatientSchedule = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter'
+                })
+            } else {
+                let bookingId = await db.Booking.findOne({
+                    where: { id: inputId}
+                })
+                if(!bookingId) {
+                    resolve({
+                        errCode: 2,
+                        errMessage: `booking isn't exist`
+                    })
+                }
+                await db.Booking.destroy({
+                    where: { id: inputId}
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: `booking is delete`,
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 let deleteSchedule = (inputId) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -581,5 +613,6 @@ module.exports = {
     postSendPrescription: postSendPrescription,
     postCancelSchedule: postCancelSchedule,
     deleteSchedule: deleteSchedule,
-    getAllDoctorInfo: getAllDoctorInfo
+    getAllDoctorInfo: getAllDoctorInfo,
+    deletePatientSchedule: deletePatientSchedule
 }

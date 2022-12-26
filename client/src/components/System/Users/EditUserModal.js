@@ -185,7 +185,7 @@ class EditUserModal extends Component {
                 centered
             >
                 <div className="add-user-modal-title">
-                    <span className="left">Sửa dữ liệu người dùng</span>
+                    <span className="left">Sửa dữ liệu tài khoản</span>
                         <span
                             className="right"
                             onClick={closeEditUser}

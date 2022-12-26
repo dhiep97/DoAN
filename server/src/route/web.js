@@ -59,7 +59,7 @@ let initRoutes = (app) => {
     //lay ngay dat lich cua benh nhan
     router.get('/api/get-list-patient-for-doctor', doctorController.getListPatientForDoctor);
 
-    //gui hoa don benh nhan
+    //xác nhận bn đã toi kham
     router.post('/api/send-prescription', doctorController.postSendPrescription);
 
     //benh nhan huy lich kham, khong den kham
@@ -68,14 +68,17 @@ let initRoutes = (app) => {
     //xoa lịch khám
     router.delete('/api/delete-schedule', doctorController.deleteSchedule);
 
-
-
     //benh nhan dat lich hen
     router.post('/api/patient-booking-appointment', patientController.postPatientBookingAppointment);
 
     //xac nhan dat lich
     router.post('/api/verify-booking-appointment', patientController.postVerifyBookingAppointment);
 
+    //benh nhan huy lich vs admin
+    router.delete('/api/delete-patient-schedule', doctorController.deletePatientSchedule);
+
+
+    
     //tao chuyen khoa
     router.post('/api/create-new-specialty', specialtyController.createSpecialty);
 

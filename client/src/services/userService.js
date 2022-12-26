@@ -159,6 +159,10 @@ const postCancelSchedule = (data) => {
     return axios.post(`/api/cancel-schedule`, data);
 }
 
+const deletePatientSchedule = (id) => {
+    return axios.delete(`/api/delete-patient-schedule`, { data: { id: id }});
+}
+
 export {
     getAllUsers,
     createNewUserService,
@@ -198,5 +202,6 @@ export {
     countHandbook,
     countClinic,
     deleteSchedule,
-    getAllDoctorInfo
+    getAllDoctorInfo,
+    deletePatientSchedule
 }

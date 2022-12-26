@@ -43,10 +43,10 @@ class MoreClinic extends Component {
             <div className="more-list-container">
                 <div className="more-title">Cơ sở ý tế, phòng khám, bệnh viện</div>
                 <div className="more-search">
+                    <UilSearch />
                     <input type="text" placeholder="Tìm kiếm phòng khám ..."
                         value={inputText}
                         onChange={(event) => this.searchInput(event)} />
-                    <UilSearch />
                 </div>
                 {dataClinic && dataClinic.length > 0 && dataClinic.filter(item => {
                         if (inputText === "") {

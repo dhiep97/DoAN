@@ -39,7 +39,7 @@ class OutstandingDoctor extends Component {
                 <div className="section-container">
                     <div className="section-header">
                         <span className="title-section">
-                            Bác sĩ nổi bật tuần qua
+                            Bác sĩ nổi bật
                         </span>
                         <button className="btn-section">
                             <Link to="/more-doctor">Tìm kiếm</Link>
@@ -85,7 +85,6 @@ class OutstandingDoctor extends Component {
 const mapStateToProps = state => {
     return {
         topDoctorsRedux: state.admin.topDoctors,
-        // language: state.app.language,
     };
 };
 

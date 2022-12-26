@@ -164,7 +164,7 @@ class AddUserModal extends Component {
                 centered
             >
                 <div className="add-user-modal-title">
-                    <span className="left">Thêm người dùng mới</span>
+                    <span className="left">Thêm tài khoản mới</span>
                         <span
                             className="right"
                             onClick={closeAddUser}

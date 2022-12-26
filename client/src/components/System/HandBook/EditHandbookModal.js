@@ -105,7 +105,7 @@ class EditHandbookModal extends Component {
                 >
                     <div className="add-modal-content">
                         <div className="add-modal-header">
-                            <span className="left">Sửa bài viết</span>
+                            <span className="left">Sửa thông tin bài viết</span>
                             <span
                                 className="right"
                                 onClick={closeEditModal}
